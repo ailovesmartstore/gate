@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<script>
+const map = {
+  1: "https://mododome.diskn.com/gilgil/2025/8M/12/page12/8M12D369.jpg",
+  2: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg"
+};
+
+const id = new URLSearchParams(location.search).get("id");
+
+if (map[id]) {
+  location.replace(map[id]);
+}
+</script>
+
+</head>
+<body>
+로딩중...
+</body>
+</html>
