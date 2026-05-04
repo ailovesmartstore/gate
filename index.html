@@ -1,34 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  body { margin:0; font-family: 'Apple SD Gothic Neo', sans-serif; text-align:center; background:#f4f4f4; }
-  .header { padding: 40px 20px; background: #fff; border-bottom: 1px solid #eee; }
-  .header h1 { margin: 0; color: #333; font-size: 24px; }
-  .gate-container { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-  .gate-button {
-    background: #fff; border: 1px solid #ddd; padding: 30px 10px;
-    text-decoration: none; color: #333; font-weight: bold; border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center;
-  }
-  .gate-button span { font-size: 13px; color: #888; font-weight: normal; margin-top: 5px; }
-</style>
-</head>
-<body>
-
-<div class="header">
-  <h1>KIDS RIVER 🌊</h1>
-  <p>20,000+ 아이옷 통합 카탈로그</p>
-</div>
-
 <div class="gate-container">
-  <!-- 사장님이 가지고 계신 list.html 파일로 연결됩니다 -->
-  <a href="list.html" class="gate-button">👕 상하세트 <span>세트 상품 보기</span></a>
-  <a href="list.html" class="gate-button">👚 상의 <span>신상 티셔츠</span></a>
-  <a href="list.html" class="gate-button">👖 하의 <span>팬츠 & 스커트</span></a>
-  <a href="list.html" class="gate-button">🎀 악세사리 <span>잡화 모음</span></a>
-</div>
+  <!-- 1. 메인 전략 상품 -->
+  <a href="stock.html" class="gate-button" style="grid-column: span 2; background: #fff9db;">📦 재고 보유 상품 (빠른 배송)</a>
 
-</body>
-</html>
+  <!-- 2. 주력 의류 분류 -->
+  <a href="set.html" class="gate-button">👕 상하복</a>
+  <a href="onepiece.html" class="gate-button">👗 원피스</a>
+  
+  <a href="top.html" class="gate-button">
+    👚 상의
+    <span>티셔츠/맨투맨/후드/니트/셔츠</span>
+  </a>
+  
+  <a href="bottom.html" class="gate-button">
+    👖 하의
+    <span>청바지/스커트/레깅스/기본바지</span>
+  </a>
+
+  <!-- 3. 시즌 및 특수 분류 -->
+  <a href="outer.html" class="gate-button">🧥 아우터 <span>가디건 포함</span></a>
+  <a href="pajamas.html" class="gate-button">💤 파자마(잠옷)</a>
+  
+  <!-- 4. 타겟 분류 -->
+  <a href="bebe.html" class="gate-button">👶 신생아-베베</a>
+  <a href="mom.html" class="gate-button">👩 맘사이즈</a>
+
+  <!-- 5. 악세사리 (전체 한 곳에 모음) -->
+  <a href="acc.html" class="gate-button" style="grid-column: span 2; background: #f8f9fa;">
+    🎀 악세사리 & 잡화
+    <span>신발/모자/양말/가방/헤어소품 등</span>
+  </a>
+</div>
