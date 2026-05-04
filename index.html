@@ -9,7 +9,6 @@
 
   .gate-container { padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 650px; margin: 0 auto; }
   
-  /* 큰 분류 박스 */
   .category-box {
     background: #fff; border: 1px solid #eaeaea; padding: 20px 10px;
     border-radius: 15px; display: flex; flex-direction: column; align-items: center;
@@ -19,8 +18,7 @@
   .icon-main { font-size: 30px; margin-bottom: 8px; }
   .title-main { font-size: 17px; font-weight: bold; color: #222; margin-bottom: 12px; }
   
-  /* 소분류 텍스트 링크 스타일 */
-  .sub-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; border-top: 1px dashed #eee; pt: 10px; margin-top: 5px; padding-top: 10px; }
+  .sub-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; border-top: 1px dashed #eee; margin-top: 5px; padding-top: 10px; }
   .sub-links a {
     text-decoration: none; color: #666; font-size: 12px; font-weight: 500;
     padding: 2px 4px; transition: 0.2s;
@@ -46,27 +44,25 @@
     <div class="icon-main">📦</div>
     <div class="title-main">재고 보유 상품</div>
     <div class="sub-links">
-      <a href="stock.html">아빠가 직접 검수 후 보내드리는 선별 아이템</a>
+      <a href="stock.html">입고 완료 상품 · 확인 후 빠르게 발송</a>
     </div>
   </div>
 
-  <!-- 2. 상하복 & 원피스 -->
+  <!-- 2. 상하복 & 원피스 (스마트스토어 기준 통합) -->
   <div class="category-box">
     <div class="icon-main">👕</div><div class="title-main">상하복</div>
     <div class="sub-links">
-      <a href="set_daily.html">등원룩</a>
-      <a href="set_out.html">외출세트</a>
+      <a href="set.html">전체 상품 보기</a>
     </div>
   </div>
   <div class="category-box">
     <div class="icon-main">👗</div><div class="title-main">원피스</div>
     <div class="sub-links">
-      <a href="onepiece_girl.html">공주님</a>
-      <a href="onepiece_home.html">홈드레스</a>
+      <a href="onepiece.html">전체 상품 보기</a>
     </div>
   </div>
   
-  <!-- 3. 상의 (클릭 가능 소분류) -->
+  <!-- 3. 상의 (유지) -->
   <div class="category-box">
     <div class="icon-main">👚</div><div class="title-main">상의</div>
     <div class="sub-links">
@@ -76,7 +72,7 @@
     </div>
   </div>
 
-  <!-- 4. 하의 (클릭 가능 소분류) -->
+  <!-- 4. 하의 (유지) -->
   <div class="category-box">
     <div class="icon-main">👖</div><div class="title-main">하의</div>
     <div class="sub-links">
@@ -87,23 +83,32 @@
     </div>
   </div>
 
-  <!-- 5. 아우터 & 파자마 -->
+  <!-- 5. 아우터 (가디건 중심 심플 구성) & 파자마 -->
   <div class="category-box">
     <div class="icon-main">🧥</div><div class="title-main">아우터</div>
     <div class="sub-links">
       <a href="outer_gd.html">가디건</a>
-      <a href="outer_wind.html">바람막이</a>
-      <a href="outer_jk.html">재킷</a>
+      <a href="outer_jk.html">자켓/점퍼</a>
     </div>
   </div>
   <div class="category-box">
-    <div class="icon-main">💤</div><div class="title-main">파자마</div>
+    <div class="icon-main">💤</div><div class="title-main">파자마(잠옷)</div>
     <div class="sub-links">
       <a href="pajamas.html">잠옷/실내복</a>
     </div>
   </div>
 
-  <!-- 6. 악세사리 (상세 클릭) -->
+  <!-- 6. 타겟별 -->
+  <div class="category-box">
+    <div class="icon-main">👶</div><div class="title-main">신생아-베베</div>
+    <div class="sub-links"><a href="bebe.html">전체보기</a></div>
+  </div>
+  <div class="category-box">
+    <div class="icon-main">👩</div><div class="title-main">맘사이즈</div>
+    <div class="sub-links"><a href="mom.html">전체보기</a></div>
+  </div>
+
+  <!-- 7. 악세사리 -->
   <div class="category-box acc">
     <div class="icon-main">🎀</div><div class="title-main">악세사리 & 잡화</div>
     <div class="sub-links">
@@ -112,7 +117,7 @@
       <a href="acc_hat.html">모자</a>
       <a href="acc_bag.html">가방</a>
       <a href="acc_hair.html">헤어소품</a>
-      <a href="acc_etc.html">장갑/목도리/목걸이</a>
+      <a href="acc_etc.html">기타잡화</a>
     </div>
   </div>
 </div>
