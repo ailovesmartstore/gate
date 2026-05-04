@@ -1,10 +1,47 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  padding: 5px;
+}
+
+.item img {
+  width: 100%;
+  display: block;
+}
+</style>
+</head>
+
 <body>
 
-<h1>리스트 페이지 성공</h1>
+<div class="grid">
 
-<a href="https://naver.com">네이버 이동 테스트</a>
+<!-- 상품 1 -->
+<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
+  <img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D566.jpg">
+</a>
+
+<!-- 상품 2 -->
+<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D567.jpg">
+  <img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D567.jpg">
+</a>
+
+<!-- 상품 3 -->
+<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D568.jpg">
+  <img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D568.jpg">
+</a>
+
+</div>
 
 </body>
 </html>
