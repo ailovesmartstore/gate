@@ -3,206 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KIDS RIVER CATALOG</title>
+    <title>KIDS RIVER OFFICIAL</title>
     <style>
-        :root { --main-font: 'Pretendard', -apple-system, sans-serif; --gray-bg: #f8f9fa; }
+        :root { --main-font: 'Pretendard', -apple-system, sans-serif; }
         body { margin: 0; padding: 0; font-family: var(--main-font); background: #fff; color: #111; -webkit-tap-highlight-color: transparent; }
 
-        /* 상단 대표 이미지 섹션 */
-        .hero-banner { width: 100%; height: 300px; background: url('https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg') center/cover; position: relative; }
-        .hero-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 40px 20px; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: #fff; }
-        .hero-title { font-size: 24px; font-weight: 800; margin-bottom: 5px; }
-        .hero-sub { font-size: 14px; opacity: 0.9; font-weight: 300; }
+        /* 1. 상단 대표 이미지 (배너) */
+        .hero-section { 
+            width: 100%; 
+            height: 350px; 
+            background: url('https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg') center/cover no-repeat; 
+            position: relative; 
+        }
+        .hero-gradient {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 30px 20px;
+        }
+        .hero-brand { font-size: 28px; font-weight: 900; color: #fff; letter-spacing: 2px; }
 
-        /* 대분류 타이틀 섹션 */
-        .main-intro { padding: 30px 20px; text-align: center; border-bottom: 8px solid var(--gray-bg); }
-        .main-intro h1 { font-size: 20px; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
-        .main-intro p { font-size: 13px; color: #666; margin-top: 8px; }
+        /* 2. 통합 카탈로그 타이틀 섹션 (대분류) */
+        .main-header { padding: 40px 20px; text-align: center; border-bottom: 10px solid #f8f9fa; }
+        .main-header h1 { font-size: 22px; font-weight: 900; margin: 0; color: #000; letter-spacing: -0.5px; }
+        .main-header p { font-size: 14px; color: #666; margin-top: 10px; font-weight: 400; }
 
-        /* 카테고리 탭 (소분류) */
-        .category-nav { display: flex; gap: 15px; padding: 15px 20px; overflow-x: auto; position: sticky; top: 0; background: #fff; z-index: 1000; border-bottom: 1px solid #eee; scrollbar-width: none; }
-        .category-nav::-webkit-scrollbar { display: none; }
-        .cat-item { white-space: nowrap; font-size: 14px; font-weight: 600; color: #aaa; cursor: pointer; padding-bottom: 5px; transition: 0.2s; }
-        .cat-item.active { color: #111; border-bottom: 2px solid #111; }
+        /* 3. 소분류 내비게이션 (스티키 탭) */
+        .sub-nav { 
+            display: flex; gap: 20px; padding: 15px 20px; overflow-x: auto; 
+            position: sticky; top: 0; background: #fff; z-index: 1000; 
+            border-bottom: 1px solid #eee; scrollbar-width: none; 
+        }
+        .sub-nav::-webkit-scrollbar { display: none; }
+        .nav-item { white-space: nowrap; font-size: 15px; font-weight: 600; color: #bbb; cursor: pointer; padding-bottom: 5px; }
+        .nav-item.active { color: #111; border-bottom: 2px solid #111; }
 
-        /* 재고 보유 상품 그리드 */
-        .stock-section { padding: 20px; }
-        .section-header { font-size: 16px; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .stock-badge { background: #ff3b30; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; }
-        
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .product-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .product-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #f2f2f2; }
-        .product-info { padding: 12px; }
-        .p-code { font-size: 11px; color: #888; margin-bottom: 4px; }
-        .p-name { font-size: 13px; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
-        .p-price { font-size: 15px; font-weight: 800; color: #111; }
+        /* 4. 재고보유 상품 리스트 (그리드) */
+        .content-area { padding: 25px 20px 120px; }
+        .section-label { font-size: 17px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        .live-dot { width: 8px; height: 8px; background: #ff3b30; border-radius: 50%; display: inline-block; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        /* 상세 페이지 모달 */
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; overflow-y: auto; }
-        .modal-close { position: fixed; top: 20px; left: 20px; width: 40px; height: 40px; background: rgba(255,255,255,0.8); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10001; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .prod-card { background: #fff; cursor: pointer; }
+        .prod-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; background: #f2f2f2; }
+        .prod-info { padding: 12px 0; }
+        .prod-no { font-size: 10px; color: #999; margin-bottom: 4px; font-weight: bold; }
+        .prod-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; line-height: 1.4; color: #333; }
+        .prod-price { font-size: 15px; font-weight: 800; }
 
-        /* 하단 구매바 & 옵션 복사 기능 */
-        .bottom-buy-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; z-index: 20000; display: none; padding-bottom: env(safe-area-inset-bottom); }
-        .opt-wrap { padding: 15px 20px; }
-        .selected-prod-name { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: #007aff; }
-        .select-group { display: flex; gap: 8px; margin-bottom: 12px; }
-        .select-group select { flex: 1; padding: 14px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; appearance: none; background: #fff; }
-        .cart-add-btn { width: 100%; padding: 18px; background: #111; color: #fff; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; }
+        /* 상세 모달 & 하단 옵션바 */
+        #detail-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; overflow-y: auto; }
+        .close-detail { position: fixed; top: 20px; left: 20px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10001; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; }
 
-        /* 장바구니 알림 */
-        #cart-alert { position: fixed; bottom: 100px; right: 20px; width: 280px; background: #fff; border: 2px solid #111; border-radius: 15px; z-index: 30000; display: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2); padding: 20px; }
-        .cart-item-row { padding: 10px 0; border-bottom: 1px solid #eee; }
-        .btn-box { display: flex; gap: 6px; margin-top: 10px; }
-        .btn-action { flex: 1; padding: 10px; font-size: 12px; text-align: center; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-copy { background: #111; color: #fff; }
-        .btn-pay { background: #00c73c; color: #fff; text-decoration: none; }
+        .bottom-opt-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; z-index: 20000; display: none; padding-bottom: env(safe-area-inset-bottom); }
+        .opt-inner { padding: 20px; }
+        .selected-name { font-size: 15px; font-weight: 800; margin-bottom: 15px; color: #007aff; }
+        .opt-selects { display: flex; gap: 10px; margin-bottom: 15px; }
+        .opt-selects select { flex: 1; padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; background: #fff; outline: none; }
+        .add-cart-btn { width: 100%; padding: 18px; background: #111; color: #fff; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; }
+
+        /* 복사 팝업 */
+        #cart-popup { position: fixed; bottom: 110px; right: 20px; width: 280px; background: #fff; border: 2px solid #111; border-radius: 16px; z-index: 30000; display: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2); padding: 20px; }
+        .cart-row { padding: 12px 0; border-bottom: 1px solid #eee; }
+        .copy-group { display: flex; gap: 8px; margin-top: 10px; }
+        .copy-btn { flex: 1; padding: 10px; font-size: 12px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: bold; background: #111; color: #fff; }
+        .pay-link { flex: 1; padding: 10px; font-size: 12px; text-align: center; border-radius: 8px; background: #00c73c; color: #fff; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- 대표 이미지 섹션 -->
-    <div class="hero-banner">
-        <div class="hero-overlay">
-            <div class="hero-title">KIDS RIVER</div>
-            <div class="hero-sub">PREMIUM CHILDREN'S CLOTHING</div>
+    <!-- [1] 대표 이미지 배너 -->
+    <div class="hero-section">
+        <div class="hero-gradient">
+            <div class="hero-brand">KIDS RIVER</div>
         </div>
     </div>
 
-    <!-- 대분류 섹션 -->
-    <div class="main-intro">
+    <!-- [2] 대분류 타이틀 -->
+    <div class="main-header">
         <h1>20,000+ 아이옷 통합 카탈로그</h1>
-        <p>시즌별 실시간 재고 보유 및 당일 배송 상품</p>
+        <p>현지 창고 직송 및 당일 발송 재고 보유 상품</p>
     </div>
 
-    <!-- 소분류 내비게이션 -->
-    <div class="category-nav">
-        <div class="cat-item active" onclick="filterData('전체')">전체</div>
-        <div class="cat-item" onclick="filterData('상하복')">상하복</div>
-        <div class="cat-item" onclick="filterData('티셔츠')">티셔츠</div>
-        <div class="cat-item" onclick="filterData('팬츠')">팬츠</div>
-        <div class="cat-item" onclick="filterData('테스트')">테스트섹션</div>
+    <!-- [3] 소분류 내비게이션 -->
+    <div class="sub-nav">
+        <div class="nav-item active" onclick="filterCat('전체')">전체보기</div>
+        <div class="nav-item" onclick="filterCat('상하복')">상하복 세트</div>
+        <div class="nav-item" onclick="filterCat('티셔츠')">티셔츠/탑</div>
+        <div class="nav-item" onclick="filterCat('팬츠')">바지/팬츠</div>
+        <div class="nav-item" onclick="filterCat('테스트')">테스트섹션</div>
     </div>
 
-    <!-- 재고 보유 상품 리스트 -->
-    <div class="stock-section">
-        <div class="section-header">
-            재고보유 상품 <span class="stock-badge">실시간</span>
+    <!-- [4] 재고 보유 상품 섹션 -->
+    <div class="content-area">
+        <div class="section-label">
+            <span class="live-dot"></span> 재고보유 상품
         </div>
-        <div class="product-grid" id="main-grid"></div>
+        <div class="prod-grid" id="main-grid"></div>
     </div>
 
     <!-- 상세 모달 -->
-    <div id="modal">
-        <div class="modal-close" onclick="closeModal()">✕</div>
-        <img id="modal-img" src="" style="width:100%;">
-        <div style="padding: 60px 20px; text-align: center; color: #ccc;">KIDS RIVER DETAIL PAGE</div>
+    <div id="detail-modal">
+        <div class="close-detail" onclick="closeDetail()">✕</div>
+        <img id="detail-img" src="" style="width:100%;">
+        <div style="padding: 60px 20px; text-align: center; color: #ddd; letter-spacing: 2px; font-size: 12px;">KIDS RIVER CATALOG SYSTEM</div>
     </div>
 
     <!-- 하단 구매바 -->
-    <div class="bottom-buy-bar" id="buy-bar">
-        <div class="opt-wrap">
-            <div class="selected-prod-name" id="fixed-p-name"></div>
-            <div class="select-group">
-                <select id="color-opt"><option value="">컬러 선택</option></select>
-                <select id="size-opt"><option value="">사이즈 선택</option></select>
+    <div class="bottom-opt-bar" id="opt-bar">
+        <div class="opt-inner">
+            <div class="selected-name" id="p-title-fixed"></div>
+            <div class="opt-selects">
+                <select id="sel-color"><option value="">컬러 선택</option></select>
+                <select id="sel-size"><option value="">사이즈 선택</option></select>
             </div>
-            <button class="cart-add-btn" onclick="addToCart()">장바구니에 담기</button>
+            <button class="add-cart-btn" onclick="addToCart()">장바구니 담기</button>
         </div>
     </div>
 
-    <!-- 장바구니 팝업 -->
-    <div id="cart-alert">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <strong style="font-size:15px;">🛒 담긴 상품</strong>
-            <span onclick="this.parentElement.parentElement.style.display='none'" style="cursor:pointer">✕</span>
+    <!-- 장바구니/복사 팝업 -->
+    <div id="cart-popup">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <strong style="font-size:16px;">🛒 장바구니</strong>
+            <span onclick="this.parentElement.parentElement.style.display='none'" style="cursor:pointer; color:#ccc;">✕</span>
         </div>
-        <div id="cart-list-content"></div>
+        <div id="cart-items-wrap"></div>
     </div>
 
     <script>
-        // [데이터 구조] 상품명, 컬러, 사이즈, 코드(이미지번호), 스마트스토어링크, 가격, 카테고리
+        // 데이터 관리 (상품명, 컬러, 사이즈, 번호, 스토어링크, 가격, 카테고리)
         const products = [
             ["[상하] 566번 스타티", "그린,크림", "5,7,9,11,13", "566", "https://smartstore.naver.com/kidsriver", "19,800", "상하복"],
             ["[티] 565번 단가라", "블루,옐로우", "5,7,9,11,13", "565", "https://smartstore.naver.com/kidsriver", "12,500", "티셔츠"],
             ["[팬츠] 564번 조거", "블랙,그레이", "5,7,9,11,13", "564", "https://smartstore.naver.com/kidsriver", "15,000", "팬츠"],
-            ["[테스트] 샘플상품", "화이트,블랙", "FREE", "566", "https://smartstore.naver.com/kidsriver", "1,000", "테스트"]
+            ["[테스트] 샘플 상품", "화이트,블랙", "FREE", "566", "#", "1,000", "테스트"]
         ];
 
         let cart = [];
-        let activeProd = null;
+        let currentP = null;
 
-        function renderProducts(data) {
+        function render(data) {
             const grid = document.getElementById('main-grid');
             grid.innerHTML = data.map(p => `
-                <div class="product-card" onclick="openDetail('${p[3]}')">
+                <div class="prod-card" onclick="openDetail('${p[3]}')">
                     <img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${p[3]}.jpg">
-                    <div class="product-info">
-                        <div class="p-code">PRODUCT NO.${p[3]}</div>
-                        <div class="p-name">${p[0]}</div>
-                        <div class="p-price">${p[5]}원</div>
+                    <div class="prod-info">
+                        <div class="prod-no">NO. ${p[3]}</div>
+                        <div class="prod-title">${p[0]}</div>
+                        <div class="prod-price">${p[5]}원</div>
                     </div>
                 </div>
             `).join('');
         }
 
-        function filterData(cat) {
-            const tabs = document.querySelectorAll('.cat-item');
+        function filterCat(name) {
+            const tabs = document.querySelectorAll('.nav-item');
             tabs.forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
-            renderProducts(cat === '전체' ? products : products.filter(p => p[6] === cat));
+            render(name === '전체' ? products : products.filter(p => p[6] === name));
         }
 
         function openDetail(code) {
-            activeProd = products.find(p => p[3] === code);
-            document.getElementById('modal-img').src = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
-            document.getElementById('fixed-p-name').innerText = activeProd[0];
+            currentP = products.find(p => p[3] === code);
+            document.getElementById('detail-img').src = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
+            document.getElementById('p-title-fixed').innerText = currentP[0];
             
-            const cS = document.getElementById('color-opt');
-            const sS = document.getElementById('size-opt');
-            cS.innerHTML = '<option value="">컬러 선택</option>';
-            sS.innerHTML = '<option value="">사이즈 선택</option>';
-            activeProd[1].split(',').forEach(v => cS.innerHTML += `<option value="${v.trim()}">${v.trim()}</option>`);
-            activeProd[2].split(',').forEach(v => sS.innerHTML += `<option value="${v.trim()}">${v.trim()}</option>`);
+            const cEl = document.getElementById('sel-color');
+            const sEl = document.getElementById('sel-size');
+            cEl.innerHTML = '<option value="">컬러 선택</option>';
+            sEl.innerHTML = '<option value="">사이즈 선택</option>';
+            currentP[1].split(',').forEach(v => cEl.innerHTML += `<option value="${v.trim()}">${v.trim()}</option>`);
+            currentP[2].split(',').forEach(v => sEl.innerHTML += `<option value="${v.trim()}">${v.trim()}</option>`);
 
-            document.getElementById('modal').style.display = 'block';
-            document.getElementById('buy-bar').style.display = 'block';
+            document.getElementById('detail-modal').style.display = 'block';
+            document.getElementById('opt-bar').style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
 
         function addToCart() {
-            const c = document.getElementById('color-opt').value;
-            const s = document.getElementById('size-opt').value;
-            if(!c || !s) return alert("컬러와 사이즈를 선택해주세요.");
+            const c = document.getElementById('sel-color').value;
+            const s = document.getElementById('sel-size').value;
+            if(!c || !s) return alert("옵션을 선택해주세요.");
 
-            const fullText = `${activeProd[0]}/${c}/${s}`;
-            cart.push({ text: fullText, link: activeProd[4] });
+            const fullText = `${currentP[0]}/${c}/${s}`;
+            cart.push({ text: fullText, link: currentP[4] });
             
-            const alertBox = document.getElementById('cart-alert');
-            const content = document.getElementById('cart-list-content');
-            alertBox.style.display = 'block';
-            content.innerHTML = cart.map(i => `
-                <div class="cart-item-row">
-                    <div style="font-size:12px; font-weight:bold;">${i.text}</div>
-                    <div class="btn-box">
-                        <div class="btn-action btn-copy" onclick="copyOpt('${i.text}')">옵션복사</div>
-                        <a href="${i.link}" target="_blank" class="btn-action btn-pay">결제하기</a>
+            const pop = document.getElementById('cart-popup');
+            const wrap = document.getElementById('cart-items-wrap');
+            pop.style.display = 'block';
+            wrap.innerHTML = cart.map(i => `
+                <div class="cart-row">
+                    <div style="font-size:12px; font-weight:700;">${i.text}</div>
+                    <div class="copy-group">
+                        <div class="copy-btn" onclick="copyText('${i.text}')">옵션복사</div>
+                        <a href="${i.link}" target="_blank" class="pay-link">결제하기</a>
                     </div>
                 </div>
             `).reverse().join('');
         }
 
-        function copyOpt(txt) {
-            navigator.clipboard.writeText(txt).then(() => alert("복사완료! 스토어에 붙여넣으세요."));
+        function copyText(t) {
+            navigator.clipboard.writeText(t).then(() => alert("복사되었습니다!"));
         }
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('buy-bar').style.display = 'none';
+        function closeDetail() {
+            document.getElementById('detail-modal').style.display = 'none';
+            document.getElementById('opt-bar').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
-        renderProducts(products);
+        render(products);
     </script>
 </body>
 </html>
