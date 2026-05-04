@@ -7,14 +7,14 @@
     <style>
         body { margin: 0; padding: 0; font-family: sans-serif; background: #f8f8f8; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         
-        /* [메인 리스트 스타일] */
+        /* [메인 리스트] */
         .slide-container { display: flex; overflow-x: auto; gap: 15px; padding: 20px; -webkit-overflow-scrolling: touch; }
         .product-card { flex: 0 0 180px; background: #fff; border-radius: 15px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; }
         .product-card img { width: 100%; border-radius: 10px; pointer-events: none; }
 
-        /* [모달창 설정] */
+        /* [모달창] */
         #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; overflow-y: auto; }
-        #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; min-height: 300px; background: #f0f0f0; }
+        #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; background: #f0f0f0; }
 
         /* [뒤로가기 버튼 - 중앙 왼쪽] */
         .floating-back-btn {
@@ -25,7 +25,7 @@
         }
         .floating-back-btn::after { content: ''; width: 11px; height: 11px; border-top: 3.5px solid #111; border-left: 3.5px solid #111; transform: rotate(-45deg); margin-left: 5px; }
 
-        /* [하단 고정 추천 바] */
+        /* [하단 고정 추천 바 - 슬라이드 최적화] */
         .recommend-section { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: #fff; border-top: 1px solid #eee;
@@ -35,13 +35,23 @@
         .recommend-title { font-size: 13px; font-weight: bold; margin-bottom: 12px; padding: 0 20px; color: #222; }
         
         .recommend-list { 
-            display: flex; gap: 12px; overflow-x: auto; padding: 0 20px;
-            -webkit-overflow-scrolling: touch; 
+            display: flex; 
+            gap: 12px; 
+            overflow-x: auto; 
+            padding: 0 20px;
+            /* [해결] 되돌아가려는 성질 제거 및 가속도 스크롤 추가 */
+            scroll-snap-type: none !important; /* 강제로 딱딱 끊기는 성질 제거 */
+            -webkit-overflow-scrolling: touch; /* iOS 가속도 스크롤 활성화 */
+            overscroll-behavior-x: contain; /* 부모 페이지 스크롤 방해 금지 */
         }
         .recommend-list::-webkit-scrollbar { display: none; }
 
         .rec-item { 
-            flex: 0 0 95px; cursor: pointer; text-align: center;
+            flex: 0 0 95px; 
+            cursor: pointer; 
+            text-align: center;
+            /* 터치 시 반응 속도 최적화 */
+            touch-action: pan-x; 
         }
         .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; border: 1px solid #f0f0f0; pointer-events: none; }
         .rec-code { font-size: 10px; font-weight: bold; color: #888; margin-top: 5px; pointer-events: none; }
@@ -54,10 +64,7 @@
     <div class="slide-container" id="product-list"></div>
 
     <div id="modal">
-        <!-- 뒤로가기 버튼 -->
         <div class="floating-back-btn" onclick="closeModal()"></div>
-        
-        <!-- 상세페이지 이미지가 들어가는 곳 -->
         <img id="modal-img" src="" alt="상세이미지">
         
         <div class="recommend-section">
@@ -71,32 +78,24 @@
     </div>
 
     <script>
-        // [데이터 설정] 사장님, 여기에 추천 상품 번호를 15개씩 정확히 넣으시면 됩니다.
         const rawData = [ 
             ["566", "그린, 머스타드, 베이지", "3, 5, 7", ["565", "564", "563", "562", "561", "560", "559", "558", "557", "556", "555", "554", "553", "552", "551"]], 
             ["565", "민트, 연보라", "3, 5, 7", ["566", "564", "563", "562", "561", "560", "559", "558", "557", "556", "555", "554", "553", "552", "551"]]
         ];
 
-        // [핵심 함수] 상세페이지 열기 및 데이터 교체
         function openModal(code) {
-            console.log("열려는 상품 코드:", code); // 디버깅용
-
-            // 1. 상세 이미지 주소 매칭 (상품 번호에 따라 경로 생성)
             const detailImgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
-            const modalImg = document.getElementById('modal-img');
-            modalImg.src = detailImgUrl;
+            document.getElementById('modal-img').src = detailImgUrl;
             
-            // 2. 해당 상품의 추천 리스트 찾기 (없으면 기본값 사용)
             const productInfo = rawData.find(item => item[0] === code);
             const recommendationCodes = productInfo ? productInfo[3] : rawData[0][3]; 
 
-            // 3. 하단 추천 바 새로 그리기
             const recContainer = document.getElementById('recommend-list');
             let recHtml = '';
             
             recommendationCodes.forEach(recCode => {
                 const thumbImg = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg`;
-                // 클릭 시 해당 코드로 다시 openModal을 실행하도록 설정
+                // 터치 시 상세페이지 전환이 즉각 일어나도록 ontouchend 유지
                 recHtml += `
                     <div class="rec-item" onclick="openModal('${recCode}')" ontouchend="openModal('${recCode}')">
                         <img src="${thumbImg}">
@@ -106,15 +105,14 @@
             });
             
             recContainer.innerHTML = recHtml;
-            recContainer.scrollLeft = 0; // 스크롤 위치 초기화
+            // 페이지 전환 시 스크롤 위치를 맨 앞으로 초기화
+            recContainer.scrollTo({ left: 0, behavior: 'auto' });
 
-            // 4. 모달 보여주기
             const modal = document.getElementById('modal');
             modal.style.display = 'block';
             modal.scrollTo(0, 0); 
             document.body.style.overflow = 'hidden';
             
-            // 뒤로가기 버튼 대응
             if(!window.history.state || !window.history.state.modalOpen) {
                 history.pushState({modalOpen: true}, '');
             }
@@ -127,7 +125,6 @@
 
         window.onpopstate = function() { closeModal(); };
 
-        // 초기 화면 렌더링
         const mainList = document.getElementById('product-list');
         rawData.forEach(item => {
             mainList.innerHTML += `
