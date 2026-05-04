@@ -1,311 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KIDS RIVER CATALOG</title>
+    <style>
+        /* (스타일은 이전과 동일하게 유지하되 가독성만 살짝 개선) */
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f8f8f8; -webkit-tap-highlight-color: transparent; }
+        .slide-container { display: flex; overflow-x: auto; gap: 15px; padding: 20px; }
+        .product-card { flex: 0 0 160px; background: #fff; border-radius: 15px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; }
+        .product-card img { width: 100%; border-radius: 10px; }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  padding: 5px;
-}
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; overflow-y: auto; }
+        #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
 
-.item img {
-  width: 100%;
-  display: block;
-}
-</style>
+        .floating-back-btn { position: fixed; top: 15px; left: 15px; width: 44px; height: 44px; background: rgba(255,255,255,0.9); border-radius: 50%; z-index: 50001; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border: 1px solid #eee; }
+        .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 3.5px solid #111; border-left: 3.5px solid #111; transform: rotate(-45deg); margin-left: 5px; }
+
+        .bottom-fixed-ui { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; z-index: 40000; display: none; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); }
+        .option-box { padding: 12px 20px; background: #fafafa; }
+        .current-name { font-size: 13px; font-weight: bold; color: #111; margin-bottom: 8px; }
+        .opt-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .opt-select { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; background: #fff; }
+        .add-cart-btn { width: 100%; padding: 15px; background: #111; color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; }
+
+        #cart-ui { position: fixed; top: 15px; right: 15px; z-index: 45000; background: #fff; border: 2.5px solid #111; border-radius: 12px; width: 250px; max-height: 400px; overflow-y: auto; padding: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; }
+        .cart-item { border-bottom: 1px solid #f2f2f2; padding: 12px 0; }
+        .cart-info { font-size: 12px; margin-bottom: 8px; line-height: 1.4; }
+        .cart-btns { display: flex; gap: 5px; }
+        .btn-small { flex: 1; padding: 8px; font-size: 11px; border-radius: 4px; text-align: center; cursor: pointer; text-decoration: none; font-weight: bold; }
+        .copy-btn { background: #111; color: #fff; }
+        .pay-btn { background: #00c73c; color: #fff; }
+    </style>
 </head>
-
 <body>
 
-<div class="grid">
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-  <a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-  <a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-  <a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-  <a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-  <a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-  <a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-  <a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-
-<a class="item" href="https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg">
-  <img src="https://ailovesmartstore.github.io/gate/test.jpg">
-</a>
-  
-</div>
+    <div class="slide-container" id="product-list"></div>
+
+    <div id="modal">
+        <div class="floating-back-btn" onclick="closeModal()"></div>
+        <img id="modal-img" src="">
+        <div style="padding: 40px 20px 450px; text-align: center;">
+            <div style="padding: 12px 40px; background: #eee; border-radius: 25px; font-size: 14px; font-weight: bold; color:#666;" onclick="closeModal()">목록보기</div>
+        </div>
+    </div>
+
+    <!-- 하단 고정 UI -->
+    <div class="bottom-fixed-ui" id="bottom-ui">
+        <div class="option-box">
+            <!-- 상품명 자동 표시 -->
+            <div class="current-name" id="display-product-name">상품명 로딩중...</div>
+            <div class="opt-row">
+                <select class="opt-select" id="color-select"><option value="">컬러</option></select>
+                <select class="opt-select" id="size-select"><option value="">사이즈</option></select>
+            </div>
+            <button class="add-cart-btn" onclick="addToCart()">장바구니에 담기</button>
+        </div>
+    </div>
+
+    <!-- 장바구니 팝업 -->
+    <div id="cart-ui">
+        <div style="font-weight:bold; margin-bottom:10px; font-size:14px; display:flex; justify-content:space-between;">
+            <span>🛒 장바구니</span>
+            <span onclick="toggleCart()" style="cursor:pointer; color:#ccc;">✕</span>
+        </div>
+        <div id="cart-list"></div>
+    </div>
+
+    <script>
+        // [데이터 구조] 상품코드, 컬러, 사이즈, 추천들, 결제링크, 가격
+        const rawData = [ 
+            ["566번 티셔츠", "그린,크림", "3,5,7,9,11", ["565", "564"], "https://smartstore.naver.com/kidsriver/products/111", "19,800"], 
+            ["565번 팬츠", "민트,노랑,아이보리", "3,5,7,9,11", ["566", "564"], "https://smartstore.naver.com/kidsriver/products/222", "24,500"]
+        ];
+
+        let myCart = [];
+        let currentProd = null;
+
+        function openModal(code) {
+            currentProd = rawData.find(item => item[0].includes(code)) || rawData[0];
+            
+            // 이미지 및 상품명 설정
+            document.getElementById('modal-img').src = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
+            document.getElementById('display-product-name').innerText = `선택상품: ${currentProd[0]}`;
+            
+            // 옵션 설정
+            const cSel = document.getElementById('color-select');
+            const sSel = document.getElementById('size-select');
+            cSel.innerHTML = '<option value="">컬러</option>';
+            sSel.innerHTML = '<option value="">사이즈</option>';
+            currentProd[1].split(',').forEach(c => cSel.innerHTML += `<option value="${c.trim()}">${c.trim()}</option>`);
+            currentProd[2].split(',').forEach(s => sSel.innerHTML += `<option value="${s.trim()}">${s.trim()}</option>`);
+
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('bottom-ui').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            document.getElementById('modal').scrollTo(0,0);
+        }
+
+        function addToCart() {
+            const c = document.getElementById('color-select').value;
+            const s = document.getElementById('size-select').value;
+            if(!c || !s) return alert("컬러와 사이즈를 모두 선택해주세요!");
+
+            // [핵심] 상품명/컬러/사이즈 형태로 데이터 생성
+            const fullOptionText = `${currentProd[0]}/${c}/${s}`;
+            
+            myCart.push({
+                fullText: fullOptionText,
+                price: currentProd[5],
+                link: currentProd[4]
+            });
+            
+            renderCart();
+            document.getElementById('cart-ui').style.display = 'block';
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = myCart.map((item, idx) => `
+                <div class="cart-item">
+                    <div class="cart-info">
+                        <strong>${item.fullText}</strong><br>
+                        <span style="color:#888;">${item.price}원</span>
+                    </div>
+                    <div class="cart-btns">
+                        <div class="btn-small copy-btn" onclick="copyText('${item.fullText}')">정보 복사</div>
+                        <a href="${item.link}" target="_blank" class="btn-small pay-btn">결제하기</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`복사되었습니다!\n스토어 옵션칸에 붙여넣기(Ctrl+V) 하세요.`);
+            });
+        }
+
+        function toggleCart() {
+            const ui = document.getElementById('cart-ui');
+            ui.style.display = ui.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('bottom-ui').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 초기 리스트 렌더링
+        const mainList = document.getElementById('product-list');
+        rawData.forEach(item => {
+            const codeOnly = item[0].replace(/[^0-9]/g, ""); // 숫자 코드만 추출
+            mainList.innerHTML += `
+                <div class="product-card" onclick="openModal('${codeOnly}')">
+                    <img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${codeOnly}.jpg">
+                    <p style="text-align:center; font-weight:bold; font-size:13px; margin-top:10px;">${item[0]}</p>
+                </div>`;
+        });
+    </script>
 </body>
 </html>
