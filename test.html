@@ -25,7 +25,7 @@
         }
         .floating-back-btn::after { content: ''; width: 11px; height: 11px; border-top: 3.5px solid #111; border-left: 3.5px solid #111; transform: rotate(-45deg); margin-left: 5px; }
 
-        /* [하단 고정 추천 바 - 슬라이드 최적화] */
+        /* [하단 추천 바 - 자석 현상(Snap) 완전 제거] */
         .recommend-section { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: #fff; border-top: 1px solid #eee;
@@ -39,10 +39,14 @@
             gap: 12px; 
             overflow-x: auto; 
             padding: 0 20px;
-            /* [해결] 되돌아가려는 성질 제거 및 가속도 스크롤 추가 */
-            scroll-snap-type: none !important; /* 강제로 딱딱 끊기는 성질 제거 */
-            -webkit-overflow-scrolling: touch; /* iOS 가속도 스크롤 활성화 */
-            overscroll-behavior-x: contain; /* 부모 페이지 스크롤 방해 금지 */
+            
+            /* 핵심 수정: 자석처럼 붙는 성질을 원천 차단 */
+            scroll-snap-type: none !important; 
+            scroll-behavior: auto !important;
+            -webkit-overflow-scrolling: touch; 
+            
+            /* 터치 시 즉각 반응하도록 설정 */
+            touch-action: pan-x;
         }
         .recommend-list::-webkit-scrollbar { display: none; }
 
@@ -50,8 +54,9 @@
             flex: 0 0 95px; 
             cursor: pointer; 
             text-align: center;
-            /* 터치 시 반응 속도 최적화 */
-            touch-action: pan-x; 
+            /* 개별 아이템에 붙어있을 수 있는 스냅 정렬 해제 */
+            scroll-snap-align: none !important;
+            scroll-snap-stop: unset !important;
         }
         .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; border: 1px solid #f0f0f0; pointer-events: none; }
         .rec-code { font-size: 10px; font-weight: bold; color: #888; margin-top: 5px; pointer-events: none; }
@@ -95,7 +100,6 @@
             
             recommendationCodes.forEach(recCode => {
                 const thumbImg = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg`;
-                // 터치 시 상세페이지 전환이 즉각 일어나도록 ontouchend 유지
                 recHtml += `
                     <div class="rec-item" onclick="openModal('${recCode}')" ontouchend="openModal('${recCode}')">
                         <img src="${thumbImg}">
@@ -105,8 +109,8 @@
             });
             
             recContainer.innerHTML = recHtml;
-            // 페이지 전환 시 스크롤 위치를 맨 앞으로 초기화
-            recContainer.scrollTo({ left: 0, behavior: 'auto' });
+            // 초기 로딩 시에만 왼쪽 정렬
+            recContainer.scrollLeft = 0;
 
             const modal = document.getElementById('modal');
             modal.style.display = 'block';
