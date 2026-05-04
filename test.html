@@ -1,3 +1,17 @@
+사장님, 이미지를 다시 보니 어떤 느낌을 원하시는지 확실히 알겠습니다. 현재는 컬러 리스트가 세로로 길게 나열되어 있어서 시선이 아래로 너무 분산되고, 정보가 '나열'된 느낌만 강하네요.
+
+이걸 '고급스러운 브랜드 카드' 느낌이 나도록 아예 가로 레이아웃으로 재구성해 보겠습니다. 컬러 칩을 작게 가로로 한 줄에 모으고, 전체적인 여백을 과감하게 사용하면 훨씬 깔끔해 보일 겁니다.
+
+🛠️ 14번째 버전: 미니멀 & 가로 배열 레이아웃 (최종 디자인 완성본)
+이번 업데이트의 핵심 변화입니다:
+
+가로형 컬러 칩: 컬러 이름을 텍스트로 다 쓰는 대신, 동그란 컬러 칩만 가로로 쪼르르 배치합니다. (이름은 칩 위에 아주 작게 두거나, 칩만 보여주는 게 요즘 트렌드입니다.)
+
+공간의 압축: 세로로 길었던 영역을 압축하여 상품 이미지에 더 집중되게 했습니다.
+
+그림자와 라운드: 카드 전체에 아주 부드러운 그림자와 둥근 모서리를 적용해 포근한 아동복 느낌을 살렸습니다.
+
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,77 +26,87 @@
     <style>
         body { 
             margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; 
-            background: #fff; color: #333; letter-spacing: -0.04em;
-            display: flex; flex-direction: column; align-items: center;
+            background: #fafafa; color: #333; letter-spacing: -0.04em;
         }
-        header { width: 100%; padding: 30px 0; text-align: center; }
-        .logo { font-size: 28px; font-weight: 900; letter-spacing: -1.5px; color: #1a1a1a; }
-        .section-title { width: 100%; padding: 10px 0 20px; font-size: 18px; font-weight: 700; text-align: center; color: #444; }
+        header { width: 100%; padding: 40px 0 20px; text-align: center; }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; color: #222; }
+        .section-title { width: 100%; padding: 0 0 30px; font-size: 14px; font-weight: 500; text-align: center; color: #999; letter-spacing: 0.1em; }
 
         .slide-container { 
-            display: flex; overflow-x: auto; width: 100%; padding: 0 0 50px; gap: 20px; 
-            -webkit-overflow-scrolling: touch; scroll-behavior: smooth;
+            display: flex; overflow-x: auto; width: 100%; padding: 0 0 60px; gap: 24px; 
+            -webkit-overflow-scrolling: touch;
         }
         .slide-container::-webkit-scrollbar { display: none; }
-        .slide-container::before, .slide-container::after { content: ''; flex: 0 0 20px; }
+        .slide-container::before, .slide-container::after { content: ''; flex: 0 0 25px; }
 
-        .product-card { flex: 0 0 220px; text-decoration: none; color: inherit; display: block; text-align: center; cursor: pointer; }
-        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 12px; overflow: hidden; background: #f5f5f5; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.9); color: #222; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 4px; border: 1px solid #eee; }
-
-        /* [수정] 컬러 리스트 영역: 최소 높이를 지정하여 높이를 통일 */
-        .color-list { 
-            display: flex; flex-direction: column; align-items: center; gap: 5px; 
-            min-height: 110px; /* 컬러가 많아도 적어도 이 높이를 유지 */
-            margin-bottom: 10px;
+        /* [수정] 카드 전체를 더 깔끔하게 */
+        .product-card { 
+            flex: 0 0 240px; background: #fff; border-radius: 20px; 
+            padding-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
+            cursor: pointer; transition: transform 0.3s ease;
         }
-        .color-item { display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .chip { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); }
-        .color-name { font-size: 13px; color: #666; font-weight: 400; }
+        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 20px 20px 0 0; overflow: hidden; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .badge { position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 10px; }
 
-        /* [수정] 사이즈 가이드 텍스트 */
-        .size-label { font-size: 9px; font-weight: 800; color: #bbb; letter-spacing: 0.05em; margin-bottom: 4px; display: block; }
+        .info-box { padding: 20px 15px 0; text-align: center; }
 
-        /* [수정] 사이즈 박스 디자인 */
+        /* [핵심] 가로형 컬러 칩 레이아웃 */
+        .color-row { 
+            display: flex; justify-content: center; gap: 8px; 
+            margin-bottom: 18px; flex-wrap: wrap; 
+            height: 24px; align-items: center;
+        }
+        .color-dot { 
+            width: 14px; height: 14px; border-radius: 50%; 
+            border: 1px solid rgba(0,0,0,0.05); position: relative;
+        }
+        /* 칩 위에 마우스를 올리거나 하면 보일 수 있는 툴팁 느낌의 이름 (선택사항) */
+        .color-dot:hover::after {
+            content: attr(data-name); position: absolute; top: -20px; left: 50%; 
+            transform: translateX(-50%); font-size: 9px; background: #333; 
+            color: #fff; padding: 2px 6px; border-radius: 4px; white-space: nowrap;
+        }
+
+        .size-label { font-size: 10px; font-weight: 700; color: #ddd; letter-spacing: 0.1em; margin-bottom: 8px; display: block; }
         .size-info { 
-            font-size: 11px; color: #444; font-weight: 700; 
-            background: #fff; border: 1px solid #e5e5e5; 
-            padding: 8px 12px; border-radius: 8px; 
-            display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            font-size: 12px; color: #555; font-weight: 600; 
+            background: #f8f8f8; padding: 8px 16px; border-radius: 12px; 
+            display: inline-block;
         }
 
         /* 상세페이지 팝업 */
         #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 1000; overflow-y: auto; }
         .floating-back-btn {
             position: fixed; top: 50%; left: 15px; transform: translateY(-50%);
-            width: 46px; height: 46px; background: rgba(255, 255, 255, 0.9);
+            width: 48px; height: 48px; background: #fff;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); cursor: pointer; z-index: 9999; border: 1px solid #eee;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); cursor: pointer; z-index: 9999;
         }
-        .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 3px solid #333; border-left: 3px solid #333; transform: rotate(-45deg); margin-left: 5px; }
+        .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 2.5px solid #222; border-left: 2.5px solid #222; transform: rotate(-45deg); margin-left: 5px; }
+        
         #modal img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
-        .modal-footer { padding: 40px 20px; text-align: center; background: #f9f9f9; }
-        .close-footer-btn { padding: 15px 40px; background: #222; color: #fff; border-radius: 30px; font-weight: 700; font-size: 14px; display: inline-block; }
+        .modal-footer { padding: 50px 20px; text-align: center; }
+        .close-footer-btn { padding: 18px 45px; background: #222; color: #fff; border-radius: 35px; font-weight: 600; font-size: 14px; display: inline-block; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
     <header><div class="logo">KIDS RIVER</div></header>
-    <div class="section-title">TODAY'S NEW ARRIVALS</div>
+    <div class="section-title">2026 SPRING COLLECTION</div>
     <div class="slide-container" id="product-list"></div>
 
     <div id="modal">
         <div class="floating-back-btn" onclick="history.back()"></div>
         <img id="modal-img" src="">
         <div class="modal-footer">
-            <div class="close-footer-btn" onclick="history.back()">목록으로 돌아가기</div>
+            <div class="close-footer-btn" onclick="history.back()">BACK TO LIST</div>
         </div>
     </div>
 
     <script>
         const colorPalette = { "그린": "#4CAF50", "머스타드": "#FFC107", "베이지": "#F5F5DC", "아이": "#FFFFF0", "퍼플": "#A020F0", "민트": "#98FF98", "연보라": "#E6E6FA", "블루": "#2196F3", "카키": "#4B5320", "핑크": "#FFC0CB", "스카이청": "#87CEEB", "진청": "#00008B", "네이비": "#000080", "중청": "#5F9EA0", "블랙": "#000000", "스카이블루": "#87CEFA", "체리레드": "#D2042D", "크림아이": "#FFFDD0", "진그린": "#006400", "아이보리": "#FFFFF0", "인디핑크": "#B76E79", "인디연핑크": "#FADADD", "소라": "#82B5ED", "크림": "#FFFDD0", "스카이": "#87CEEB", "연베이지": "#F5F5DC" };
-        const rawData = [ ["566", "그린, 머스타드, 베이지, 아이, 퍼플", "3, 5, 7, 9, 11, 13"], ["565", "민트, 연보라", "3, 5, 7, 9, 11, 13"], ["564", "베이지, 블루, 아이, 카키, 핑크", "3, 5, 7, 9, 11, 13"], ["563", "스카이청, 진청", "3, 5, 7, 9, 11, 13"], ["562", "네이비, 카키", "3, 5, 7, 9, 11, 13"], ["561", "중청", "3, 5, 7, 9, 11, 13"], ["560", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["559", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["558", "크림아이, 진그린", "3, 5, 7, 9, 11, 13"], ["557", "베이지, 카키", "3, 5, 7, 9, 11, 13"], ["556", "베이지, 카키", "3, 5, 7, 9, 11, 13"], ["555", "베이지, 블루, 아이보리, 인디핑크, 카키", "3, 5, 7, 9, 11, 13"], ["554", "베이지, 블루, 아이보리, 인디핑크, 카키", "3, 5, 7, 9"], ["553", "베이지, 블루, 아이보리, 인디핑크, 카키", "3, 5, 7, 9"], ["552", "아이보리, 인디연핑크", "3, 5, 7, 9, 11, 13"], ["551", "민트, 블랙, 스카이블루, 연베이지, 퍼플", "3, 5, 7, 9, 11"], ["550", "핑크, 소라", "FREE"], ["549", "핑크, 소라", "S원사이즈"], ["548", "핑크, 소라", "S, M"], ["547", "크림", "FREE"], ["546", "크림", "FREE"], ["545", "크림", "S원사이즈"], ["544", "크림", "S, M"], ["543", "블랙", "FREE"], ["542", "블랙", "FREE"], ["541", "블랙", "FREE"], ["540", "블랙", "S원사이즈"], ["539", "블랙", "S, M"], ["538", "스카이", "FREE"] ];
+        const rawData = [ ["566", "그린, 머스타드, 베이지, 아이, 퍼플", "3, 5, 7, 9, 11, 13"], ["565", "민트, 연보라", "3, 5, 7, 9, 11, 13"], ["564", "베이지, 블루, 아이, 카키, 핑크", "3, 5, 7, 9, 11, 13"], ["563", "스카이청, 진청", "3, 5, 7, 9, 11, 13"], ["562", "네이비, 카키", "3, 5, 7, 9, 11, 13"], ["561", "중청", "3, 5, 7, 9, 11, 13"], ["560", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["559", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["558", "크림아이, 진그린", "3, 5, 7, 9, 11, 13"], ["557", "베이지, 카키", "3, 5, 7, 9, 11, 13"] ];
 
         function openModal(url) {
             const modal = document.getElementById('modal');
@@ -111,22 +135,23 @@
                 const imgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${code}.jpg`;
                 const pageUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
                 
-                let colorListHtml = '<div class="color-list">';
+                // 가로 칩 생성
+                let colorChipsHtml = '<div class="color-row">';
                 colorNames.forEach(c => {
                     const hex = colorPalette[c] || "#ddd";
-                    colorListHtml += `<div class="color-item"><div class="chip" style="background-color: ${hex}"></div><span class="color-name">${c}</span></div>`;
+                    colorChipsHtml += `<div class="color-dot" style="background-color: ${hex}" data-name="${c}"></div>`;
                 });
-                colorListHtml += '</div>';
+                colorChipsHtml += '</div>';
 
                 html += `
                     <div class="product-card" onclick="openModal('${pageUrl}')">
                         <div class="img-box">
-                            <div class="badge">NO.${code}</div>
                             <img src="${imgUrl}" loading="lazy">
+                            <div class="badge">CODE ${code}</div>
                         </div>
                         <div class="info-box">
-                            ${colorListHtml}
-                            <span class="size-label">SIZE GUIDE</span>
+                            ${colorChipsHtml}
+                            <span class="size-label">SIZE</span>
                             <div class="size-info">${sizeStr}</div>
                         </div>
                     </div>
