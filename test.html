@@ -3,20 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KIDS RIVER - 모바일 카탈로그</title>
+    <title>KIDS RIVER - 프리미엄 카탈로그</title>
     <style>
-        body { margin: 0; font-family: sans-serif; background: #fff; color: #222; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; font-family: 'Apple SD Gothic Neo', sans-serif; background: #fff; color: #222; -webkit-tap-highlight-color: transparent; }
         header { padding: 20px 15px; border-bottom: 1px solid #f0f0f0; text-align: center; }
         .logo { font-size: 24px; font-weight: 900; }
         .section-title { padding: 25px 15px 12px; font-size: 19px; font-weight: bold; }
         .slide-container { display: flex; overflow-x: auto; padding: 0 15px 10px; gap: 14px; -webkit-overflow-scrolling: touch; }
         .slide-container::-webkit-scrollbar { display: none; }
+
         .product-card { flex: 0 0 170px; text-decoration: none; color: inherit; display: block; }
-        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 10px; overflow: hidden; background: #f8f8f8; }
+        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 10px; overflow: hidden; background: #f8f8f8; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 12px; font-weight: bold; padding: 3px 8px; border-radius: 5px; }
+        .badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 11px; font-weight: bold; padding: 3px 7px; border-radius: 4px; }
+
         .info-box { padding: 12px 2px 5px; }
-        .color-info { font-size: 15px; font-weight: 700; color: #333; display: block; margin-bottom: 5px; }
+        
+        /* 컬러 칩 스타일 */
+        .color-chips { display: flex; gap: 5px; margin-bottom: 8px; align-items: center; }
+        .chip { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #ddd; }
+        .color-name { font-size: 13px; color: #666; margin-left: 2px; font-weight: 500; }
+
         .size-info { font-size: 14px; color: #d32f2f; font-weight: bold; }
     </style>
 </head>
@@ -24,42 +31,64 @@
 
     <header><div class="logo">KIDS RIVER</div></header>
 
-    <div class="section-title">오늘의 신상</div>
-    <div class="slide-container" id="category-new"></div>
+    <div class="section-title">컬러칩 에디션</div>
+    <div class="slide-container" id="category-color"></div>
 
     <script>
-        // ★★★ 사장님, 바로 이 아래 'link' 부분을 보세요! ★★★
+        // 컬러 이름과 실제 색상 코드를 연결하는 지도(Map)입니다.
+        // '라이트-그레이'처럼 복합적인 이름도 여기서 지정하면 됩니다.
+        const colorPalette = {
+            "그린": "#4CAF50",
+            "머스타드": "#FFC107",
+            "베이지": "#F5F5DC",
+            "라이트-그레이": "#D3D3D3", // 하이픈이 들어간 이름 처리
+            "네이비": "#000080",
+            "아이": "#FFFFF0",
+            "핑크": "#FFC0CB"
+        };
+
         const productData = [
             { 
                 no: "01", 
-                img: "test.jpg",    // 보여지는 이미지
-                link: "test.jpg",   // 눌렀을 때 이동할 주소 (파일명을 직접 적음)
-                color: "테스트 상품", 
+                img: "test.jpg", 
+                link: "test.jpg", 
+                colors: ["라이트-그레이", "베이지", "그린"], // 배열 형태로 넣습니다.
                 size: "3호-13호" 
             },
             { 
                 no: "02", 
                 img: "test.jpg", 
-                link: "test.jpg",   // 클릭 시 test.jpg가 크게 뜹니다
-                color: "연결 확인용", 
-                size: "전사이즈" 
+                link: "test.jpg", 
+                colors: ["네이비", "아이"], 
+                size: "5호-15호" 
             }
         ];
 
         function renderProducts(containerId, items) {
             const container = document.getElementById(containerId);
             let html = '';
+            
             items.forEach(item => {
-                // target="_self"로 바꾸어 현재 창에서 바로 열리게 했습니다.
+                // 컬러 칩 HTML 생성
+                let chipHtml = '<div class="color-chips">';
+                item.colors.forEach((c, index) => {
+                    const colorCode = colorPalette[c] || "#eee"; // 팔레트에 없으면 연회색
+                    chipHtml += `<div class="chip" style="background-color: ${colorCode}"></div>`;
+                    
+                    // 첫 번째 컬러 이름만 대표로 표시 (깔끔하게)
+                    if(index === 0) chipHtml += `<span class="color-name">${c}..</span>`;
+                });
+                chipHtml += '</div>';
+
                 html += `
-                    <a href="${item.link}" target="_self" class="product-card">
+                    <a href="${item.link}" class="product-card">
                         <div class="img-box">
                             <div class="badge">${item.no}</div>
                             <img src="${item.img}" alt="상품">
                         </div>
                         <div class="info-box">
-                            <span class="color-info">${item.color}</span>
-                            <span class="size-info">${item.size}</span>
+                            ${chipHtml}
+                            <div class="size-info">${item.size}</div>
                         </div>
                     </a>
                 `;
@@ -67,7 +96,7 @@
             container.innerHTML = html;
         }
 
-        renderProducts('category-new', productData);
+        renderProducts('category-color', productData);
     </script>
 </body>
 </html>
