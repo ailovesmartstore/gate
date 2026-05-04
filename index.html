@@ -3,88 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KIDS RIVER CATALOG</title>
+    <title>KIDS RIVER</title>
     <style>
-        :root { --main-bg: #fff; --box-bg: #fdfdfd; --border-color: #eee; }
-        body { margin: 0; padding: 0; font-family: -apple-system, sans-serif; background: var(--main-bg); color: #333; }
-
-        /* 상단 로고 영역 */
-        .logo-container { padding: 40px 20px; text-align: center; }
-        .logo-container img { width: 120px; height: auto; } /* 로고 사이즈 조절 */
-
-        /* 메인 타이틀 */
-        .main-title { text-align: center; margin-bottom: 40px; }
-        .main-title h1 { font-size: 20px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
-        .main-title p { font-size: 13px; color: #888; margin-top: 10px; }
-
-        /* 아기자기한 사각형 틀 카테고리 */
-        .menu-container { padding: 0 20px 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        body { margin: 0; padding: 0; font-family: -apple-system, sans-serif; background: #fff; text-align: center; }
         
-        .menu-box { 
-            border: 1.5px solid var(--border-color); 
-            border-radius: 15px; 
-            padding: 25px 15px; 
-            text-align: center; 
-            background: var(--box-bg);
-            transition: transform 0.2s;
-            text-decoration: none;
-            color: inherit;
-        }
-        .menu-box:active { transform: scale(0.96); background: #f2f2f2; }
+        /* [1] 상단 대표 이미지: logo.png 사용 */
+        .logo-area { padding: 50px 20px 30px; }
+        .logo-area img { width: 150px; height: auto; }
 
-        .main-cat { font-size: 16px; font-weight: 800; display: block; margin-bottom: 8px; color: #111; }
-        .sub-cat { font-size: 11px; color: #999; font-weight: 400; letter-spacing: 0.5px; }
+        /* [2] 메인 타이틀 */
+        .intro-text { margin-bottom: 40px; }
+        .intro-text h1 { font-size: 18px; font-weight: 800; color: #333; margin: 0; }
+        .intro-text p { font-size: 12px; color: #999; margin-top: 5px; }
+
+        /* [3] 사각형 틀 형식의 아기자기한 메뉴 (이미지 없음) */
+        .grid-menu { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            padding: 0 25px; 
+        }
+        
+        .menu-item { 
+            border: 1px solid #eee; 
+            border-radius: 12px; 
+            padding: 30px 10px; 
+            background: #fafafa;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 대분류 & 소분류 텍스트 스타일 */
+        .main-cat { font-size: 15px; font-weight: 700; color: #444; margin-bottom: 6px; }
+        .sub-cat { font-size: 10px; color: #aaa; letter-spacing: 1px; text-transform: uppercase; }
 
         /* 하단 카피라이트 */
-        .footer { text-align: center; padding: 30px; font-size: 10px; color: #ccc; letter-spacing: 1px; }
+        .footer { margin-top: 60px; font-size: 10px; color: #ddd; padding-bottom: 30px; }
     </style>
 </head>
 <body>
 
-    <!-- [1] 로고 이미지 사용 -->
-    <div class="logo-container">
-        <img src="logo.png" alt="KIDS RIVER LOGO">
+    <div class="logo-area">
+        <img src="logo.png" alt="KIDS RIVER">
     </div>
 
-    <!-- [2] 통합 카탈로그 타이틀 -->
-    <div class="main-title">
+    <div class="intro-text">
         <h1>20,000+ 아이옷 통합 카탈로그</h1>
-        <p>재고 보유 상품 & 실시간 업데이트</p>
+        <p>SELECTIVE CHILDREN'S WEAR</p>
     </div>
 
-    <!-- [3] 사각형 틀 형식의 아기자기한 메뉴 -->
-    <div class="menu-container">
-        
-        <!-- 대분류 & 소분류 구조 -->
-        <a href="catalog.html?cat=상하복" class="menu-box">
-            <span class="main-cat">👕 상하복</span>
-            <span class="sub-cat">SET-UP SERIES</span>
+    <div class="grid-menu">
+        <!-- 사각형 틀 안에 대분류와 소분류만 깔끔하게 -->
+        <a href="#" class="menu-item">
+            <span class="main-cat">상하복</span>
+            <span class="sub-cat">Set-up</span>
         </a>
-
-        <a href="catalog.html?cat=티셔츠" class="menu-box">
-            <span class="main-cat">👚 티셔츠</span>
-            <span class="sub-cat">TOPS & DAILY</span>
+        <a href="#" class="menu-item">
+            <span class="main-cat">티셔츠</span>
+            <span class="sub-cat">T-shirts</span>
         </a>
-
-        <a href="catalog.html?cat=팬츠" class="menu-box">
-            <span class="main-cat">👖 팬츠</span>
-            <span class="sub-cat">BOTTOMS / JEANS</span>
+        <a href="#" class="menu-item">
+            <span class="main-cat">팬츠</span>
+            <span class="sub-cat">Pants</span>
         </a>
-
-        <a href="catalog.html?cat=당일배송" class="menu-box">
-            <span class="main-cat">🚚 당일배송</span>
-            <span class="sub-cat">FAST DELIVERY</span>
+        <a href="#" class="menu-item">
+            <span class="main-cat">재고보유</span>
+            <span class="sub-cat">In Stock</span>
         </a>
-
-        <a href="catalog.html?cat=테스트" class="menu-box" style="grid-column: span 2; padding: 15px;">
-            <span class="main-cat" style="font-size: 14px; margin: 0;">실시간 테스트 섹션</span>
-        </a>
-
+        <!-- 필요하신 만큼 박스를 추가하세요 -->
     </div>
 
-    <div class="footer">
-        © KIDS RIVER. ALL RIGHTS RESERVED.
-    </div>
+    <div class="footer">© KIDS RIVER</div>
 
 </body>
 </html>
