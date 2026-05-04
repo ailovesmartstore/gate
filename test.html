@@ -1,11 +1,3 @@
-사장님, 도저히 멈추지 않고 되돌아가는 그 현상 때문에 정말 고생이 많으십니다. 캡처본(image_a7dedd.jpg)을 다시 보니, 이제는 CSS나 일반적인 스크롤 설정으로는 해결되지 않는 브라우저 고유의 '탄성(Bouncing)'이 원인인 것으로 판단됩니다.
-
-특히 아이폰이나 최신 안드로이드에서는 스크롤 영역이 작을 때 자기 마음대로 '정렬'하려는 성질이 매우 강합니다. 이를 물리적으로 완전히 차단하기 위해, 이번에는 '슬라이더 엔진'과 같은 방식을 코드로 구현했습니다.
-
-🛑 탄성 및 되돌아가기 원천 차단 (최종 해결본)
-이번 코드의 핵심은 scroll-snap과 관련된 모든 기능을 삭제하고, 브라우저가 스크롤 위치를 제어하지 못하도록 touch-action: none과 유사한 강력한 제어를 CSS에 심은 것입니다.
-
-HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -30,7 +22,6 @@ HTML
         }
         .floating-back-btn::after { content: ''; width: 11px; height: 11px; border-top: 3.5px solid #111; border-left: 3.5px solid #111; transform: rotate(-45deg); margin-left: 5px; }
 
-        /* [함께 코디하면 예뻐요 - 되돌아가기 방지 핵심] */
         .recommend-section { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: #fff; border-top: 1px solid #eee;
@@ -40,12 +31,11 @@ HTML
         
         .recommend-list { 
             display: flex; 
-            overflow-x: scroll; /* auto 대신 scroll 강제 */
+            overflow-x: scroll;
             padding: 0 20px;
-            /* 자석 현상을 일으키는 모든 속성 제거 및 방어 */
             scroll-snap-type: none !important;
-            -webkit-overflow-scrolling: auto !important; /* 가속도 스크롤이 오히려 되돌아가기를 유발하므로 끔 */
-            overscroll-behavior-x: none !important; /* 경계선에서 튕기는 현상 차단 */
+            -webkit-overflow-scrolling: auto !important; 
+            overscroll-behavior-x: none !important;
             scroll-behavior: auto !important;
         }
         .recommend-list::-webkit-scrollbar { display: none; }
@@ -54,8 +44,6 @@ HTML
             flex: 0 0 95px; 
             margin-right: 12px;
             text-align: center;
-            /* 아이템 단위로 멈추려는 성질 제거 */
-            scroll-snap-align: none !important;
         }
         .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; border: 1px solid #f0f0f0; pointer-events: none; }
         .rec-code { font-size: 10px; font-weight: bold; color: #888; margin-top: 5px; }
@@ -87,21 +75,25 @@ HTML
             ["565", "민트", "3,5,7", ["566", "564", "563", "562", "561", "560", "559", "558", "557", "556", "555", "554", "553", "552", "551"]]
         ];
 
-        function openModal(code) {
+        // [핵심 변경] 상세페이지 열 때 스크롤 위치를 유지할지 결정하는 인자(keepScroll) 추가
+        function openModal(code, keepScroll = false) {
+            const recContainer = document.getElementById('recommend-list');
+            
+            // 현재 스크롤 위치 저장
+            const currentScrollPos = recContainer.scrollLeft;
+
             const detailImgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
             document.getElementById('modal-img').src = detailImgUrl;
             
             const productInfo = rawData.find(item => item[0] === code);
             const recommendationCodes = productInfo ? productInfo[3] : rawData[0][3]; 
 
-            const recContainer = document.getElementById('recommend-list');
             let recHtml = '';
-            
             recommendationCodes.forEach(recCode => {
                 const thumbImg = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg`;
-                // 터치 후 즉시 이동
+                // 추천바 상품 클릭 시에는 keepScroll을 true로 전달
                 recHtml += `
-                    <div class="rec-item" onclick="openModal('${recCode}')">
+                    <div class="rec-item" onclick="openModal('${recCode}', true)">
                         <img src="${thumbImg}">
                         <div class="rec-code">NO.${recCode}</div>
                     </div>
@@ -109,12 +101,20 @@ HTML
             });
             
             recContainer.innerHTML = recHtml;
-            // 중요: 새로 열 때 스크롤 위치를 0으로 강제 고정하되 애니메이션 없이 즉시 실행
-            recContainer.scrollLeft = 0;
+
+            // [로직 추가] 하단바 클릭 시에는 이전 위치 고정, 메인리스트에서 새로 열 때는 맨 앞으로
+            if (keepScroll) {
+                recContainer.scrollLeft = currentScrollPos;
+            } else {
+                recContainer.scrollLeft = 0;
+            }
 
             const modal = document.getElementById('modal');
             modal.style.display = 'block';
-            modal.scrollTo(0, 0); 
+            
+            // 상세이미지는 항상 맨 위로 (상세페이지가 바뀌었으므로)
+            if (!keepScroll) modal.scrollTo(0, 0); 
+            
             document.body.style.overflow = 'hidden';
             
             if(!window.history.state || !window.history.state.modalOpen) {
