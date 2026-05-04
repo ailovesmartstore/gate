@@ -5,117 +5,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KIDS RIVER - 4월 신상 카탈로그</title>
     
-    <!-- 예쁜 글씨체를 위해 Google Fonts를 불러옵니다 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* 전체 글씨체 적용 */
         body { 
             margin: 0; 
             font-family: 'Noto Sans KR', sans-serif; 
             background: #fff; 
-            color: #222; 
+            color: #333; 
             -webkit-tap-highlight-color: transparent; 
-            letter-spacing: -0.5px; /* 글자 간격을 약간 좁혀서 더 세련되게 만듦 */
+            letter-spacing: -0.03em;
         }
         
         header { 
-            padding: 25px 15px; 
-            border-bottom: 1px solid #f2f2f2; 
+            padding: 30px 15px; 
             text-align: center; 
         }
         
         .logo { 
-            font-size: 26px; 
+            font-size: 28px; 
             font-weight: 900; 
-            letter-spacing: -1.5px; 
-            color: #000;
+            letter-spacing: -1px; 
+            color: #1a1a1a;
         }
 
         .section-title { 
-            padding: 30px 15px 15px; 
-            font-size: 20px; 
+            padding: 10px 20px 20px; 
+            font-size: 18px; 
             font-weight: 700; 
-            color: #111;
+            text-align: center; /* 제목도 가운데 정렬 */
+            color: #444;
         }
 
         .slide-container { 
             display: flex; 
             overflow-x: auto; 
-            padding: 0 15px 30px; 
-            gap: 18px; 
+            padding: 0 20px 40px; 
+            gap: 20px; 
             -webkit-overflow-scrolling: touch; 
         }
         .slide-container::-webkit-scrollbar { display: none; }
 
         .product-card { 
-            flex: 0 0 180px; 
+            flex: 0 0 190px; 
             text-decoration: none; 
             color: inherit; 
-            display: block; 
+            display: block;
+            text-align: center; /* 모든 텍스트를 가운데로 */
         }
 
         .img-box { 
             position: relative; 
             width: 100%; 
             aspect-ratio: 1/1.2; 
-            border-radius: 15px; 
+            border-radius: 18px; 
             overflow: hidden; 
-            background: #f8f8f8; 
-            box-shadow: 0 6px 15px rgba(0,0,0,0.06); 
+            background: #f1f1f1; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.04); 
+            margin-bottom: 15px;
         }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .product-card:active img { transform: scale(1.05); } /* 터치 시 살짝 커지는 효과 */
         
         .badge { 
             position: absolute; 
             top: 12px; 
-            left: 12px; 
-            background: rgba(0,0,0,0.7); 
-            color: #fff; 
+            left: 50%; 
+            transform: translateX(-50%); /* 번호 배지도 가운데로 */
+            background: rgba(255,255,255,0.9); 
+            color: #000; 
             font-size: 10px; 
-            font-weight: 500; 
-            padding: 4px 8px; 
+            font-weight: 700; 
+            padding: 4px 10px; 
             border-radius: 20px; 
-            z-index: 2; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .info-box { padding: 15px 5px; }
+        .info-box { padding: 5px 0; }
         
-        /* 컬러 리스트 가독성 개선 */
+        /* 컬러 리스트 가로형 가운데 정렬 */
         .color-list { 
             display: flex; 
-            flex-direction: column; 
-            gap: 5px; 
+            justify-content: center; 
+            flex-wrap: wrap;
+            gap: 8px; 
             margin-bottom: 12px; 
         }
         .color-item { 
             display: flex; 
             align-items: center; 
-            gap: 8px; 
+            gap: 4px; 
         }
         .chip { 
-            width: 13px; 
-            height: 13px; 
+            width: 10px; 
+            height: 10px; 
             border-radius: 50%; 
-            border: 1px solid rgba(0,0,0,0.05); 
-            flex-shrink: 0; 
+            border: 1px solid rgba(0,0,0,0.1); 
         }
         .color-name { 
-            font-size: 13px; 
-            color: #666; 
+            font-size: 12px; 
+            color: #888; 
             font-weight: 400; 
         }
         
+        /* 세련된 사이즈 정보 디자인 */
         .size-info { 
-            font-size: 12px; 
-            color: #e63946; 
-            font-weight: 700; 
-            background: #fff0f0; 
-            padding: 5px 10px; 
-            border-radius: 6px;
+            font-size: 11px; 
+            color: #555; 
+            font-weight: 600; 
+            background: #f5f5f5; 
+            padding: 6px 12px; 
+            border-radius: 4px;
             display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .size-label {
+            display: block;
+            font-size: 9px;
+            color: #bbb;
+            margin-bottom: 3px;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -123,11 +136,10 @@
 
     <header><div class="logo">KIDS RIVER</div></header>
 
-    <div class="section-title">4월 14일 신상 라인업</div>
+    <div class="section-title">TODAY'S NEW ARRIVALS</div>
     <div class="slide-container" id="product-list"></div>
 
     <script>
-        // 색상 코드 정의
         const colorPalette = {
             "그린": "#4CAF50", "머스타드": "#FFC107", "베이지": "#F5F5DC", "아이": "#FFFFF0", "퍼플": "#A020F0",
             "민트": "#98FF98", "연보라": "#E6E6FA", "블루": "#2196F3", "카키": "#4B5320", "핑크": "#FFC0CB",
@@ -196,12 +208,13 @@
                 html += `
                     <a href="${pageUrl}" class="product-card">
                         <div class="img-box">
-                            <div class="badge">NO.${index + 1}</div>
+                            <div class="badge">ITEM ${code}</div>
                             <img src="${imgUrl}" loading="lazy">
                         </div>
                         <div class="info-box">
                             ${colorListHtml}
-                            <div class="size-info">SIZE: ${size}</div>
+                            <span class="size-label">AVAILABLE SIZE</span>
+                            <div class="size-info">${size}</div>
                         </div>
                     </a>
                 `;
