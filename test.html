@@ -20,10 +20,10 @@
         .info-box { padding: 12px 2px 5px; }
         
         /* 컬러 칩 스타일 */
-        .color-chips { display: flex; gap: 5px; margin-bottom: 8px; align-items: center; }
-        .chip { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #ddd; }
-        .color-name { font-size: 13px; color: #666; margin-left: 2px; font-weight: 500; }
-
+        .color-chips { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; }
+        .chip { width: 15px; height: 15px; border-radius: 50%; border: 1px solid #eee; }
+        
+        .product-name { font-size: 15px; font-weight: 700; color: #333; margin-bottom: 4px; display: block; }
         .size-info { font-size: 14px; color: #d32f2f; font-weight: bold; }
     </style>
 </head>
@@ -31,36 +31,35 @@
 
     <header><div class="logo">KIDS RIVER</div></header>
 
-    <div class="section-title">컬러칩 에디션</div>
-    <div class="slide-container" id="category-color"></div>
+    <div class="section-title">오늘의 신상</div>
+    <div class="slide-container" id="category-new"></div>
 
     <script>
-        // 컬러 이름과 실제 색상 코드를 연결하는 지도(Map)입니다.
-        // '라이트-그레이'처럼 복합적인 이름도 여기서 지정하면 됩니다.
+        // 요청하신 색상들에 대한 컬러 코드 정의
         const colorPalette = {
+            "핑크": "#FFC0CB",
             "그린": "#4CAF50",
-            "머스타드": "#FFC107",
-            "베이지": "#F5F5DC",
-            "라이트-그레이": "#D3D3D3", // 하이픈이 들어간 이름 처리
-            "네이비": "#000080",
-            "아이": "#FFFFF0",
-            "핑크": "#FFC0CB"
+            "블루": "#2196F3",
+            "메란지": "#E0E0E0", // 밝은 회색 느낌
+            "블랙": "#000000"
         };
 
         const productData = [
             { 
                 no: "01", 
-                img: "test.jpg", 
-                link: "test.jpg", 
-                colors: ["라이트-그레이", "베이지", "그린"], // 배열 형태로 넣습니다.
+                name: "1+1ST반팔티셔츠+무지나시",
+                img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D566.jpg", 
+                link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg", 
+                colors: ["핑크", "그린", "블루", "메란지", "블랙"], 
                 size: "3호-13호" 
             },
             { 
                 no: "02", 
-                img: "test.jpg", 
-                link: "test.jpg", 
-                colors: ["네이비", "아이"], 
-                size: "5호-15호" 
+                name: "1+1ST반팔티셔츠+무지나시",
+                img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D565.jpg", 
+                link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg", 
+                colors: ["핑크", "그린", "블루", "메란지", "블랙"], 
+                size: "3호-13호" 
             }
         ];
 
@@ -71,22 +70,20 @@
             items.forEach(item => {
                 // 컬러 칩 HTML 생성
                 let chipHtml = '<div class="color-chips">';
-                item.colors.forEach((c, index) => {
-                    const colorCode = colorPalette[c] || "#eee"; // 팔레트에 없으면 연회색
-                    chipHtml += `<div class="chip" style="background-color: ${colorCode}"></div>`;
-                    
-                    // 첫 번째 컬러 이름만 대표로 표시 (깔끔하게)
-                    if(index === 0) chipHtml += `<span class="color-name">${c}..</span>`;
+                item.colors.forEach(c => {
+                    const colorCode = colorPalette[c] || "#eee"; 
+                    chipHtml += `<div class="chip" style="background-color: ${colorCode}" title="${c}"></div>`;
                 });
                 chipHtml += '</div>';
 
                 html += `
-                    <a href="${item.link}" class="product-card">
+                    <a href="${item.link}" target="_self" class="product-card">
                         <div class="img-box">
                             <div class="badge">${item.no}</div>
-                            <img src="${item.img}" alt="상품">
+                            <img src="${item.img}" alt="${item.name}">
                         </div>
                         <div class="info-box">
+                            <span class="product-name">${item.name}</span>
                             ${chipHtml}
                             <div class="size-info">${item.size}</div>
                         </div>
@@ -96,7 +93,7 @@
             container.innerHTML = html;
         }
 
-        renderProducts('category-color', productData);
+        renderProducts('category-new', productData);
     </script>
 </body>
 </html>
