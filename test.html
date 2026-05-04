@@ -7,6 +7,7 @@
     <style>
         body { margin: 0; padding: 0; font-family: sans-serif; background: #f8f8f8; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         
+        /* [메인 리스트] */
         .slide-container { display: flex; overflow-x: auto; gap: 15px; padding: 20px; -webkit-overflow-scrolling: touch; }
         .product-card { flex: 0 0 180px; background: #fff; border-radius: 15px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; }
         .product-card img { width: 100%; border-radius: 10px; pointer-events: none; }
@@ -22,29 +23,27 @@
         }
         .floating-back-btn::after { content: ''; width: 11px; height: 11px; border-top: 3.5px solid #111; border-left: 3.5px solid #111; transform: rotate(-45deg); margin-left: 5px; }
 
+        /* [하단 추천 바 & 검색창 스타일] */
         .recommend-section { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: #fff; border-top: 1px solid #eee;
             padding: 15px 0 35px; z-index: 40000;
         }
-        .recommend-title { font-size: 13px; font-weight: bold; margin-bottom: 12px; padding: 0 20px; }
+        .header-row { display: flex; justify-content: space-between; align-items: center; padding: 0 20px 12px; }
+        .recommend-title { font-size: 13px; font-weight: bold; margin: 0; }
         
+        /* 검색창 디자인 */
+        .search-box { display: flex; align-items: center; background: #f0f0f0; border-radius: 20px; padding: 5px 12px; width: 100px; }
+        .search-box input { border: none; background: transparent; font-size: 12px; width: 100%; outline: none; }
+
         .recommend-list { 
-            display: flex; 
-            overflow-x: scroll;
-            padding: 0 20px;
-            scroll-snap-type: none !important;
-            -webkit-overflow-scrolling: auto !important; 
+            display: flex; overflow-x: scroll; padding: 0 20px;
+            scroll-snap-type: none !important; -webkit-overflow-scrolling: auto !important; 
             overscroll-behavior-x: none !important;
-            scroll-behavior: auto !important;
         }
         .recommend-list::-webkit-scrollbar { display: none; }
 
-        .rec-item { 
-            flex: 0 0 95px; 
-            margin-right: 12px;
-            text-align: center;
-        }
+        .rec-item { flex: 0 0 95px; margin-right: 12px; text-align: center; }
         .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; border: 1px solid #f0f0f0; pointer-events: none; }
         .rec-code { font-size: 10px; font-weight: bold; color: #888; margin-top: 5px; }
 
@@ -60,7 +59,13 @@
         <img id="modal-img" src="">
         
         <div class="recommend-section">
-            <div class="recommend-title">함께 코디하면 예뻐요 ✨</div>
+            <div class="header-row">
+                <div class="recommend-title">함께 코디하면 예뻐요 ✨</div>
+                <!-- [기능 추가] 상품 검색창 -->
+                <div class="search-box">
+                    <input type="number" id="search-input" placeholder="번호 입력..." onkeyup="if(window.event.keyCode==13){searchProduct()}">
+                </div>
+            </div>
             <div class="recommend-list" id="recommend-list"></div>
         </div>
 
@@ -70,28 +75,38 @@
     </div>
 
     <script>
+        // 사장님, 나중에 여기에 1000개 데이터를 다 넣으시면 됩니다.
         const rawData = [ 
             ["566", "그린", "3,5,7", ["565", "564", "563", "562", "561", "560", "559", "558", "557", "556", "555", "554", "553", "552", "551"]], 
             ["565", "민트", "3,5,7", ["566", "564", "563", "562", "561", "560", "559", "558", "557", "556", "555", "554", "553", "552", "551"]]
         ];
 
-        // [핵심 변경] 상세페이지 열 때 스크롤 위치를 유지할지 결정하는 인자(keepScroll) 추가
+        // [기능 추가] 검색 함수
+        function searchProduct() {
+            const keyword = document.getElementById('search-input').value.trim();
+            if(!keyword) return;
+
+            // 상세페이지 열기 함수 호출 (전체 데이터에서 해당 번호가 있는지 확인)
+            // 실제 운영 시에는 모든 번호가 상세 이미지 경로에 대응하므로 바로 실행 가능합니다.
+            openModal(keyword, false);
+            document.getElementById('search-input').value = ""; // 검색 후 초기화
+        }
+
         function openModal(code, keepScroll = false) {
             const recContainer = document.getElementById('recommend-list');
-            
-            // 현재 스크롤 위치 저장
             const currentScrollPos = recContainer.scrollLeft;
 
+            // 상세 이미지 주소 (사장님 서버 주소 규칙에 맞춤)
             const detailImgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
             document.getElementById('modal-img').src = detailImgUrl;
             
+            // 데이터가 있는 경우만 추천리스트 갱신, 없으면 기존꺼 유지 (검색 시 대응)
             const productInfo = rawData.find(item => item[0] === code);
             const recommendationCodes = productInfo ? productInfo[3] : rawData[0][3]; 
 
             let recHtml = '';
             recommendationCodes.forEach(recCode => {
                 const thumbImg = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg`;
-                // 추천바 상품 클릭 시에는 keepScroll을 true로 전달
                 recHtml += `
                     <div class="rec-item" onclick="openModal('${recCode}', true)">
                         <img src="${thumbImg}">
@@ -102,7 +117,6 @@
             
             recContainer.innerHTML = recHtml;
 
-            // [로직 추가] 하단바 클릭 시에는 이전 위치 고정, 메인리스트에서 새로 열 때는 맨 앞으로
             if (keepScroll) {
                 recContainer.scrollLeft = currentScrollPos;
             } else {
@@ -111,10 +125,7 @@
 
             const modal = document.getElementById('modal');
             modal.style.display = 'block';
-            
-            // 상세이미지는 항상 맨 위로 (상세페이지가 바뀌었으므로)
             if (!keepScroll) modal.scrollTo(0, 0); 
-            
             document.body.style.overflow = 'hidden';
             
             if(!window.history.state || !window.history.state.modalOpen) {
