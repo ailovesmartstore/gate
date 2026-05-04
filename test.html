@@ -3,37 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KIDS RIVER - 4월 신상 카탈로그</title>
+    <title>KIDS RIVER - 프리미엄 카탈로그</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
+        /* 1. 기본 여백 제거 및 가운데 정렬 */
         body { 
             margin: 0; 
+            padding: 0;
             font-family: 'Noto Sans KR', sans-serif; 
             background: #fff; 
             color: #333; 
             -webkit-tap-highlight-color: transparent; 
             letter-spacing: -0.04em;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 가로축 중앙 정렬 */
         }
         
-        header { padding: 30px 15px; text-align: center; }
+        header { width: 100%; padding: 30px 0; text-align: center; }
         .logo { font-size: 28px; font-weight: 900; letter-spacing: -1.5px; color: #1a1a1a; }
-        .section-title { padding: 10px 20px 20px; font-size: 18px; font-weight: 700; text-align: center; color: #444; }
+        .section-title { width: 100%; padding: 10px 0 20px; font-size: 18px; font-weight: 700; text-align: center; color: #444; }
 
+        /* 2. 슬라이드 컨테이너: 모바일에서 꽉 차게 보이도록 설정 */
         .slide-container { 
             display: flex; 
             overflow-x: auto; 
-            padding: 0 20px 50px; 
-            gap: 22px; 
+            width: 100%; /* 화면 너비 전체 사용 */
+            padding: 0 0 50px; /* 양옆 패딩 제거하여 끝까지 닿게 함 */
+            gap: 15px; 
             -webkit-overflow-scrolling: touch; 
         }
         .slide-container::-webkit-scrollbar { display: none; }
 
+        /* 첫 번째와 마지막 아이템에 여백을 주어 중앙 정렬 느낌 유지 */
+        .slide-container::before,
+        .slide-container::after {
+            content: '';
+            flex: 0 0 20px;
+        }
+
         .product-card { 
-            flex: 0 0 190px; 
+            flex: 0 0 200px; /* 상품 카드 크기 소폭 확대 */
             text-decoration: none; 
             color: inherit; 
             display: block;
@@ -44,13 +58,20 @@
             position: relative; 
             width: 100%; 
             aspect-ratio: 1/1.2; 
-            border-radius: 20px; 
+            border-radius: 15px; 
             overflow: hidden; 
             background: #f1f1f1; 
-            box-shadow: 0 12px 24px rgba(0,0,0,0.05); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06); 
             margin-bottom: 18px;
         }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* 3. 상세페이지(상세이미지) 최적화: 여백 없이 꽉 참 */
+        .img-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* 이미지가 박스에 꽉 차게 */
+            display: block;
+        }
         
         .badge { 
             position: absolute; 
@@ -63,40 +84,20 @@
             font-weight: 800; 
             padding: 5px 12px; 
             border-radius: 20px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        /* 컬러 리스트 한 줄에 하나씩 정렬 */
-        .color-list { 
-            display: flex; 
-            flex-direction: column; /* 세로 정렬 */
-            align-items: center;    /* 가운데로 모으기 */
-            gap: 6px; 
-            margin-bottom: 15px; 
-        }
-        .color-item { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            gap: 8px; 
-            width: 100%;
-        }
-        .chip { 
-            width: 11px; 
-            height: 11px; 
-            border-radius: 50%; 
-            border: 1px solid rgba(0,0,0,0.08); 
-        }
+        .color-list { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 15px; }
+        .color-item { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
+        .chip { width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); }
         .color-name { font-size: 13px; color: #777; font-weight: 500; }
         
-        /* 사이즈 정보 디자인 */
         .size-container { margin-top: 10px; }
-        .size-label { display: block; font-size: 9px; color: #aaa; margin-bottom: 5px; font-weight: 700; letter-spacing: 0.05em; }
+        .size-label { display: block; font-size: 9px; color: #aaa; margin-bottom: 5px; font-weight: 700; }
         .size-info { 
             font-size: 11px; 
             color: #444; 
             font-weight: 700; 
-            background: #f8f8f8; 
+            background: #fdfdfd; 
             border: 1px solid #eee;
             padding: 7px 14px; 
             border-radius: 6px;
@@ -160,11 +161,7 @@
             rawData.forEach((item) => {
                 const code = item[0];
                 const colorNames = item[1].split(', ').map(c => c.trim());
-                
-                // 숫자에만 '호'를 붙이는 로직 (FREE, S 등은 제외)
-                const sizeStr = item[2].split(', ').map(s => {
-                    return isNaN(s) ? s : s + '호';
-                }).join(', ');
+                const sizeStr = item[2].split(', ').map(s => isNaN(s) ? s : s + '호').join(', ');
                 
                 const imgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${code}.jpg`;
                 const pageUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
@@ -172,12 +169,7 @@
                 let colorListHtml = '<div class="color-list">';
                 colorNames.forEach(c => {
                     const hex = colorPalette[c] || "#ddd";
-                    colorListHtml += `
-                        <div class="color-item">
-                            <div class="chip" style="background-color: ${hex}"></div>
-                            <span class="color-name">${c}</span>
-                        </div>
-                    `;
+                    colorListHtml += `<div class="color-item"><div class="chip" style="background-color: ${hex}"></div><span class="color-name">${c}</span></div>`;
                 });
                 colorListHtml += '</div>';
 
