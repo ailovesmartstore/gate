@@ -12,87 +12,88 @@
     <style>
         body { 
             margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; 
-            background: #fafafa; color: #333; letter-spacing: -0.04em;
+            background: #f4f4f4; color: #333; letter-spacing: -0.04em;
         }
-        header { width: 100%; padding: 40px 0 20px; text-align: center; }
-        .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; color: #222; }
-        .section-title { width: 100%; padding: 0 0 30px; font-size: 14px; font-weight: 500; text-align: center; color: #999; letter-spacing: 0.1em; }
+        header { width: 100%; padding: 30px 0; text-align: center; }
+        .logo { font-size: 22px; font-weight: 900; letter-spacing: 3px; color: #111; }
+        .section-title { width: 100%; padding: 0 0 20px; font-size: 13px; font-weight: 600; text-align: center; color: #999; letter-spacing: 0.05em; }
 
         .slide-container { 
-            display: flex; overflow-x: auto; width: 100%; padding: 0 0 60px; gap: 24px; 
+            display: flex; overflow-x: auto; width: 100%; padding: 0 0 40px; gap: 20px; 
             -webkit-overflow-scrolling: touch;
         }
         .slide-container::-webkit-scrollbar { display: none; }
-        .slide-container::before, .slide-container::after { content: ''; flex: 0 0 25px; }
+        .slide-container::before, .slide-container::after { content: ''; flex: 0 0 20px; }
 
-        /* [수정] 카드 전체를 더 깔끔하게 */
         .product-card { 
-            flex: 0 0 240px; background: #fff; border-radius: 20px; 
-            padding-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
-            cursor: pointer; transition: transform 0.3s ease;
+            flex: 0 0 240px; background: #fff; border-radius: 18px; 
+            overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            cursor: pointer;
         }
-        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 20px 20px 0 0; overflow: hidden; }
+        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; overflow: hidden; background: #eee; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .badge { position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 10px; }
+        .badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); color: #222; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; }
 
-        .info-box { padding: 20px 15px 0; text-align: center; }
+        .info-box { padding: 18px 15px; }
 
-        /* [핵심] 가로형 컬러 칩 레이아웃 */
-        .color-row { 
-            display: flex; justify-content: center; gap: 8px; 
-            margin-bottom: 18px; flex-wrap: wrap; 
-            height: 24px; align-items: center;
+        /* [핵심] 가독성을 높인 캡슐형 컬러 칩 */
+        .color-scroll-wrapper {
+            display: flex; gap: 6px; overflow-x: auto; 
+            padding-bottom: 12px; margin-bottom: 12px;
+            scrollbar-width: none; /* 파이어폭스 */
         }
-        .color-dot { 
-            width: 14px; height: 14px; border-radius: 50%; 
-            border: 1px solid rgba(0,0,0,0.05); position: relative;
-        }
-        /* 칩 위에 마우스를 올리거나 하면 보일 수 있는 툴팁 느낌의 이름 (선택사항) */
-        .color-dot:hover::after {
-            content: attr(data-name); position: absolute; top: -20px; left: 50%; 
-            transform: translateX(-50%); font-size: 9px; background: #333; 
-            color: #fff; padding: 2px 6px; border-radius: 4px; white-space: nowrap;
+        .color-scroll-wrapper::-webkit-scrollbar { display: none; } /* 크롬, 사파리 */
+
+        .color-capsule {
+            flex: 0 0 auto; padding: 5px 12px; border-radius: 15px;
+            font-size: 11px; font-weight: 600; border: 1px solid rgba(0,0,0,0.05);
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .size-label { font-size: 10px; font-weight: 700; color: #ddd; letter-spacing: 0.1em; margin-bottom: 8px; display: block; }
-        .size-info { 
-            font-size: 12px; color: #555; font-weight: 600; 
-            background: #f8f8f8; padding: 8px 16px; border-radius: 12px; 
-            display: inline-block;
+        .size-info-row {
+            display: flex; align-items: center; justify-content: space-between;
+            border-top: 1px solid #f0f0f0; padding-top: 12px;
         }
+        .size-label { font-size: 10px; font-weight: 800; color: #ccc; }
+        .size-text { font-size: 12px; font-weight: 700; color: #444; }
 
-        /* 상세페이지 팝업 */
+        /* 상세페이지 팝업 및 뒤로가기 */
         #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 1000; overflow-y: auto; }
         .floating-back-btn {
             position: fixed; top: 50%; left: 15px; transform: translateY(-50%);
-            width: 48px; height: 48px; background: #fff;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1); cursor: pointer; z-index: 9999;
+            width: 48px; height: 48px; background: #fff; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; z-index: 9999; border: 1px solid #eee;
         }
-        .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 2.5px solid #222; border-left: 2.5px solid #222; transform: rotate(-45deg); margin-left: 5px; }
-        
+        .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 3.5px solid #222; border-left: 3.5px solid #222; transform: rotate(-45deg); margin-left: 4px; }
         #modal img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
-        .modal-footer { padding: 50px 20px; text-align: center; }
-        .close-footer-btn { padding: 18px 45px; background: #222; color: #fff; border-radius: 35px; font-weight: 600; font-size: 14px; display: inline-block; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
     <header><div class="logo">KIDS RIVER</div></header>
-    <div class="section-title">2026 SPRING COLLECTION</div>
+    <div class="section-title">2026 SPRING NEW TREND</div>
     <div class="slide-container" id="product-list"></div>
 
     <div id="modal">
         <div class="floating-back-btn" onclick="history.back()"></div>
         <img id="modal-img" src="">
-        <div class="modal-footer">
-            <div class="close-footer-btn" onclick="history.back()">BACK TO LIST</div>
-        </div>
     </div>
 
     <script>
         const colorPalette = { "그린": "#4CAF50", "머스타드": "#FFC107", "베이지": "#F5F5DC", "아이": "#FFFFF0", "퍼플": "#A020F0", "민트": "#98FF98", "연보라": "#E6E6FA", "블루": "#2196F3", "카키": "#4B5320", "핑크": "#FFC0CB", "스카이청": "#87CEEB", "진청": "#00008B", "네이비": "#000080", "중청": "#5F9EA0", "블랙": "#000000", "스카이블루": "#87CEFA", "체리레드": "#D2042D", "크림아이": "#FFFDD0", "진그린": "#006400", "아이보리": "#FFFFF0", "인디핑크": "#B76E79", "인디연핑크": "#FADADD", "소라": "#82B5ED", "크림": "#FFFDD0", "스카이": "#87CEEB", "연베이지": "#F5F5DC" };
-        const rawData = [ ["566", "그린, 머스타드, 베이지, 아이, 퍼플", "3, 5, 7, 9, 11, 13"], ["565", "민트, 연보라", "3, 5, 7, 9, 11, 13"], ["564", "베이지, 블루, 아이, 카키, 핑크", "3, 5, 7, 9, 11, 13"], ["563", "스카이청, 진청", "3, 5, 7, 9, 11, 13"], ["562", "네이비, 카키", "3, 5, 7, 9, 11, 13"], ["561", "중청", "3, 5, 7, 9, 11, 13"], ["560", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["559", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["558", "크림아이, 진그린", "3, 5, 7, 9, 11, 13"], ["557", "베이지, 카키", "3, 5, 7, 9, 11, 13"] ];
+        
+        // 배경색에 따라 글자색(검정/흰색) 결정 함수
+        function getContrastYIQ(hexcolor){
+            hexcolor = hexcolor.replace("#", "");
+            var r = parseInt(hexcolor.substr(0,2),16);
+            var g = parseInt(hexcolor.substr(2,2),16);
+            var b = parseInt(hexcolor.substr(4,2),16);
+            var yiq = ((r*299)+(g*587)+(b*114))/1000;
+            return (yiq >= 128) ? 'black' : 'white';
+        }
+
+        const rawData = [ ["566", "그린, 머스타드, 베이지, 아이, 퍼플", "3, 5, 7, 9, 11, 13"], ["565", "민트, 연보라", "3, 5, 7, 9, 11, 13"], ["564", "베이지, 블루, 아이, 카키, 핑크", "3, 5, 7, 9, 11, 13"], ["563", "스카이청, 진청", "3, 5, 7, 9, 11, 13"], ["562", "네이비, 카키", "3, 5, 7, 9, 11, 13"] ];
 
         function openModal(url) {
             const modal = document.getElementById('modal');
@@ -121,11 +122,11 @@
                 const imgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${code}.jpg`;
                 const pageUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
                 
-                // 가로 칩 생성
-                let colorChipsHtml = '<div class="color-row">';
+                let colorChipsHtml = '<div class="color-scroll-wrapper">';
                 colorNames.forEach(c => {
                     const hex = colorPalette[c] || "#ddd";
-                    colorChipsHtml += `<div class="color-dot" style="background-color: ${hex}" data-name="${c}"></div>`;
+                    const textColor = getContrastYIQ(hex);
+                    colorChipsHtml += `<div class="color-capsule" style="background-color: ${hex}; color: ${textColor}">${c}</div>`;
                 });
                 colorChipsHtml += '</div>';
 
@@ -133,12 +134,14 @@
                     <div class="product-card" onclick="openModal('${pageUrl}')">
                         <div class="img-box">
                             <img src="${imgUrl}" loading="lazy">
-                            <div class="badge">CODE ${code}</div>
+                            <div class="badge">NO.${code}</div>
                         </div>
                         <div class="info-box">
                             ${colorChipsHtml}
-                            <span class="size-label">SIZE</span>
-                            <div class="size-info">${sizeStr}</div>
+                            <div class="size-info-row">
+                                <span class="size-label">SIZE GUIDE</span>
+                                <span class="size-text">${sizeStr}</span>
+                            </div>
                         </div>
                     </div>
                 `;
