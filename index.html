@@ -1,41 +1,47 @@
+사장님 말씀이 맞습니다! 모바일 화면에서는 세로 폭이 좁기 때문에 소분류를 한 줄에 나열하고 | 표시를 넣는 것보다, 한 줄에 하나씩 시원하게 배치하는 것이 가독성도 좋고 터치 실수도 줄어듭니다.
+
+| 표시를 과감히 삭제하고, 소분류마다 연한 테두리가 있는 버튼 형태로 한 줄씩 쌓아서 훨씬 더 "앱(App)" 같은 느낌이 나도록 수정해 드릴게요.
+
+📱 키즈 리버 모바일 최적화 (소분류 한 줄 정렬 버전)
+이 코드를 적용하시면 모바일에서 소분류들이 아주 깔끔하게 한 줄씩 정렬되어 보입니다.
+
+HTML
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   body { margin:0; font-family: 'Apple SD Gothic Neo', sans-serif; text-align:center; background:#f8f9fa; color:#333; line-height: 1.5; }
-  .header { padding: 50px 20px 30px; background: #fff; border-bottom: 1px solid #eee; }
-  .header p { color: #888; font-size: 15px; margin-top: 10px; font-weight: 500; }
+  .header { padding: 45px 20px 25px; background: #fff; border-bottom: 1px solid #eee; }
+  .header p { color: #888; font-size: 14px; margin-top: 10px; font-weight: 500; }
 
-  /* 모바일에서 버튼이 더 커 보이도록 여백과 간격 조정 */
-  .gate-container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 650px; margin: 0 auto; }
+  .gate-container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 650px; margin: 0 auto; }
   
   .category-box {
     background: #fff; border: 1px solid #eaeaea; padding: 25px 12px;
-    border-radius: 18px; display: flex; flex-direction: column; align-items: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-radius: 20px; display: flex; flex-direction: column; align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
   }
   
-  .icon-main { font-size: 36px; margin-bottom: 12px; }
+  .icon-main { font-size: 38px; margin-bottom: 12px; }
   .title-main { font-size: 18px; font-weight: bold; color: #222; margin-bottom: 15px; }
   
-  /* 소분류 링크: 모바일 터치가 쉽도록 간격 확장 */
+  /* 소분류: 한 줄에 하나씩 리스트 형태 */
   .sub-links { 
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; 
-    border-top: 1px dashed #eee; width: 100%; padding-top: 15px; 
+    display: flex; flex-direction: column; width: 100%; gap: 6px;
+    border-top: 1px solid #f1f3f5; padding-top: 15px; 
   }
   .sub-links a {
-    text-decoration: none; color: #555; font-size: 13px; font-weight: 500;
-    padding: 5px 2px; transition: 0.2s;
+    text-decoration: none; color: #666; font-size: 13px; font-weight: 500;
+    padding: 10px 5px; border-radius: 8px; background: #fcfcfc; border: 1px solid #f1f3f5;
+    transition: 0.2s;
   }
-  /* 전체 상품 보기 강조 (파란색) */
-  .sub-links a.all-view { color: #007bff; font-weight: 700; }
-  
-  .sub-links a:after { content: "|"; color: #eee; margin-left: 10px; }
-  .sub-links a:last-child:after { content: ""; }
+  /* 전체 상품 보기 강조 */
+  .sub-links a.all-view { background: #f1f8ff; color: #007bff; border-color: #e1f0ff; font-weight: 700; }
+  .sub-links a:active { background: #f1f3f5; }
 
   /* 강조 섹션 */
-  .full { grid-column: span 2; background: #fffceb; border-color: #ffec99; padding: 30px 15px; }
+  .full { grid-column: span 2; background: #fffceb; border-color: #ffec99; padding: 35px 15px; }
   .acc { grid-column: span 2; background: #f8f5ff; border-color: #e5dbff; }
 </style>
 </head>
@@ -47,7 +53,7 @@
 </div>
 
 <div class="gate-container">
-  <!-- 1. 재고보유 (사장님 확정 문구) -->
+  <!-- 1. 재고보유 -->
   <div class="category-box full">
     <div class="icon-main">📦</div>
     <div class="title-main">재고 보유 상품</div>
@@ -66,7 +72,7 @@
     <div class="sub-links"><a href="onepiece.html" class="all-view">전체 상품 보기</a></div>
   </div>
   
-  <!-- 3. 상의 (전체 상품 보기 추가) -->
+  <!-- 3. 상의 -->
   <div class="category-box">
     <div class="icon-main">👚</div><div class="title-main">상의</div>
     <div class="sub-links">
@@ -77,7 +83,7 @@
     </div>
   </div>
 
-  <!-- 4. 하의 (전체 상품 보기 추가) -->
+  <!-- 4. 하의 -->
   <div class="category-box">
     <div class="icon-main">👖</div><div class="title-main">하의</div>
     <div class="sub-links">
@@ -89,7 +95,7 @@
     </div>
   </div>
 
-  <!-- 5. 아우터 (전체 상품 보기 추가) -->
+  <!-- 5. 아우터 -->
   <div class="category-box">
     <div class="icon-main">🧥</div><div class="title-main">아우터</div>
     <div class="sub-links">
