@@ -4,24 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KIDS RIVER - 4월 신상 카탈로그</title>
+    
+    <!-- 예쁜 글씨체를 위해 Google Fonts를 불러옵니다 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
     <style>
-        body { margin: 0; font-family: 'Apple SD Gothic Neo', sans-serif; background: #fff; color: #222; -webkit-tap-highlight-color: transparent; }
-        header { padding: 20px 15px; border-bottom: 1px solid #f0f0f0; text-align: center; }
-        .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; }
-        .section-title { padding: 25px 15px 12px; font-size: 19px; font-weight: bold; }
-        .slide-container { display: flex; overflow-x: auto; padding: 0 15px 20px; gap: 14px; -webkit-overflow-scrolling: touch; }
+        /* 전체 글씨체 적용 */
+        body { 
+            margin: 0; 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background: #fff; 
+            color: #222; 
+            -webkit-tap-highlight-color: transparent; 
+            letter-spacing: -0.5px; /* 글자 간격을 약간 좁혀서 더 세련되게 만듦 */
+        }
+        
+        header { 
+            padding: 25px 15px; 
+            border-bottom: 1px solid #f2f2f2; 
+            text-align: center; 
+        }
+        
+        .logo { 
+            font-size: 26px; 
+            font-weight: 900; 
+            letter-spacing: -1.5px; 
+            color: #000;
+        }
+
+        .section-title { 
+            padding: 30px 15px 15px; 
+            font-size: 20px; 
+            font-weight: 700; 
+            color: #111;
+        }
+
+        .slide-container { 
+            display: flex; 
+            overflow-x: auto; 
+            padding: 0 15px 30px; 
+            gap: 18px; 
+            -webkit-overflow-scrolling: touch; 
+        }
         .slide-container::-webkit-scrollbar { display: none; }
 
-        .product-card { flex: 0 0 170px; text-decoration: none; color: inherit; display: block; }
-        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 12px; overflow: hidden; background: #f8f8f8; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: #fff; font-size: 11px; font-weight: bold; padding: 3px 7px; border-radius: 4px; z-index: 2; }
+        .product-card { 
+            flex: 0 0 180px; 
+            text-decoration: none; 
+            color: inherit; 
+            display: block; 
+        }
 
-        .info-box { padding: 12px 2px 5px; }
-        .color-chips { display: flex; gap: 5px; margin-bottom: 8px; flex-wrap: wrap; }
-        .chip { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #eee; }
+        .img-box { 
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 1/1.2; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            background: #f8f8f8; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.06); 
+        }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
         
-        .size-info { font-size: 13px; color: #d32f2f; font-weight: bold; letter-spacing: -0.5px; }
+        .badge { 
+            position: absolute; 
+            top: 12px; 
+            left: 12px; 
+            background: rgba(0,0,0,0.7); 
+            color: #fff; 
+            font-size: 10px; 
+            font-weight: 500; 
+            padding: 4px 8px; 
+            border-radius: 20px; 
+            z-index: 2; 
+        }
+
+        .info-box { padding: 15px 5px; }
+        
+        /* 컬러 리스트 가독성 개선 */
+        .color-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 5px; 
+            margin-bottom: 12px; 
+        }
+        .color-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .chip { 
+            width: 13px; 
+            height: 13px; 
+            border-radius: 50%; 
+            border: 1px solid rgba(0,0,0,0.05); 
+            flex-shrink: 0; 
+        }
+        .color-name { 
+            font-size: 13px; 
+            color: #666; 
+            font-weight: 400; 
+        }
+        
+        .size-info { 
+            font-size: 12px; 
+            color: #e63946; 
+            font-weight: 700; 
+            background: #fff0f0; 
+            padding: 5px 10px; 
+            border-radius: 6px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -32,7 +127,7 @@
     <div class="slide-container" id="product-list"></div>
 
     <script>
-        // 색상별 컬러 코드 정의 (사장님 요청 리스트 기준)
+        // 색상 코드 정의
         const colorPalette = {
             "그린": "#4CAF50", "머스타드": "#FFC107", "베이지": "#F5F5DC", "아이": "#FFFFF0", "퍼플": "#A020F0",
             "민트": "#98FF98", "연보라": "#E6E6FA", "블루": "#2196F3", "카키": "#4B5320", "핑크": "#FFC0CB",
@@ -42,7 +137,6 @@
             "스카이": "#87CEEB", "연베이지": "#F5F5DC"
         };
 
-        // 보내주신 29개 상품 데이터
         const rawData = [
             ["566", "그린, 머스타드, 베이지, 아이, 퍼플", "3, 5, 7, 9, 11, 13"],
             ["565", "민트, 연보라", "3, 5, 7, 9, 11, 13"],
@@ -81,28 +175,32 @@
 
             rawData.forEach((item, index) => {
                 const code = item[0];
-                const colors = item[1].split(', ').map(c => c.trim());
+                const colorNames = item[1].split(', ').map(c => c.trim());
                 const size = item[2];
                 
                 const imgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${code}.jpg`;
                 const pageUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
 
-                // 컬러칩 생성
-                let chips = '<div class="color-chips">';
-                colors.forEach(c => {
+                let colorListHtml = '<div class="color-list">';
+                colorNames.forEach(c => {
                     const hex = colorPalette[c] || "#ddd";
-                    chips += `<div class="chip" style="background-color: ${hex}" title="${c}"></div>`;
+                    colorListHtml += `
+                        <div class="color-item">
+                            <div class="chip" style="background-color: ${hex}"></div>
+                            <span class="color-name">${c}</span>
+                        </div>
+                    `;
                 });
-                chips += '</div>';
+                colorListHtml += '</div>';
 
                 html += `
                     <a href="${pageUrl}" class="product-card">
                         <div class="img-box">
-                            <div class="badge">No.${index + 1}</div>
+                            <div class="badge">NO.${index + 1}</div>
                             <img src="${imgUrl}" loading="lazy">
                         </div>
                         <div class="info-box">
-                            ${chips}
+                            ${colorListHtml}
                             <div class="size-info">SIZE: ${size}</div>
                         </div>
                     </a>
@@ -110,7 +208,6 @@
             });
             container.innerHTML = html;
         }
-
         render();
     </script>
 </body>
