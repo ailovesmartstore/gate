@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KIDS RIVER Archive</title>
     <style>
-        /* 기초 레이아웃 및 폰트 설정 */
         body { margin:0; font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; text-align:center; background:#f8f9fa; color:#333; line-height: 1.5; }
         
         /* 상단 로고 영역 */
@@ -13,59 +12,59 @@
         .header img { width: 100%; max-width: 200px; height: auto; }
         .header p { color: #888; font-size: 14px; margin-top: 10px; font-weight: 500; }
 
-        /* 전체 버튼 컨테이너 (2열 격자) */
+        /* 전체 컨테이너 */
         .gate-container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 650px; margin: 0 auto; }
         
-        /* 실시간 인기 상품 섹션 (가로 전체 차지) */
-        .trending-section { grid-column: span 2; background: #fff; padding: 20px 10px; border-radius: 20px; border: 1px solid #eee; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-        .trending-title { font-size: 15px; font-weight: bold; color: #339af0; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .trending-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .trending-item { text-decoration: none; display: flex; flex-direction: column; align-items: center; transition: 0.2s; }
-        .trending-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; background: #f1f3f5; border: 1px solid #f1f1f1; }
-        .trending-item span { font-size: 11px; color: #666; margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 90%; }
-
-        /* 개별 카테고리 박스 공통 스타일 */
-        .category-box {
-            background: #fff; border: 1px solid #eaeaea; padding: 25px 12px;
-            border-radius: 20px; display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        /* [수정] 가로 슬라이드 섹션 */
+        .trending-section { 
+            grid-column: span 2; background: #fff; padding: 20px 0; 
+            border-radius: 20px; border: 1px solid #eee; margin-top: 10px; 
+            overflow: hidden; /* 영역 밖 상품 숨김 */
         }
+        .trending-title { font-size: 15px; font-weight: bold; color: #339af0; margin-bottom: 15px; }
         
-        /* 아이콘 및 제목 크기 */
+        /* [핵심] 가로 스크롤 구현 */
+        .trending-slider { 
+            display: flex; 
+            overflow-x: auto; /* 가로 스크롤 허용 */
+            scroll-snap-type: x mandatory; /* 스냅 기능 (착 달라붙게) */
+            -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
+            gap: 12px; 
+            padding: 0 20px 10px 20px; /* 좌우 여백 */
+        }
+        /* 스크롤바 숨기기 (깔끔하게) */
+        .trending-slider::-webkit-scrollbar { display: none; }
+
+        .trending-item { 
+            flex: 0 0 140px; /* 아이템 너비 고정 */
+            scroll-snap-align: center; /* 스크롤 시 중앙에 딱 붙음 */
+            text-decoration: none; display: flex; flex-direction: column; align-items: center; 
+        }
+        .trending-item img { width: 140px; height: 140px; object-fit: cover; border-radius: 12px; background: #f1f3f5; border: 1px solid #f1f1f1; }
+        .trending-item span { font-size: 12px; color: #666; margin-top: 8px; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* 카테고리 박스 스타일 */
+        .category-box { background: #fff; border: 1px solid #eaeaea; padding: 25px 12px; border-radius: 20px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .icon-main { font-size: 38px; margin-bottom: 12px; }
         .title-main { font-size: 17px; font-weight: bold; color: #222; margin-bottom: 15px; }
-        
-        /* 소분류 링크: 한 줄에 하나씩 버튼 형태 */
         .sub-links { display: flex; flex-direction: column; width: 100%; gap: 6px; border-top: 1px solid #f1f3f5; padding-top: 15px; }
-        .sub-links a {
-            text-decoration: none; color: #666; font-size: 13px; font-weight: 500;
-            padding: 12px 5px; border-radius: 10px; background: #fcfcfc; border: 1px solid #f1f3f5;
-            transition: 0.2s;
-        }
-        /* '전체 상품 보기' 및 중요 버튼 강조 */
+        .sub-links a { text-decoration: none; color: #666; font-size: 13px; font-weight: 500; padding: 12px 5px; border-radius: 10px; background: #fcfcfc; border: 1px solid #f1f3f5; transition: 0.2s; }
         .sub-links a.all-view { background: #f1f8ff; color: #007bff; border-color: #e1f0ff; font-weight: 700; }
-        .sub-links a:active { background: #f1f3f5; transform: scale(0.98); }
 
-        /* 상단 강조 버튼 (재고보유) */
         .full { grid-column: span 2; background: #fffceb; border-color: #ffec99; padding: 35px 15px; }
-        /* 하단 강조 버튼 (악세사리) */
         .acc { grid-column: span 2; background: #f8f5ff; border-color: #e5dbff; }
-
-        /* 하단 카피라이트 */
         .footer { margin: 50px 0; font-size: 12px; color: #bbb; }
     </style>
 </head>
 <body>
 
-    <!-- 헤더 영역 -->
     <div class="header">
         <img src="logo.png" alt="KIDS RIVER">
         <p>20,000+ 아이옷 통합 카탈로그</p>
     </div>
 
     <div class="gate-container">
-        
-        <!-- 1. 재고보유 상품 (상단 고정 강조) -->
+        <!-- 1. 재고보유 -->
         <div class="category-box full">
             <div class="icon-main">📦</div>
             <div class="title-main">재고 보유 상품</div>
@@ -74,126 +73,75 @@
             </div>
         </div>
 
-        <!-- 2. 실시간 인기 상품 (접속할 때마다 랜덤 노출) -->
+        <!-- 2. 가로 슬라이드 인기 상품 -->
         <div class="trending-section">
-            <div class="trending-title">🔥 실시간 인기 급상승</div>
-            <div id="random-grid" class="trending-grid">
-                <!-- 자바스크립트가 여기에 상품을 무작위로 생성합니다 -->
+            <div class="trending-title">🔥 실시간 인기 급상승 (옆으로 밀어보세요)</div>
+            <div id="random-slider" class="trending-slider">
+                <!-- 스크립트가 무작위 상품을 채웁니다 -->
             </div>
         </div>
 
-        <!-- 3. 카테고리 시작 -->
+        <!-- 3. 카테고리 리스트 -->
         <div class="category-box">
             <div class="icon-main">👕</div><div class="title-main">상하복</div>
             <div class="sub-links"><a href="set.html" class="all-view">전체 상품 보기</a></div>
         </div>
-
         <div class="category-box">
             <div class="icon-main">👗</div><div class="title-main">원피스</div>
             <div class="sub-links"><a href="onepiece.html" class="all-view">전체 상품 보기</a></div>
         </div>
-        
         <div class="category-box">
             <div class="icon-main">👚</div><div class="title-main">상의</div>
             <div class="sub-links">
                 <a href="top.html" class="all-view">전체 상품 보기</a>
                 <a href="top_basic.html">티셔츠/맨투맨/후드</a>
-                <a href="top_knit.html">조끼/니트/스웨터</a>
-                <a href="top_sh.html">셔츠/블라우스</a>
             </div>
         </div>
-
         <div class="category-box">
             <div class="icon-main">👖</div><div class="title-main">하의</div>
             <div class="sub-links">
                 <a href="bottom.html" class="all-view">전체 상품 보기</a>
                 <a href="bottom_jean.html">청바지</a>
-                <a href="bottom_sk.html">스커트</a>
-                <a href="bottom_lg.html">레깅스</a>
-                <a href="bottom_pt.html">기본바지</a>
             </div>
         </div>
-
-        <div class="category-box">
-            <div class="icon-main">🧥</div><div class="title-main">아우터</div>
-            <div class="sub-links">
-                <a href="outer.html" class="all-view">전체 상품 보기</a>
-                <a href="outer_gd.html">가디건</a>
-                <a href="outer_jk.html">자켓/점퍼</a>
-            </div>
-        </div>
-
-        <div class="category-box">
-            <div class="icon-main">💤</div><div class="title-main">파자마(잠옷)</div>
-            <div class="sub-links"><a href="pajamas.html" class="all-view">전체 상품 보기</a></div>
-        </div>
-
-        <div class="category-box">
-            <div class="icon-main">👶</div><div class="title-main">신생아-베베</div>
-            <div class="sub-links"><a href="bebe.html" class="all-view">전체 상품 보기</a></div>
-        </div>
-
-        <div class="category-box">
-            <div class="icon-main">👩</div><div class="title-main">맘사이즈</div>
-            <div class="sub-links"><a href="mom.html" class="all-view">전체 상품 보기</a></div>
-        </div>
-
-        <!-- 4. 악세사리 (하단 전체 강조) -->
         <div class="category-box acc">
             <div class="icon-main">🎀</div><div class="title-main">악세사리 & 잡화</div>
-            <div class="sub-links">
-                <a href="acc.html" class="all-view">전체 상품 보기</a>
-                <a href="acc_socks.html">양말</a>
-                <a href="acc_shoes.html">신발</a>
-                <a href="acc_hat.html">모자</a>
-                <a href="acc_bag.html">가방</a>
-                <a href="acc_hair.html">헤어소품</a>
-                <a href="acc_etc.html">기타잡화</a>
-            </div>
+            <div class="sub-links"><a href="acc.html" class="all-view">전체 상품 보기</a></div>
         </div>
     </div>
 
     <div class="footer">© KIDS RIVER Archive</div>
 
-    <!-- 랜덤 상품 추출 스크립트 -->
     <script>
-        // [중요] 사장님! 나중에 파이썬으로 이 부분의 데이터를 실제 엑셀 데이터로 채워넣을 겁니다.
-        // 지금은 테스트용 샘플 데이터가 들어있습니다.
+        // 무작위로 보여줄 상품 풀 (나중에 파이썬으로 엑셀 데이터를 여기 넣습니다)
         const productData = [
-            { name: "플라워 나염 원피스", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "편안한 밴딩 팬츠", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "귀여운 곰돌이 티셔츠", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "봄 신상 가디건", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "스트라이프 상하세트", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "컬러풀 양말 세트", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "베이직 조거 팬츠", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "린넨 반소매 셔츠", img: "https://via.placeholder.com/150", link: "#" }
+            { name: "리본 원피스", img: "https://via.placeholder.com/150", link: "#" },
+            { name: "데님 팬츠", img: "https://via.placeholder.com/150", link: "#" },
+            { name: "레어 티셔츠", img: "https://via.placeholder.com/150", link: "#" },
+            { name: "니트 가디건", img: "https://via.placeholder.com/150", link: "#" },
+            { name: "조거 세트", img: "https://via.placeholder.com/150", link: "#" },
+            { name: "스니커즈", img: "https://via.placeholder.com/150", link: "#" },
+            { name: "헤어 밴드", img: "https://via.placeholder.com/150", link: "#" },
+            { name: "베어 바디수트", img: "https://via.placeholder.com/150", link: "#" }
         ];
 
-        function refreshRandomProducts() {
-            const grid = document.getElementById('random-grid');
+        function refreshSlider() {
+            const slider = document.getElementById('random-slider');
+            // 8개 정도 랜덤으로 뽑아서 슬라이드 구성
+            const shuffled = productData.sort(() => 0.5 - Math.random()).slice(0, 8);
             
-            // 1. 데이터 무작위로 섞기
-            const shuffled = productData.sort(() => 0.5 - Math.random());
-            
-            // 2. 앞에서 4개만 가져오기
-            const selected = shuffled.slice(0, 4);
-            
-            // 3. 화면에 그리기
-            grid.innerHTML = ''; 
-            selected.forEach(item => {
-                const itemHtml = `
+            slider.innerHTML = ''; 
+            shuffled.forEach(item => {
+                slider.innerHTML += `
                     <a href="${item.link}" class="trending-item">
                         <img src="${item.img}" alt="${item.name}">
                         <span>${item.name}</span>
                     </a>
                 `;
-                grid.innerHTML += itemHtml;
             });
         }
 
-        // 페이지 들어올 때 실행
-        window.onload = refreshRandomProducts;
+        window.onload = refreshSlider;
     </script>
 </body>
 </html>
