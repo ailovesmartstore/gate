@@ -10,75 +10,113 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* 기존 스타일 유지 */
-        body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background: #f4f4f4; color: #333; }
-        header { width: 100%; padding: 30px 0; text-align: center; }
-        .logo { font-size: 22px; font-weight: 900; letter-spacing: 3px; color: #111; }
-        .section-title { width: 100%; padding: 0 0 20px; font-size: 13px; font-weight: 600; text-align: center; color: #999; }
+        /* [공통 스타일] */
+        body { 
+            margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; 
+            background: #f8f8f8; color: #333; letter-spacing: -0.04em;
+        }
+        header { width: 100%; padding: 40px 0 20px; text-align: center; }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 3px; color: #111; }
+        .section-title { width: 100%; padding: 0 0 30px; font-size: 13px; font-weight: 600; text-align: center; color: #bbb; letter-spacing: 0.1em; }
 
-        .slide-container { display: flex; overflow-x: auto; width: 100%; padding: 0 0 40px; gap: 20px; -webkit-overflow-scrolling: touch; }
+        /* [메인 슬라이드] */
+        .slide-container { 
+            display: flex; overflow-x: auto; width: 100%; padding: 0 0 60px; gap: 24px; 
+            -webkit-overflow-scrolling: touch;
+        }
         .slide-container::-webkit-scrollbar { display: none; }
-        .slide-container::before, .slide-container::after { content: ''; flex: 0 0 20px; }
+        .slide-container::before, .slide-container::after { content: ''; flex: 0 0 25px; }
 
-        .product-card { flex: 0 0 240px; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); cursor: pointer; }
+        .product-card { 
+            flex: 0 0 250px; background: #fff; border-radius: 20px; 
+            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            cursor: pointer; transition: transform 0.3s;
+        }
         .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; overflow: hidden; background: #eee; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
         .badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); color: #222; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; }
 
-        .info-box { padding: 18px 15px; }
-        .color-scroll-wrapper { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 12px; scrollbar-width: none; }
+        .info-box { padding: 20px 15px; }
+
+        /* [컬러 칩] */
+        .color-scroll-wrapper { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 15px; scrollbar-width: none; }
         .color-scroll-wrapper::-webkit-scrollbar { display: none; }
-        .color-capsule { flex: 0 0 auto; padding: 5px 12px; border-radius: 15px; font-size: 11px; font-weight: 600; border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; }
+        .color-capsule { 
+            flex: 0 0 auto; padding: 6px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; 
+            border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; 
+        }
 
-        .size-info-row { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f0f0f0; padding-top: 12px; }
-        .size-label { font-size: 10px; font-weight: 800; color: #ccc; }
-        .size-text { font-size: 12px; font-weight: 700; color: #444; }
+        .size-info-row { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f5f5f5; padding-top: 15px; }
+        .size-label { font-size: 10px; font-weight: 800; color: #ddd; }
+        .size-text { font-size: 12px; font-weight: 700; color: #555; }
 
-        /* 상세페이지 팝업 */
+        /* [상세페이지 모달] */
         #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 1000; overflow-y: auto; }
-        .floating-back-btn { position: fixed; top: 50%; left: 15px; transform: translateY(-50%); width: 48px; height: 48px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; z-index: 9999; border: 1px solid #eee; }
-        .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 3.5px solid #222; border-left: 3.5px solid #222; transform: rotate(-45deg); margin-left: 4px; }
         
-        /* [신규] 추천 섹션 스타일 */
-        .recommend-section { padding: 40px 20px; background: #fafafa; border-top: 1px solid #eee; }
-        .recommend-title { font-size: 16px; font-weight: 800; margin-bottom: 20px; color: #222; }
-        .recommend-list { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
-        .recommend-list::-webkit-scrollbar { display: none; }
-        .rec-item { flex: 0 0 110px; cursor: pointer; }
-        .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .rec-code { font-size: 11px; font-weight: 700; color: #666; text-align: center; }
+        /* [뒤로가기 버튼] */
+        .floating-back-btn {
+            position: fixed; top: 20px; left: 20px; width: 45px; height: 45px; 
+            background: rgba(255, 255, 255, 0.9); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; z-index: 9999;
+        }
+        .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 3px solid #222; border-left: 3px solid #222; transform: rotate(-45deg); margin-left: 5px; }
 
         #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
-        .modal-footer { padding: 50px 20px; text-align: center; }
-        .close-footer-btn { padding: 18px 45px; background: #222; color: #fff; border-radius: 35px; font-weight: 600; font-size: 14px; display: inline-block; }
+        
+        /* [하단 고정 추천 바] */
+        .recommend-section { 
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: rgba(255, 255, 255, 0.92); border-top: 1px solid rgba(0,0,0,0.05);
+            padding: 15px 0 25px; z-index: 1001; box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+        }
+        .recommend-title { font-size: 13px; font-weight: 800; margin-bottom: 12px; color: #111; padding-left: 20px; }
+        .recommend-list { display: flex; gap: 12px; overflow-x: auto; padding: 0 20px; scrollbar-width: none; }
+        .recommend-list::-webkit-scrollbar { display: none; }
+        
+        .rec-item { flex: 0 0 95px; cursor: pointer; text-align: center; }
+        .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; border: 1px solid #eee; margin-bottom: 6px; }
+        .rec-code { font-size: 10px; font-weight: 700; color: #999; }
+
+        /* 추천 바 때문에 가려지는 영역 보정 */
+        .modal-footer { padding: 60px 20px 180px; text-align: center; background: #fff; }
+        .close-footer-btn { padding: 18px 50px; background: #111; color: #fff; border-radius: 35px; font-weight: 700; font-size: 14px; display: inline-block; }
     </style>
 </head>
 <body>
 
     <header><div class="logo">KIDS RIVER</div></header>
-    <div class="section-title">2026 SPRING NEW TREND</div>
+    <div class="section-title">TODAY'S COORDINATION</div>
+
+    <!-- 메인 상품 리스트 -->
     <div class="slide-container" id="product-list"></div>
 
+    <!-- 상세페이지 모달 -->
     <div id="modal">
         <div class="floating-back-btn" onclick="closeModal()"></div>
+        
+        <!-- 상세 이미지 -->
         <img id="modal-img" src="">
         
-        <!-- [신규] 추천 상품 영역 -->
+        <!-- 하단 고정 추천 바 -->
         <div class="recommend-section">
-            <div class="recommend-title">함께 코디하면 좋은 상품 ✨</div>
+            <div class="recommend-title">함께 코디하면 예뻐요 ✨</div>
             <div class="recommend-list" id="recommend-list">
-                <!-- 파이썬 데이터에 따라 동적으로 채워집니다 -->
+                <!-- 스크립트로 동적 생성 -->
             </div>
         </div>
 
         <div class="modal-footer">
-            <div class="close-footer-btn" onclick="closeModal()">목록으로 돌아가기</div>
+            <div class="close-footer-btn" onclick="closeModal()">리스트로 돌아가기</div>
         </div>
     </div>
 
     <script>
+        // 1. 컬러 팔레트 설정
         const colorPalette = { "그린": "#4CAF50", "머스타드": "#FFC107", "베이지": "#F5F5DC", "아이": "#FFFFF0", "퍼플": "#A020F0", "민트": "#98FF98", "연보라": "#E6E6FA", "블루": "#2196F3", "카키": "#4B5320", "핑크": "#FFC0CB", "스카이청": "#87CEEB", "진청": "#00008B", "네이비": "#000080", "중청": "#5F9EA0", "블랙": "#000000", "스카이블루": "#87CEFA", "체리레드": "#D2042D", "크림아이": "#FFFDD0", "진그린": "#006400", "아이보리": "#FFFFF0", "인디핑크": "#B76E79", "인디연핑크": "#FADADD", "소라": "#82B5ED", "크림": "#FFFDD0", "스카이": "#87CEEB", "연베이지": "#F5F5DC" };
-        
+
+        // 2. 가독성을 위한 글자색 판별 함수
         function getContrastYIQ(hexcolor){
             hexcolor = hexcolor.replace("#", "");
             var r = parseInt(hexcolor.substr(0,2),16);
@@ -88,22 +126,25 @@
             return (yiq >= 128) ? 'black' : 'white';
         }
 
-        // [데이터 구조 개선] 추천 상품 코드를 포함
+        // 3. 상품 데이터 (파이썬으로 이 배열을 자동 생성하시면 됩니다)
+        // 구조: [코드, 컬러들, 사이즈들, 추천상품코드배열]
         const rawData = [ 
-            ["566", "그린, 머스타드, 베이지", "3, 5, 7", ["565", "564", "563"]], 
-            ["565", "민트, 연보라", "3, 5, 7", ["566", "562", "561"]],
-            ["564", "베이지, 블루, 아이", "3, 5, 7", ["563", "560", "559"]],
-            ["563", "스카이청, 진청", "3, 5, 7", ["562", "558", "557"]],
-            ["562", "네이비, 카키", "3, 5, 7", ["561", "556", "555"]]
+            ["566", "그린, 머스타드, 베이지, 퍼플", "3, 5, 7, 9, 11, 13", ["565", "564", "563", "562"]], 
+            ["565", "민트, 연보라", "3, 5, 7, 9, 11, 13", ["566", "561", "560", "559"]],
+            ["564", "베이지, 블루, 아이, 카키, 핑크", "3, 5, 7, 9, 11, 13", ["563", "558", "557", "556"]],
+            ["563", "스카이청, 진청", "3, 5, 7, 9, 11, 13", ["562", "561", "555", "554"]],
+            ["562", "네이비, 카키", "3, 5, 7, 9, 11, 13", ["566", "565", "564", "563"]]
         ];
 
+        // 4. 모달 제어 함수
         function openModal(code) {
             const product = rawData.find(item => item[0] === code);
+            if(!product) return;
+
             const pageUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
-            
             document.getElementById('modal-img').src = pageUrl;
             
-            // 추천 리스트 렌더링
+            // 추천 상품 리스트 생성
             const recContainer = document.getElementById('recommend-list');
             let recHtml = '';
             product[3].forEach(recCode => {
@@ -125,17 +166,18 @@
         }
 
         function closeModal() {
-            history.back();
+            if (document.getElementById('modal').style.display === 'block') {
+                history.back();
+            }
         }
 
         window.onpopstate = function(event) {
             const modal = document.getElementById('modal');
-            if (modal.style.display === 'block') {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         };
 
+        // 5. 메인 리스트 렌더링
         function render() {
             const container = document.getElementById('product-list');
             let html = '';
@@ -157,7 +199,7 @@
                     <div class="product-card" onclick="openModal('${code}')">
                         <div class="img-box">
                             <img src="${imgUrl}" loading="lazy">
-                            <div class="badge">NO.${code}</div>
+                            <div class="badge">CODE ${code}</div>
                         </div>
                         <div class="info-box">
                             ${colorChipsHtml}
@@ -171,6 +213,7 @@
             });
             container.innerHTML = html;
         }
+
         render();
     </script>
 </body>
