@@ -5,112 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KIDS RIVER CATALOG</title>
     <style>
-        :root { --primary-color: #111; --accent-color: #555; --bg-light: #f8f8f8; }
+        :root { --primary-color: #111; --accent-color: #ff5722; --bg-light: #f8f8f8; }
         body { margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; background: var(--bg-light); -webkit-tap-highlight-color: transparent; }
 
-        /* [메인 리스트 디자인] */
+        /* [메인 리스트] */
         .slide-container { display: flex; overflow-x: auto; gap: 20px; padding: 25px; scrollbar-width: none; }
         .slide-container::-webkit-scrollbar { display: none; }
-        .product-card { flex: 0 0 160px; background: #fff; border-radius: 20px; padding: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); transition: transform 0.2s; }
-        .product-card:active { transform: scale(0.95); }
+        .product-card { flex: 0 0 160px; background: #fff; border-radius: 20px; padding: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); cursor: pointer; }
         .product-card img { width: 100%; border-radius: 15px; }
 
-        /* [플로팅 버튼 디자인 - 유리질 효과] */
+        /* [플로팅 버튼 & 카테고리 메뉴] */
         .fab-container { position: fixed; bottom: 160px; right: 20px; z-index: 999999; }
         .fab-main { 
             width: 60px; height: 60px; background: var(--primary-color); border-radius: 50%;
             color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2); cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); cursor: pointer; transition: 0.3s;
         }
-        .fab-main span { font-size: 10px; margin-top: 2px; font-weight: 300; }
-        .fab-main::before { content: '≡'; font-size: 24px; line-height: 1; }
-
-        /* [카테고리 메뉴 - 고급형 모달 스타일] */
-        .category-overlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999998; 
-        }
+        .category-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999998; }
         .category-menu { 
             display: none; position: fixed; bottom: 235px; right: 20px; 
             background: #fff; border-radius: 24px; width: 220px; 
             box-shadow: 0 15px 40px rgba(0,0,0,0.2); overflow: hidden; z-index: 999999;
-            transform-origin: bottom right; animation: menuShow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: menuShow 0.3s ease-out;
         }
-        @keyframes menuShow { from { opacity: 0; transform: scale(0.5) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes menuShow { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .menu-header { background: #fafafa; padding: 18px; font-size: 15px; font-weight: 700; border-bottom: 1px solid #f0f0f0; }
+        .menu-item { padding: 16px 20px; border-bottom: 1px solid #f9f9f9; cursor: pointer; font-size: 14px; display: flex; justify-content: space-between; }
 
-        .menu-header { background: #fafafa; padding: 18px; font-size: 15px; font-weight: 700; text-align: left; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; }
-        .menu-item { padding: 16px 20px; border-bottom: 1px solid #f9f9f9; cursor: pointer; font-size: 14px; color: #333; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-        .menu-item:active { background: #f5f5f5; }
-        .menu-item span { color: #ccc; font-size: 12px; }
+        /* [모달 상세페이지] */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; overflow-y: auto; }
+        #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
 
-        /* [추천 바 디자인 개선] */
+        /* [하단 버튼 영역 - 구매/장바구니] */
+        .action-bar { 
+            display: flex; gap: 10px; padding: 20px; background: #fff; 
+            position: sticky; bottom: 150px; /* 추천바 위쪽에 위치 */
+            border-top: 1px solid #eee; z-index: 10001;
+        }
+        .btn { flex: 1; padding: 16px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; }
+        .btn-cart { background: #f0f0f0; color: #333; }
+        .btn-buy { background: var(--primary-color); color: #fff; }
+
+        /* [장바구니 알림 배지] */
+        #cart-count { position: absolute; top: -5px; right: -5px; background: var(--accent-color); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+
+        /* [추천 바] */
         .recommend-section { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; padding: 15px 0 40px; z-index: 40000; border-radius: 25px 25px 0 0; }
-        .recommend-title { font-size: 14px; font-weight: 700; padding: 0 25px 15px; color: #111; letter-spacing: -0.5px; }
+        .recommend-title { font-size: 14px; font-weight: 700; padding: 0 25px 15px; }
         .recommend-list { display: flex; overflow-x: scroll; padding: 0 20px; gap: 12px; -webkit-overflow-scrolling: auto !important; }
         .recommend-list::-webkit-scrollbar { display: none; }
         .rec-item { flex: 0 0 100px; text-align: center; }
         .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 18px; border: 1px solid #f0f0f0; }
-        .rec-code { font-size: 10px; font-weight: 600; color: #999; margin-top: 6px; }
 
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; overflow-y: auto; }
-        #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
-        .close-btn { margin: 40px auto 300px; width: 120px; padding: 15px; background: #eee; border-radius: 30px; text-align: center; font-weight: 600; font-size: 14px; }
+        .close-footer { padding: 40px 20px 250px; text-align: center; }
+        .list-btn { padding: 15px 40px; background: #eee; border-radius: 30px; display: inline-block; font-size: 14px; font-weight: 600; }
     </style>
 </head>
 <body>
 
     <div class="slide-container" id="product-list"></div>
 
-    <!-- 배경 블러 오버레이 -->
     <div class="category-overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <!-- 플로팅 카테고리 UI -->
     <div class="fab-container">
         <div class="category-menu" id="category-menu">
             <div class="menu-header" id="menu-title">CATEGORY</div>
             <div id="menu-content"></div>
         </div>
         <div class="fab-main" id="fab-btn" onclick="toggleMenu()">
-            <span>MENU</span>
+            <div id="cart-count">0</div>
+            <span style="font-size:12px">MENU</span>
         </div>
     </div>
 
     <div id="modal">
         <img id="modal-img" src="">
+        
+        <!-- [추가] 구매 및 장바구니 버튼 -->
+        <div class="action-bar">
+            <div class="btn btn-cart" id="cart-btn" onclick="addToCart()">장바구니 담기</div>
+            <div class="btn btn-buy" id="buy-btn" onclick="goToStore()">구매하러 가기</div>
+        </div>
+
         <div class="recommend-section">
             <div class="recommend-title">함께 코디하면 예뻐요 ✨</div>
             <div class="recommend-list" id="recommend-list"></div>
         </div>
-        <div class="close-btn" onclick="closeModal()">CLOSE</div>
+
+        <div class="close-footer">
+            <div class="list-btn" onclick="closeModal()">목록으로 돌아가기</div>
+        </div>
     </div>
 
     <script>
-        // 카테고리 데이터 (사장님 상품에 맞춰 수정)
+        let currentCode = "";
+        let cart = JSON.parse(localStorage.getItem('kids_cart')) || [];
+
+        // [데이터] 5번째 항목에 스마트스토어 링크를 넣으세요
+        const rawData = [ 
+            ["566", "그린", "3,5,7", ["565", "564", "563"], "https://smartstore.naver.com/kidsriver/products/1"], 
+            ["565", "민트", "3,5,7", ["566", "564", "563"], "https://smartstore.naver.com/kidsriver/products/2"]
+        ];
+
         const categories = {
-            "TOP": { "티셔츠": ["566", "565"], "셔츠/남방": ["563", "562"], "가디건": ["561"] },
-            "BOTTOM": { "청바지": ["560", "559"], "반바지": ["558", "557"] },
-            "ACC": { "모자": ["556"], "양말": ["555"] }
+            "TOP": { "티셔츠": ["566", "565"], "맨투맨": ["564"] },
+            "BOTTOM": { "청바지": ["563"], "반바지": ["562"] }
         };
 
-        const rawData = [ 
-            ["566", "그린", "3,5,7", ["565", "564", "563", "562", "561"]], 
-            ["565", "민트", "3,5,7", ["566", "564", "563", "562", "561"]]
-        ];
+        function updateCartBadge() {
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        function addToCart() {
+            if(!cart.includes(currentCode)) {
+                cart.push(currentCode);
+                localStorage.setItem('kids_cart', JSON.stringify(cart));
+                updateCartBadge();
+                alert("장바구니에 상품(NO." + currentCode + ")을 담았습니다.");
+            } else {
+                alert("이미 장바구니에 있는 상품입니다.");
+            }
+        }
+
+        function goToStore() {
+            const product = rawData.find(item => item[0] === currentCode);
+            if(product && product[4]) {
+                window.open(product[4], '_blank');
+            } else {
+                alert("현재 준비 중인 상품입니다.");
+            }
+        }
 
         function toggleMenu() {
             const menu = document.getElementById('category-menu');
             const overlay = document.getElementById('overlay');
-            const btn = document.getElementById('fab-btn');
-            
             if(menu.style.display === 'block') {
                 menu.style.display = 'none';
                 overlay.style.display = 'none';
-                btn.style.transform = 'rotate(0deg)';
             } else {
                 showMainCategories();
                 menu.style.display = 'block';
                 overlay.style.display = 'block';
-                btn.style.transform = 'rotate(90deg)';
             }
         }
 
@@ -121,34 +156,56 @@
             for(let main in categories) {
                 html += `<div class="menu-item" onclick="showSubCategories('${main}')">${main} <span>❯</span></div>`;
             }
+            // 장바구니 확인 메뉴 추가
+            html += `<div class="menu-item" style="background:#fff9f9; color:red;" onclick="showCart()">장바구니 확인 (${cart.length})</div>`;
             content.innerHTML = html;
         }
 
         function showSubCategories(main) {
             const content = document.getElementById('menu-content');
             document.getElementById('menu-title').innerText = main;
-            let html = `<div class="menu-item" style="color:#999; font-size:12px;" onclick="showMainCategories()">❮ BACK</div>`;
+            let html = `<div class="menu-item" style="color:#999" onclick="showMainCategories()">❮ BACK</div>`;
             for(let sub in categories[main]) {
                 html += `<div class="menu-item" onclick="selectCategory('${main}', '${sub}')">${sub}</div>`;
             }
             content.innerHTML = html;
         }
 
+        function showCart() {
+            if(cart.length === 0) return alert("장바구니가 비어있습니다.");
+            alert("담으신 상품 번호: " + cart.join(", "));
+            if(confirm("장바구니를 비우시겠습니까?")) {
+                cart = [];
+                localStorage.removeItem('kids_cart');
+                updateCartBadge();
+                toggleMenu();
+            }
+        }
+
         function selectCategory(main, sub) {
-            const firstProduct = categories[main][sub][0];
-            openModal(firstProduct);
+            openModal(categories[main][sub][0]);
             toggleMenu();
         }
 
-        function openModal(code) {
-            document.getElementById('modal-img').src = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
+        function openModal(code, keepScroll = false) {
+            currentCode = code;
             const recContainer = document.getElementById('recommend-list');
+            const currentScrollPos = recContainer.scrollLeft;
+
+            document.getElementById('modal-img').src = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
+            
+            const product = rawData.find(item => item[0] === code);
+            const recommendationCodes = product ? product[3] : rawData[0][3]; 
+
             let recHtml = '';
-            rawData[0][3].forEach(recCode => {
-                recHtml += `<div class="rec-item" onclick="openModal('${recCode}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg"><div class="rec-code">NO.${recCode}</div></div>`;
+            recommendationCodes.forEach(rc => {
+                recHtml += `<div class="rec-item" onclick="openModal('${rc}', true)"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${rc}.jpg"></div>`;
             });
+            
             recContainer.innerHTML = recHtml;
+            recContainer.scrollLeft = keepScroll ? currentScrollPos : 0;
             document.getElementById('modal').style.display = 'block';
+            if (!keepScroll) document.getElementById('modal').scrollTo(0, 0); 
             document.body.style.overflow = 'hidden';
         }
 
@@ -156,8 +213,10 @@
 
         const mainList = document.getElementById('product-list');
         rawData.forEach(item => {
-            mainList.innerHTML += `<div class="product-card" onclick="openModal('${item[0]}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${item[0]}.jpg"><p style="text-align:center; font-weight:bold; font-size:14px; margin-top:8px;">NO.${item[0]}</p></div>`;
+            mainList.innerHTML += `<div class="product-card" onclick="openModal('${item[0]}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${item[0]}.jpg"><p style="text-align:center; font-weight:bold; margin-top:8px;">NO.${item[0]}</p></div>`;
         });
+
+        updateCartBadge();
     </script>
 </body>
 </html>
