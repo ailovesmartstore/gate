@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* 기본 스타일 */
         body { 
             margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; 
             background: #fff; color: #333; letter-spacing: -0.04em;
@@ -20,63 +19,48 @@
         .logo { font-size: 28px; font-weight: 900; letter-spacing: -1.5px; color: #1a1a1a; }
         .section-title { width: 100%; padding: 10px 0 20px; font-size: 18px; font-weight: 700; text-align: center; color: #444; }
 
-        /* 가로 슬라이드 컨테이너 */
         .slide-container { 
-            display: flex; overflow-x: auto; width: 100%; padding: 0 0 50px; gap: 15px; 
+            display: flex; overflow-x: auto; width: 100%; padding: 0 0 50px; gap: 20px; 
             -webkit-overflow-scrolling: touch; scroll-behavior: smooth;
         }
         .slide-container::-webkit-scrollbar { display: none; }
         .slide-container::before, .slide-container::after { content: ''; flex: 0 0 20px; }
 
-        /* 상품 카드 */
-        .product-card { flex: 0 0 200px; text-decoration: none; color: inherit; display: block; text-align: center; cursor: pointer; }
-        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 15px; overflow: hidden; background: #f1f1f1; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-bottom: 18px; }
+        .product-card { flex: 0 0 220px; text-decoration: none; color: inherit; display: block; text-align: center; cursor: pointer; }
+        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 12px; overflow: hidden; background: #f5f5f5; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.95); color: #222; font-size: 10px; font-weight: 800; padding: 5px 12px; border-radius: 20px; }
+        .badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.9); color: #222; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 4px; border: 1px solid #eee; }
 
-        /* 컬러 및 사이즈 정보 */
-        .color-list { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 15px; }
-        .color-item { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
-        .chip { width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); }
-        .color-name { font-size: 13px; color: #777; font-weight: 500; }
-        .size-info { font-size: 11px; color: #444; font-weight: 700; background: #fdfdfd; border: 1px solid #eee; padding: 7px 14px; border-radius: 6px; display: inline-block; }
+        /* [수정] 컬러 리스트 영역: 최소 높이를 지정하여 높이를 통일 */
+        .color-list { 
+            display: flex; flex-direction: column; align-items: center; gap: 5px; 
+            min-height: 110px; /* 컬러가 많아도 적어도 이 높이를 유지 */
+            margin-bottom: 10px;
+        }
+        .color-item { display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .chip { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); }
+        .color-name { font-size: 13px; color: #666; font-weight: 400; }
 
-        /* 상세페이지 팝업 전체 창 */
-        #modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; z-index: 1000; overflow-y: auto;
+        /* [수정] 사이즈 가이드 텍스트 */
+        .size-label { font-size: 9px; font-weight: 800; color: #bbb; letter-spacing: 0.05em; margin-bottom: 4px; display: block; }
+
+        /* [수정] 사이즈 박스 디자인 */
+        .size-info { 
+            font-size: 11px; color: #444; font-weight: 700; 
+            background: #fff; border: 1px solid #e5e5e5; 
+            padding: 8px 12px; border-radius: 8px; 
+            display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
-        /* [핵심] 화면 왼쪽 중앙에 고정된 뒤로가기 버튼 */
+        /* 상세페이지 팝업 */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 1000; overflow-y: auto; }
         .floating-back-btn {
-            position: fixed;
-            top: 50%; /* 화면 높이의 정확히 절반 */
-            left: 15px; /* 왼쪽 벽에서 15px 뗌 */
-            transform: translateY(-50%); /* 정확한 수직 중앙 정렬 */
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.85); /* 살짝 투명한 흰색 */
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* 눈에 잘 띄게 그림자 강화 */
-            cursor: pointer;
-            z-index: 9999; /* 어떤 이미지보다 위에 있도록 */
-            border: 1px solid #ddd;
+            position: fixed; top: 50%; left: 15px; transform: translateY(-50%);
+            width: 46px; height: 46px; background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15); cursor: pointer; z-index: 9999; border: 1px solid #eee;
         }
-
-        /* 버튼 안의 화살표 (< 모양) */
-        .floating-back-btn::after {
-            content: '';
-            width: 12px;
-            height: 12px;
-            border-top: 3px solid #333;
-            border-left: 3px solid #333;
-            transform: rotate(-45deg);
-            margin-left: 5px; /* 화살표 중심 맞추기 */
-        }
-
+        .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 3px solid #333; border-left: 3px solid #333; transform: rotate(-45deg); margin-left: 5px; }
         #modal img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
         .modal-footer { padding: 40px 20px; text-align: center; background: #f9f9f9; }
         .close-footer-btn { padding: 15px 40px; background: #222; color: #fff; border-radius: 30px; font-weight: 700; font-size: 14px; display: inline-block; }
@@ -88,20 +72,15 @@
     <div class="section-title">TODAY'S NEW ARRIVALS</div>
     <div class="slide-container" id="product-list"></div>
 
-    <!-- 상세페이지 팝업 -->
     <div id="modal">
-        <!-- 이제 상단 바 없이 이 버튼만 화면 중앙 왼쪽에 둥둥 떠있습니다 -->
         <div class="floating-back-btn" onclick="history.back()"></div>
-        
         <img id="modal-img" src="">
-        
         <div class="modal-footer">
-            <div class="close-footer-btn" onclick="history.back()">상품 목록으로 돌아가기</div>
+            <div class="close-footer-btn" onclick="history.back()">목록으로 돌아가기</div>
         </div>
     </div>
 
     <script>
-        // 컬러 데이터 및 상품 데이터 (동일)
         const colorPalette = { "그린": "#4CAF50", "머스타드": "#FFC107", "베이지": "#F5F5DC", "아이": "#FFFFF0", "퍼플": "#A020F0", "민트": "#98FF98", "연보라": "#E6E6FA", "블루": "#2196F3", "카키": "#4B5320", "핑크": "#FFC0CB", "스카이청": "#87CEEB", "진청": "#00008B", "네이비": "#000080", "중청": "#5F9EA0", "블랙": "#000000", "스카이블루": "#87CEFA", "체리레드": "#D2042D", "크림아이": "#FFFDD0", "진그린": "#006400", "아이보리": "#FFFFF0", "인디핑크": "#B76E79", "인디연핑크": "#FADADD", "소라": "#82B5ED", "크림": "#FFFDD0", "스카이": "#87CEEB", "연베이지": "#F5F5DC" };
         const rawData = [ ["566", "그린, 머스타드, 베이지, 아이, 퍼플", "3, 5, 7, 9, 11, 13"], ["565", "민트, 연보라", "3, 5, 7, 9, 11, 13"], ["564", "베이지, 블루, 아이, 카키, 핑크", "3, 5, 7, 9, 11, 13"], ["563", "스카이청, 진청", "3, 5, 7, 9, 11, 13"], ["562", "네이비, 카키", "3, 5, 7, 9, 11, 13"], ["561", "중청", "3, 5, 7, 9, 11, 13"], ["560", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["559", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["558", "크림아이, 진그린", "3, 5, 7, 9, 11, 13"], ["557", "베이지, 카키", "3, 5, 7, 9, 11, 13"], ["556", "베이지, 카키", "3, 5, 7, 9, 11, 13"], ["555", "베이지, 블루, 아이보리, 인디핑크, 카키", "3, 5, 7, 9, 11, 13"], ["554", "베이지, 블루, 아이보리, 인디핑크, 카키", "3, 5, 7, 9"], ["553", "베이지, 블루, 아이보리, 인디핑크, 카키", "3, 5, 7, 9"], ["552", "아이보리, 인디연핑크", "3, 5, 7, 9, 11, 13"], ["551", "민트, 블랙, 스카이블루, 연베이지, 퍼플", "3, 5, 7, 9, 11"], ["550", "핑크, 소라", "FREE"], ["549", "핑크, 소라", "S원사이즈"], ["548", "핑크, 소라", "S, M"], ["547", "크림", "FREE"], ["546", "크림", "FREE"], ["545", "크림", "S원사이즈"], ["544", "크림", "S, M"], ["543", "블랙", "FREE"], ["542", "블랙", "FREE"], ["541", "블랙", "FREE"], ["540", "블랙", "S원사이즈"], ["539", "블랙", "S, M"], ["538", "스카이", "FREE"] ];
 
@@ -114,7 +93,6 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // 브라우저 뒤로가기 대응
         window.onpopstate = function(event) {
             const modal = document.getElementById('modal');
             if (modal.style.display === 'block') {
@@ -132,12 +110,14 @@
                 const sizeStr = item[2].split(', ').map(s => isNaN(s) ? s : s + '호').join(', ');
                 const imgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${code}.jpg`;
                 const pageUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
+                
                 let colorListHtml = '<div class="color-list">';
                 colorNames.forEach(c => {
                     const hex = colorPalette[c] || "#ddd";
                     colorListHtml += `<div class="color-item"><div class="chip" style="background-color: ${hex}"></div><span class="color-name">${c}</span></div>`;
                 });
                 colorListHtml += '</div>';
+
                 html += `
                     <div class="product-card" onclick="openModal('${pageUrl}')">
                         <div class="img-box">
@@ -146,6 +126,7 @@
                         </div>
                         <div class="info-box">
                             ${colorListHtml}
+                            <span class="size-label">SIZE GUIDE</span>
                             <div class="size-info">${sizeStr}</div>
                         </div>
                     </div>
