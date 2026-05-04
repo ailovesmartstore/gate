@@ -65,24 +65,78 @@
         #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
         
         /* [하단 고정 추천 바] */
-        .recommend-section { 
-            position: fixed; bottom: 0; left: 0; width: 100%; 
-            background: rgba(255, 255, 255, 0.92); border-top: 1px solid rgba(0,0,0,0.05);
-            padding: 15px 0 25px; z-index: 1001; box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-        }
-        .recommend-title { font-size: 13px; font-weight: 800; margin-bottom: 12px; color: #111; padding-left: 20px; }
-        .recommend-list { display: flex; gap: 12px; overflow-x: auto; padding: 0 20px; scrollbar-width: none; }
-        .recommend-list::-webkit-scrollbar { display: none; }
-        
-        .rec-item { flex: 0 0 95px; cursor: pointer; text-align: center; }
-        .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; border: 1px solid #eee; margin-bottom: 6px; }
-        .rec-code { font-size: 10px; font-weight: 700; color: #999; }
+.recommend-section { 
+        position: fixed; bottom: 0; left: 0; width: 100%; 
+        background: rgba(255, 255, 255, 0.95); border-top: 1px solid rgba(0,0,0,0.05);
+        padding: 12px 0 20px; z-index: 1001; box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    }
+    
+    .recommend-title { 
+        font-size: 13px; font-weight: 800; margin-bottom: 10px; color: #111; padding: 0 20px; 
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .recommend-title span { font-size: 10px; color: #999; font-weight: 400; } /* '옆으로 밀어보세요' 안내용 */
 
-        /* 추천 바 때문에 가려지는 영역 보정 */
-        .modal-footer { padding: 60px 20px 180px; text-align: center; background: #fff; }
-        .close-footer-btn { padding: 18px 50px; background: #111; color: #fff; border-radius: 35px; font-weight: 700; font-size: 14px; display: inline-block; }
-    </style>
+    /* 슬라이드 영역: 스크롤 속도와 터치감 개선 */
+    .recommend-list { 
+        display: flex; gap: 10px; overflow-x: auto; padding: 0 20px; 
+        scrollbar-width: none; -ms-overflow-style: none; /* 인터넷 익스플로러/엣지 */
+        -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+    }
+    .recommend-list::-webkit-scrollbar { display: none; } /* 크롬/사파리 스크롤바 숨김 */
+    
+    /* 15개를 수용하기 위한 콤팩트한 사이즈 조절 */
+    .rec-item { flex: 0 0 85px; cursor: pointer; text-align: center; }
+    .rec-item img { 
+        width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; 
+        border: 1px solid rgba(0,0,0,0.03); margin-bottom: 5px; 
+    }
+    .rec-code { font-size: 9px; font-weight: 700; color: #aaa; }
+
+    /* 모달 푸터 여백: 추천바가 15개 슬라이드라 높이가 있으므로 여백 충분히 확보 */
+    .modal-footer { padding: 40px 20px 180px; text-align: center; background: #fff; }
+</style>
+
+<script>
+    // 파이썬에서 rawData 생성 시 추천 배열에 10~15개의 코드를 넣으시면 됩니다.
+    // 예시: ["566", "컬러", "사이즈", ["565", "564", "563", "562", "561", "560", "559", ...]]
+    
+    function openModal(code) {
+        const product = rawData.find(item => item[0] === code);
+        if(!product) return;
+
+        const pageUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
+        document.getElementById('modal-img').src = pageUrl;
+        
+        const recContainer = document.getElementById('recommend-list');
+        const recTitle = document.querySelector('.recommend-title');
+        
+        // 추천 상품 갯수 표시 가이드 추가
+        recTitle.innerHTML = `함께 코디하면 예뻐요 ✨ <span>옆으로 밀어보기 (${product[3].length})</span>`;
+
+        let recHtml = '';
+        product[3].forEach(recCode => {
+            const recImg = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg`;
+            recHtml += `
+                <div class="rec-item" onclick="openModal('${recCode}')">
+                    <img src="${recImg}">
+                    <div class="rec-code">NO.${recCode}</div>
+                </div>
+            `;
+        });
+        recContainer.innerHTML = recHtml;
+        
+        // 상세페이지를 열 때마다 추천 바의 스크롤을 맨 앞으로 초기화
+        recContainer.scrollLeft = 0;
+
+        const modal = document.getElementById('modal');
+        history.pushState({modalOpen: true, currentCode: code}, '');
+        modal.style.display = 'block';
+        modal.scrollTo(0, 0); 
+        document.body.style.overflow = 'hidden';
+    }
+</script>
 </head>
 <body>
 
