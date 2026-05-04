@@ -1,72 +1,195 @@
-.recommend-section { 
-        position: fixed; bottom: 0; left: 0; width: 100%; 
-        background: rgba(255, 255, 255, 0.95); border-top: 1px solid rgba(0,0,0,0.05);
-        padding: 12px 0 20px; z-index: 1001; box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
-        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    }
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KIDS RIVER - 스마트 카탈로그</title>
     
-    .recommend-title { 
-        font-size: 13px; font-weight: 800; margin-bottom: 10px; color: #111; padding: 0 20px; 
-        display: flex; justify-content: space-between; align-items: center;
-    }
-    .recommend-title span { font-size: 10px; color: #999; font-weight: 400; } /* '옆으로 밀어보세요' 안내용 */
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
-    /* 슬라이드 영역: 스크롤 속도와 터치감 개선 */
-    .recommend-list { 
-        display: flex; gap: 10px; overflow-x: auto; padding: 0 20px; 
-        scrollbar-width: none; -ms-overflow-style: none; /* 인터넷 익스플로러/엣지 */
-        -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
-    }
-    .recommend-list::-webkit-scrollbar { display: none; } /* 크롬/사파리 스크롤바 숨김 */
-    
-    /* 15개를 수용하기 위한 콤팩트한 사이즈 조절 */
-    .rec-item { flex: 0 0 85px; cursor: pointer; text-align: center; }
-    .rec-item img { 
-        width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; 
-        border: 1px solid rgba(0,0,0,0.03); margin-bottom: 5px; 
-    }
-    .rec-code { font-size: 9px; font-weight: 700; color: #aaa; }
+    <style>
+        /* [1. 기본 스타일] */
+        body { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background: #f8f8f8; color: #333; letter-spacing: -0.04em; }
+        header { width: 100%; padding: 40px 0 20px; text-align: center; }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 3px; color: #111; }
+        .section-title { width: 100%; padding: 0 0 30px; font-size: 13px; font-weight: 600; text-align: center; color: #bbb; }
 
-    /* 모달 푸터 여백: 추천바가 15개 슬라이드라 높이가 있으므로 여백 충분히 확보 */
-    .modal-footer { padding: 40px 20px 180px; text-align: center; background: #fff; }
-</style>
+        /* [2. 메인 상품 리스트] */
+        .slide-container { display: flex; overflow-x: auto; width: 100%; padding: 0 0 60px; gap: 20px; -webkit-overflow-scrolling: touch; }
+        .slide-container::-webkit-scrollbar { display: none; }
+        .slide-container::before, .slide-container::after { content: ''; flex: 0 0 20px; }
 
-<script>
-    // 파이썬에서 rawData 생성 시 추천 배열에 10~15개의 코드를 넣으시면 됩니다.
-    // 예시: ["566", "컬러", "사이즈", ["565", "564", "563", "562", "561", "560", "559", ...]]
-    
-    function openModal(code) {
-        const product = rawData.find(item => item[0] === code);
-        if(!product) return;
+        .product-card { flex: 0 0 240px; background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); cursor: pointer; }
+        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; background: #eee; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); color: #222; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; }
 
-        const pageUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
-        document.getElementById('modal-img').src = pageUrl;
+        .info-box { padding: 18px 15px; }
+        .color-scroll-wrapper { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 15px; scrollbar-width: none; }
+        .color-scroll-wrapper::-webkit-scrollbar { display: none; }
+        .color-capsule { flex: 0 0 auto; padding: 6px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; }
+
+        .size-info-row { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f5f5f5; padding-top: 12px; }
+        .size-label { font-size: 10px; font-weight: 800; color: #ddd; }
+        .size-text { font-size: 12px; font-weight: 700; color: #555; }
+
+        /* [3. 상세페이지 모달 및 터치 최적화] */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 1000; overflow-y: auto; }
         
-        const recContainer = document.getElementById('recommend-list');
-        const recTitle = document.querySelector('.recommend-title');
-        
-        // 추천 상품 갯수 표시 가이드 추가
-        recTitle.innerHTML = `함께 코디하면 예뻐요 ✨ <span>옆으로 밀어보기 (${product[3].length})</span>`;
+        /* 뒤로가기 버튼: 상단 고정 */
+        .floating-back-btn {
+            position: fixed; top: 20px; left: 20px; width: 45px; height: 45px; 
+            background: #fff; border-radius: 50%; z-index: 10001; 
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer;
+        }
+        .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 3px solid #222; border-left: 3px solid #222; transform: rotate(-45deg); margin-left: 5px; }
 
-        let recHtml = '';
-        product[3].forEach(recCode => {
-            const recImg = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg`;
-            recHtml += `
-                <div class="rec-item" onclick="openModal('${recCode}')">
-                    <img src="${recImg}">
-                    <div class="rec-code">NO.${recCode}</div>
-                </div>
-            `;
-        });
-        recContainer.innerHTML = recHtml;
-        
-        // 상세페이지를 열 때마다 추천 바의 스크롤을 맨 앞으로 초기화
-        recContainer.scrollLeft = 0;
+        #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
 
-        const modal = document.getElementById('modal');
-        history.pushState({modalOpen: true, currentCode: code}, '');
-        modal.style.display = 'block';
-        modal.scrollTo(0, 0); 
-        document.body.style.overflow = 'hidden';
-    }
-</script>
+        /* 하단 고정 추천 바: 터치 간섭 완전 차단 */
+        .recommend-section { 
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: rgba(255, 255, 255, 0.98); border-top: 1px solid #eee;
+            padding: 15px 0 25px; z-index: 9999; /* 최상단 레이어 */
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        }
+        .recommend-title { font-size: 13px; font-weight: 800; margin-bottom: 12px; color: #111; padding: 0 20px; display: flex; justify-content: space-between; }
+        .recommend-title span { font-size: 10px; color: #aaa; font-weight: 400; }
+
+        .recommend-list { 
+            display: flex; gap: 12px; overflow-x: auto; padding: 0 20px; 
+            scrollbar-width: none; -webkit-overflow-scrolling: touch;
+            flex-wrap: nowrap;
+        }
+        .recommend-list::-webkit-scrollbar { display: none; }
+        
+        /* 개별 추천 아이템 터치 영역 보존 */
+        .rec-item { 
+            flex: 0 0 90px; cursor: pointer; position: relative; z-index: 10000; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; border: 1px solid #eee; margin-bottom: 5px; pointer-events: none; }
+        .rec-code { font-size: 10px; font-weight: 700; color: #999; text-align: center; }
+
+        .modal-footer { padding: 40px 20px 220px; text-align: center; }
+        .close-footer-btn { padding: 18px 50px; background: #111; color: #fff; border-radius: 35px; font-weight: 700; font-size: 14px; display: inline-block; }
+    </style>
+</head>
+<body>
+
+    <header><div class="logo">KIDS RIVER</div></header>
+    <div class="section-title">TODAY'S SELECTION</div>
+    <div class="slide-container" id="product-list"></div>
+
+    <div id="modal">
+        <div class="floating-back-btn" onclick="closeModal()"></div>
+        <img id="modal-img" src="">
+        
+        <div class="recommend-section">
+            <div class="recommend-title" id="rec-title">함께 코디하면 예뻐요 ✨</div>
+            <div class="recommend-list" id="recommend-list"></div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="close-footer-btn" onclick="closeModal()">LIST</div>
+        </div>
+    </div>
+
+    <script>
+        const colorPalette = { "그린": "#4CAF50", "머스타드": "#FFC107", "베이지": "#F5F5DC", "아이": "#FFFFF0", "퍼플": "#A020F0", "민트": "#98FF98", "연보라": "#E6E6FA", "블루": "#2196F3", "카키": "#4B5320", "핑크": "#FFC0CB", "스카이청": "#87CEEB", "진청": "#00008B", "네이비": "#000080", "중청": "#5F9EA0", "블랙": "#000000", "스카이블루": "#87CEFA", "체리레드": "#D2042D", "크림아이": "#FFFDD0", "진그린": "#006400", "아이보리": "#FFFFF0", "인디핑크": "#B76E79", "인디연핑크": "#FADADD", "소라": "#82B5ED", "크림": "#FFFDD0", "스카이": "#87CEEB", "연베이지": "#F5F5DC" };
+        
+        function getContrastYIQ(hexcolor){
+            hexcolor = hexcolor.replace("#", "");
+            var r = parseInt(hexcolor.substr(0,2),16); g = parseInt(hexcolor.substr(2,2),16); b = parseInt(hexcolor.substr(4,2),16);
+            var yiq = ((r*299)+(g*587)+(b*114))/1000;
+            return (yiq >= 128) ? 'black' : 'white';
+        }
+
+        // [사장님 메모] 마지막 배열에 추천하고 싶은 상품 코드 15개를 넣으세요.
+        const rawData = [ 
+            ["566", "그린, 머스타드, 베이지", "3, 5, 7", ["565", "564", "563", "562", "561", "560", "559", "558", "557", "556", "555", "554", "553", "552", "551"]], 
+            ["565", "민트, 연보라", "3, 5, 7", ["566", "564", "563", "562", "561", "560", "559", "558", "557", "556", "555", "554", "553", "552", "551"]]
+        ];
+
+        function openModal(code) {
+            const product = rawData.find(item => item[0] === code);
+            if(!product) return;
+
+            document.getElementById('modal-img').src = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
+            
+            const recContainer = document.getElementById('recommend-list');
+            document.getElementById('rec-title').innerHTML = `함께 코디하면 예뻐요 ✨ <span>옆으로 밀어보기 (${product[3].length})</span>`;
+
+            let recHtml = '';
+            product[3].forEach(recCode => {
+                const recImg = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg`;
+                // 터치 씹힘 방지를 위해 ontouchend와 onmousedown을 모두 적용
+                recHtml += `
+                    <div class="rec-item" 
+                         ontouchend="event.stopPropagation(); openModal('${recCode}')" 
+                         onmousedown="openModal('${recCode}')">
+                        <img src="${recImg}">
+                        <div class="rec-code">NO.${recCode}</div>
+                    </div>
+                `;
+            });
+            recContainer.innerHTML = recHtml;
+            recContainer.scrollLeft = 0;
+
+            const modal = document.getElementById('modal');
+            history.pushState({modalOpen: true, currentCode: code}, '');
+            modal.style.display = 'block';
+            modal.scrollTo(0, 0); 
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            if (document.getElementById('modal').style.display === 'block') history.back();
+        }
+
+        window.onpopstate = function(event) {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        function render() {
+            const container = document.getElementById('product-list');
+            let html = '';
+            rawData.forEach((item) => {
+                const code = item[0];
+                const colorNames = item[1].split(', ').map(c => c.trim());
+                const sizeStr = item[2];
+                const imgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${code}.jpg`;
+                
+                let colorChipsHtml = '<div class="color-scroll-wrapper">';
+                colorNames.forEach(c => {
+                    const hex = colorPalette[c] || "#ddd";
+                    const textColor = getContrastYIQ(hex);
+                    colorChipsHtml += `<div class="color-capsule" style="background-color: ${hex}; color: ${textColor}">${c}</div>`;
+                });
+                colorChipsHtml += '</div>';
+
+                html += `
+                    <div class="product-card" onclick="openModal('${code}')">
+                        <div class="img-box">
+                            <img src="${imgUrl}" loading="lazy">
+                            <div class="badge">CODE ${code}</div>
+                        </div>
+                        <div class="info-box">
+                            ${colorChipsHtml}
+                            <div class="size-info-row"><span class="size-label">SIZE</span><span class="size-text">${sizeStr}호</span></div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+        render();
+    </script>
+</body>
+</html>
