@@ -18,85 +18,94 @@
 
         /* 뒤로가기 버튼 */
         .floating-back-btn {
-            position: fixed; top: 20px; left: 10px;
+            position: fixed; top: 15px; left: 15px;
             width: 44px; height: 44px; background: rgba(255,255,255,0.9); border-radius: 50%;
             z-index: 50001; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1); border: 1px solid #eee;
         }
         .floating-back-btn::after { content: ''; width: 10px; height: 10px; border-top: 3px solid #111; border-left: 3px solid #111; transform: rotate(-45deg); margin-left: 5px; }
 
-        /* 옵션 선택창 */
-        .option-box { padding: 20px; background: #fff; border-top: 1px solid #eee; }
-        .opt-select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; }
-        .add-cart-btn { width: 100%; padding: 15px; background: #111; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-
-        /* 하단 고정 추천바 (자석현상 제거) */
-        .recommend-section { 
+        /* 하단 고정 UI 레이아웃 (옵션 + 추천바) */
+        .bottom-fixed-ui {
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: #fff; border-top: 1px solid #eee;
-            padding: 10px 0 30px; z-index: 40000;
+            z-index: 40000; box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            display: none; /* 모달 열릴 때만 노출 */
         }
-        .recommend-title { font-size: 13px; font-weight: bold; margin-bottom: 10px; padding: 0 20px; }
+
+        /* 옵션 선택 영역 */
+        .option-box { padding: 12px 20px; background: #fafafa; border-bottom: 1px solid #f0f0f0; }
+        .opt-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .opt-select { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 13px; background: #fff; }
+        .add-cart-btn { width: 100%; padding: 12px; background: #111; color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
+
+        /* 하단 추천바 */
+        .recommend-section { padding: 12px 0 25px; }
+        .recommend-title { font-size: 12px; font-weight: bold; margin-bottom: 8px; padding: 0 20px; color: #666; }
         .recommend-list { 
             display: flex; overflow-x: scroll; padding: 0 20px;
             scroll-snap-type: none !important; -webkit-overflow-scrolling: auto !important; 
         }
         .recommend-list::-webkit-scrollbar { display: none; }
-        .rec-item { flex: 0 0 90px; margin-right: 12px; text-align: center; cursor: pointer; }
-        .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; border: 1px solid #f0f0f0; }
+        .rec-item { flex: 0 0 80px; margin-right: 10px; text-align: center; cursor: pointer; }
+        .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; border: 1px solid #eee; }
 
         /* 장바구니 UI */
         #cart-ui {
-            position: fixed; bottom: 160px; right: 20px; z-index: 45000;
-            background: #fff; border: 2px solid #111; border-radius: 15px;
-            width: 240px; max-height: 250px; overflow-y: auto; padding: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none;
+            position: fixed; top: 15px; right: 15px; z-index: 45000;
+            background: #fff; border: 2px solid #111; border-radius: 12px;
+            width: 220px; max-height: 200px; overflow-y: auto; padding: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: none;
         }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 12px; }
-        .copy-chip { background: #111; color: #fff; padding: 4px 8px; border-radius: 5px; font-size: 10px; cursor: pointer; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #eee; font-size: 11px; }
+        .copy-chip { background: #111; color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 9px; cursor: pointer; }
 
-        .modal-footer { padding: 40px 20px 250px; text-align: center; }
+        .modal-footer { padding: 40px 20px 350px; text-align: center; } /* 하단바 높이만큼 여백 확보 */
     </style>
 </head>
 <body>
 
     <div class="slide-container" id="product-list"></div>
 
+    <!-- 상세 모달 -->
     <div id="modal">
         <div class="floating-back-btn" onclick="closeModal()"></div>
         <img id="modal-img" src="">
         
+        <div class="modal-footer">
+            <div style="padding: 12px 30px; background: #eee; border-radius: 20px; font-size: 13px; font-weight: bold; display: inline-block;" onclick="closeModal()">목록으로 돌아가기</div>
+        </div>
+    </div>
+
+    <!-- 하단 고정 UI 세트 (옵션 + 추천바) -->
+    <div class="bottom-fixed-ui" id="bottom-ui">
         <div class="option-box">
-            <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">옵션 선택</div>
-            <select class="opt-select" id="color-select"><option value="">컬러 선택</option></select>
-            <select class="opt-select" id="size-select"><option value="">사이즈 선택</option></select>
-            <button class="add-cart-btn" onclick="addToCart()">장바구니에 담기</button>
+            <div class="opt-row">
+                <select class="opt-select" id="color-select"><option value="">컬러</option></select>
+                <select class="opt-select" id="size-select"><option value="">사이즈</option></select>
+            </div>
+            <button class="add-cart-btn" onclick="addToCart()">장바구니 담기</button>
         </div>
 
         <div class="recommend-section">
             <div class="recommend-title">함께 코디하면 예뻐요 ✨</div>
             <div class="recommend-list" id="recommend-list"></div>
         </div>
-
-        <div class="modal-footer">
-            <div style="padding: 15px 40px; background: #eee; border-radius: 30px; font-weight: bold; display: inline-block;" onclick="closeModal()">목록으로</div>
-        </div>
     </div>
 
-    <!-- 장바구니 플로팅 창 -->
+    <!-- 장바구니 팝업 (우상단) -->
     <div id="cart-ui">
-        <div style="font-weight:bold; margin-bottom:10px; font-size:14px; display:flex; justify-content:space-between;">
-            <span>🛒 선택한 목록</span>
-            <span onclick="toggleCart()" style="cursor:pointer; color:#aaa;">[닫기]</span>
+        <div style="font-weight:bold; margin-bottom:8px; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
+            <span>🛒 장바구니</span>
+            <span onclick="toggleCart()" style="cursor:pointer; font-size:10px; color:#999;">[닫기]</span>
         </div>
         <div id="cart-list"></div>
-        <div style="font-size:10px; color:#ff5722; margin-top:10px; line-height:1.4;">* 각각 [복사] 버튼을 눌러 스토어 옵션창에 붙여넣어주세요.</div>
     </div>
 
     <script>
         const rawData = [ 
-            ["566", "그린,크림", "3,5,7", ["565", "564", "563", "562", "561"]], 
-            ["565", "민트,노랑,아이", "3,5,7", ["566", "564", "563", "562", "561"]]
+            ["566", "그린,크림", "3,5,7,9,11", ["565", "564", "563", "562", "561"]], 
+            ["565", "민트,노랑,아이", "3,5,7,9,11", ["566", "564", "563", "562", "561"]]
         ];
 
         let myCart = [];
@@ -111,26 +120,26 @@
             
             const product = rawData.find(item => item[0] === code) || rawData[0];
             
-            // 옵션 셀렉트박스 채우기
+            // 옵션 셀렉트박스
             const cSel = document.getElementById('color-select');
             const sSel = document.getElementById('size-select');
-            cSel.innerHTML = '<option value="">컬러 선택</option>';
-            sSel.innerHTML = '<option value="">사이즈 선택</option>';
+            cSel.innerHTML = '<option value="">컬러</option>';
+            sSel.innerHTML = '<option value="">사이즈</option>';
             product[1].split(',').forEach(c => cSel.innerHTML += `<option value="${c}">${c}</option>`);
             product[2].split(',').forEach(s => sSel.innerHTML += `<option value="${s}">${s}</option>`);
 
-            // 추천 리스트 생성
+            // 추천 리스트
             let recHtml = '';
             product[3].forEach(rc => {
                 recHtml += `<div class="rec-item" onclick="openModal('${rc}', true)"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${rc}.jpg"></div>`;
             });
             recContainer.innerHTML = recHtml;
 
-            // 스크롤 유지 로직 (자석 방지)
             if (keepScroll) recContainer.scrollLeft = currentScrollPos;
             else recContainer.scrollLeft = 0;
 
             document.getElementById('modal').style.display = 'block';
+            document.getElementById('bottom-ui').style.display = 'block';
             if (!keepScroll) document.getElementById('modal').scrollTo(0, 0);
             document.body.style.overflow = 'hidden';
         }
@@ -138,12 +147,18 @@
         function addToCart() {
             const c = document.getElementById('color-select').value;
             const s = document.getElementById('size-select').value;
-            if(!c || !s) return alert("컬러와 사이즈를 모두 선택해주세요!");
+            if(!c || !s) return alert("옵션을 선택해주세요!");
 
-            // 글자수 제한을 위해 컬러명 2자 압축
-            const itemText = `${currentCode}(${c.substring(0,2)}/${s})`;
-            myCart.push(itemText);
+            // [핵심] 최대 25자를 넘지 않도록 압축 포맷 적용: 번호(색/사)
+            // 컬러는 앞의 1글자만 사용하여 길이를 극도로 줄임
+            const shortColor = c.charAt(0); 
+            const itemText = `${currentCode}(${shortColor}/${s})`;
             
+            if(itemText.length > 25) {
+                alert("상품명이 너무 길어 압축하여 담습니다.");
+            }
+
+            myCart.push(itemText);
             renderCart();
             document.getElementById('cart-ui').style.display = 'block';
         }
@@ -160,7 +175,7 @@
 
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert(`"${text}" 복사 완료!\n스토어 옵션창에 붙여넣으세요.`);
+                alert(`복사되었습니다: ${text}`);
             });
         }
 
@@ -171,16 +186,17 @@
 
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
+            document.getElementById('bottom-ui').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
-        // 메인 리스트 뿌리기
+        // 메인 리스트 초기화
         const mainList = document.getElementById('product-list');
         rawData.forEach(item => {
             mainList.innerHTML += `
                 <div class="product-card" onclick="openModal('${item[0]}')">
                     <img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${item[0]}.jpg">
-                    <p style="text-align:center; font-weight:bold; font-size:14px;">NO.${item[0]}</p>
+                    <p style="text-align:center; font-weight:bold; font-size:14px; margin-top:8px;">NO.${item[0]}</p>
                 </div>
             `;
         });
