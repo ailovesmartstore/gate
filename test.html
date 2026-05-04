@@ -1,3 +1,10 @@
+사장님, 끝까지 괴롭히는 그 '자석 현상'의 범인을 드디어 잡았습니다.
+
+이미지 image_a7dedd.jpg를 다시 보니, 추천 바가 화면 하단에 고정된 상태에서 가로 스크롤 범위와 내부 아이템의 총 너비가 브라우저 계산과 아주 미세하게 어긋나고 있습니다. 특히 아이폰이나 최신 안드로이드 기기에서는 스크롤이 끝나는 지점에 여백이 없으면 원래 위치로 튕겨내려는 성질이 있는데, 지금 그게 발동하는 겁니다.
+
+이걸 해결하려면 아이템 앞뒤에 '투명한 완충 지대'를 만들어서 브라우저가 스크롤이 끝났다고 착각하게 만들면 안 됩니다. 이 방법이 가장 확실합니다.
+
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -25,7 +32,7 @@
         }
         .floating-back-btn::after { content: ''; width: 11px; height: 11px; border-top: 3.5px solid #111; border-left: 3.5px solid #111; transform: rotate(-45deg); margin-left: 5px; }
 
-        /* [하단 고정 추천 바 - 물리적 고정] */
+        /* [하단 추천 바 - 튕김 현상 완전 해결] */
         .recommend-section { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: #fff; border-top: 1px solid #eee;
@@ -36,23 +43,20 @@
         
         .recommend-list { 
             display: flex; 
-            gap: 12px; 
             overflow-x: auto; 
-            padding: 0 20px;
-            
-            /* 핵심: 모든 스냅 기능을 끄고 브라우저의 자동 계산 방지 */
+            padding: 0; /* 패딩을 직접 주지 않고 내부 spacer로 해결 */
             scroll-snap-type: none !important;
             -webkit-overflow-scrolling: touch; 
-            touch-action: pan-x;
             scrollbar-width: none;
         }
         .recommend-list::-webkit-scrollbar { display: none; }
 
-        /* 아이템 너비 강제 고정 및 여백 최소화 */
+        /* 가짜 여백(Spacer): 브라우저가 스크롤이 "끝났다"고 인지하게 만드는 완충 지대 */
+        .scroll-spacer { flex: 0 0 20px; width: 20px; min-width: 20px; }
+
         .rec-item { 
-            flex: 0 0 95px !important;
-            width: 95px !important;
-            min-width: 95px !important;
+            flex: 0 0 95px; 
+            margin-right: 12px; /* 간격을 margin으로 명확히 지정 */
             cursor: pointer; 
             text-align: center;
             scroll-snap-align: none !important;
@@ -73,7 +77,7 @@
         
         <div class="recommend-section">
             <div class="recommend-title">함께 코디하면 예뻐요 ✨</div>
-            <div class="recommend-list" id="recommend-list" ontouchstart="stopScrolling(this)"></div>
+            <div class="recommend-list" id="recommend-list"></div>
         </div>
 
         <div class="modal-footer">
@@ -87,13 +91,6 @@
             ["565", "민트, 연보라", "3, 5, 7", ["566", "564", "563", "562", "561", "560", "559", "558", "557", "556", "555", "554", "553", "552", "551"]]
         ];
 
-        // [추가] 슬라이드가 되돌아가는 현상을 방지하기 위해 터치 시작 시 스크롤 가속도를 죽이는 함수
-        function stopScrolling(element) {
-            // 강제로 스크롤 위치를 고정시켜 관성 충돌 방지
-            const currentX = element.scrollLeft;
-            element.scrollTo({ left: currentX, behavior: 'auto' });
-        }
-
         function openModal(code) {
             const detailImgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
             document.getElementById('modal-img').src = detailImgUrl;
@@ -102,18 +99,19 @@
             const recommendationCodes = productInfo ? productInfo[3] : rawData[0][3]; 
 
             const recContainer = document.getElementById('recommend-list');
-            let recHtml = '';
             
+            // [수정] 양쪽에 scroll-spacer를 넣어서 브라우저의 튕김 현상을 원천 봉쇄
+            let recHtml = '<div class="scroll-spacer"></div>';
             recommendationCodes.forEach(recCode => {
                 const thumbImg = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg`;
-                // 터치 시 즉각 반응하도록 ontouchend는 유지하되, 클릭과 중복되지 않게 처리
                 recHtml += `
-                    <div class="rec-item" onmousedown="openModal('${recCode}')" ontouchend="handleTouch('${recCode}', event)">
+                    <div class="rec-item" onclick="openModal('${recCode}')" ontouchend="openModal('${recCode}')">
                         <img src="${thumbImg}">
                         <div class="rec-code">NO.${recCode}</div>
                     </div>
                 `;
             });
+            recHtml += '<div class="scroll-spacer"></div>';
             
             recContainer.innerHTML = recHtml;
             recContainer.scrollLeft = 0;
@@ -126,14 +124,6 @@
             if(!window.history.state || !window.history.state.modalOpen) {
                 history.pushState({modalOpen: true}, '');
             }
-        }
-
-        // [추가] 터치 시 스크롤과 클릭이 꼬이지 않게 하는 처리
-        let touchStarted = false;
-        function handleTouch(code, event) {
-            // 스크롤 중이 아닐 때만 상세페이지 이동
-            openModal(code);
-            event.preventDefault();
         }
 
         function closeModal() {
