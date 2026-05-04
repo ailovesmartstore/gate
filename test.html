@@ -1,3 +1,9 @@
+사장님, 디자인을 훨씬 세련되게 다듬어 보았습니다. 기존의 투박한 주황색 버튼 대신, 세련된 반투명 배경과 미니멀한 아이콘 느낌을 살리고, 메뉴가 나타날 때 부드러운 애니메이션이 들어가도록 수정했습니다.
+
+특히 카테고리 창이 뜰 때 화면 전체를 살짝 흐리게(블러 처리) 만들어서, 쇼핑몰 앱 같은 고급스러운 느낌을 주었습니다.
+
+✨ 고급형 플로팅 카테고리 디자인 적용 버전
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,87 +11,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KIDS RIVER CATALOG</title>
     <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; background: #f8f8f8; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-        
-        .slide-container { display: flex; overflow-x: auto; gap: 15px; padding: 20px; -webkit-overflow-scrolling: touch; }
-        .product-card { flex: 0 0 180px; background: #fff; border-radius: 15px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; }
-        .product-card img { width: 100%; border-radius: 10px; pointer-events: none; }
+        :root { --primary-color: #111; --accent-color: #555; --bg-light: #f8f8f8; }
+        body { margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; background: var(--bg-light); -webkit-tap-highlight-color: transparent; }
+
+        /* [메인 리스트 디자인] */
+        .slide-container { display: flex; overflow-x: auto; gap: 20px; padding: 25px; scrollbar-width: none; }
+        .slide-container::-webkit-scrollbar { display: none; }
+        .product-card { flex: 0 0 160px; background: #fff; border-radius: 20px; padding: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); transition: transform 0.2s; }
+        .product-card:active { transform: scale(0.95); }
+        .product-card img { width: 100%; border-radius: 15px; }
+
+        /* [플로팅 버튼 디자인 - 유리질 효과] */
+        .fab-container { position: fixed; bottom: 160px; right: 20px; z-index: 999999; }
+        .fab-main { 
+            width: 60px; height: 60px; background: var(--primary-color); border-radius: 50%;
+            color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .fab-main span { font-size: 10px; margin-top: 2px; font-weight: 300; }
+        .fab-main::before { content: '≡'; font-size: 24px; line-height: 1; }
+
+        /* [카테고리 메뉴 - 고급형 모달 스타일] */
+        .category-overlay { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999998; 
+        }
+        .category-menu { 
+            display: none; position: fixed; bottom: 235px; right: 20px; 
+            background: #fff; border-radius: 24px; width: 220px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); overflow: hidden; z-index: 999999;
+            transform-origin: bottom right; animation: menuShow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes menuShow { from { opacity: 0; transform: scale(0.5) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+        .menu-header { background: #fafafa; padding: 18px; font-size: 15px; font-weight: 700; text-align: left; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; }
+        .menu-item { padding: 16px 20px; border-bottom: 1px solid #f9f9f9; cursor: pointer; font-size: 14px; color: #333; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+        .menu-item:active { background: #f5f5f5; }
+        .menu-item span { color: #ccc; font-size: 12px; }
+
+        /* [추천 바 디자인 개선] */
+        .recommend-section { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; padding: 15px 0 40px; z-index: 40000; border-radius: 25px 25px 0 0; }
+        .recommend-title { font-size: 14px; font-weight: 700; padding: 0 25px 15px; color: #111; letter-spacing: -0.5px; }
+        .recommend-list { display: flex; overflow-x: scroll; padding: 0 20px; gap: 12px; -webkit-overflow-scrolling: auto !important; }
+        .recommend-list::-webkit-scrollbar { display: none; }
+        .rec-item { flex: 0 0 100px; text-align: center; }
+        .rec-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 18px; border: 1px solid #f0f0f0; }
+        .rec-code { font-size: 10px; font-weight: 600; color: #999; margin-top: 6px; }
 
         #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; overflow-y: auto; }
         #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
-
-        /* [플로팅 버튼 최적화] */
-        .fab-container { 
-            position: fixed; 
-            bottom: 160px; /* 하단 바보다 위로 올렸습니다 */
-            right: 20px; 
-            z-index: 999999; /* 모든 요소보다 가장 위에 오도록 설정 */
-        }
-        .fab-main { 
-            width: 55px; 
-            height: 55px; 
-            background: #ff5722; /* 검은색 대신 눈에 띄는 오렌지색으로 변경 */
-            border-radius: 50%; 
-            color: #fff; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4); 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 13px;
-            border: 2px solid #fff;
-        }
-        
-        /* 카테고리 메뉴 */
-        .category-menu { 
-            display: none; 
-            position: absolute; 
-            bottom: 65px; 
-            right: 0; 
-            background: #fff; 
-            border-radius: 15px; 
-            width: 180px; 
-            box-shadow: 0 5px 25px rgba(0,0,0,0.3); 
-            overflow: hidden; 
-        }
-        .menu-header { background: #f4f4f4; padding: 12px; font-size: 13px; font-weight: bold; text-align: center; border-bottom: 1px solid #eee; }
-        .menu-item { padding: 15px; border-bottom: 1px solid #f9f9f9; cursor: pointer; font-size: 14px; display: flex; justify-content: space-between; }
-
-        .recommend-section { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; padding: 15px 0 35px; z-index: 40000; }
-        .recommend-list { display: flex; overflow-x: scroll; padding: 0 20px; -webkit-overflow-scrolling: auto !important; }
-        .recommend-list::-webkit-scrollbar { display: none; }
-        .rec-item { flex: 0 0 95px; margin-right: 12px; text-align: center; }
-        .rec-item img { width: 100%; border-radius: 10px; }
+        .close-btn { margin: 40px auto 300px; width: 120px; padding: 15px; background: #eee; border-radius: 30px; text-align: center; font-weight: 600; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <div class="slide-container" id="product-list"></div>
 
-    <!-- 플로팅 버튼 (이 부분이 안보였던 겁니다) -->
-    <div class="fab-container" id="fab-box">
+    <!-- 배경 블러 오버레이 -->
+    <div class="category-overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <!-- 플로팅 카테고리 UI -->
+    <div class="fab-container">
         <div class="category-menu" id="category-menu">
-            <div class="menu-header" id="menu-title">카테고리</div>
+            <div class="menu-header" id="menu-title">CATEGORY</div>
             <div id="menu-content"></div>
         </div>
-        <div class="fab-main" onclick="toggleMenu()">카테고리</div>
+        <div class="fab-main" id="fab-btn" onclick="toggleMenu()">
+            <span>MENU</span>
+        </div>
     </div>
 
     <div id="modal">
         <img id="modal-img" src="">
         <div class="recommend-section">
+            <div class="recommend-title">함께 코디하면 예뻐요 ✨</div>
             <div class="recommend-list" id="recommend-list"></div>
         </div>
-        <div style="padding: 50px 20px 250px; text-align: center;">
-            <div style="padding: 15px 40px; background: #111; color: #fff; border-radius: 30px; display:inline-block;" onclick="closeModal()">목록으로</div>
-        </div>
+        <div class="close-btn" onclick="closeModal()">CLOSE</div>
     </div>
 
     <script>
+        // 카테고리 데이터 (사장님 상품에 맞춰 수정)
         const categories = {
-            "상의": { "티셔츠": ["566", "565"], "맨투맨": ["563", "562"] },
-            "하의": { "데님": ["560", "559"], "면바지": ["557", "556"] }
+            "TOP": { "티셔츠": ["566", "565"], "셔츠/남방": ["563", "562"], "가디건": ["561"] },
+            "BOTTOM": { "청바지": ["560", "559"], "반바지": ["558", "557"] },
+            "ACC": { "모자": ["556"], "양말": ["555"] }
         };
 
         const rawData = [ 
@@ -95,20 +105,27 @@
 
         function toggleMenu() {
             const menu = document.getElementById('category-menu');
+            const overlay = document.getElementById('overlay');
+            const btn = document.getElementById('fab-btn');
+            
             if(menu.style.display === 'block') {
                 menu.style.display = 'none';
+                overlay.style.display = 'none';
+                btn.style.transform = 'rotate(0deg)';
             } else {
                 showMainCategories();
                 menu.style.display = 'block';
+                overlay.style.display = 'block';
+                btn.style.transform = 'rotate(90deg)';
             }
         }
 
         function showMainCategories() {
             const content = document.getElementById('menu-content');
-            document.getElementById('menu-title').innerText = "카테고리 선택";
+            document.getElementById('menu-title').innerText = "CATEGORY";
             let html = '';
             for(let main in categories) {
-                html += `<div class="menu-item" onclick="showSubCategories('${main}')">${main} <span>></span></div>`;
+                html += `<div class="menu-item" onclick="showSubCategories('${main}')">${main} <span>❯</span></div>`;
             }
             content.innerHTML = html;
         }
@@ -116,7 +133,7 @@
         function showSubCategories(main) {
             const content = document.getElementById('menu-content');
             document.getElementById('menu-title').innerText = main;
-            let html = `<div class="menu-item" style="color:#ff5722; font-size:12px;" onclick="showMainCategories()">← 뒤로가기</div>`;
+            let html = `<div class="menu-item" style="color:#999; font-size:12px;" onclick="showMainCategories()">❮ BACK</div>`;
             for(let sub in categories[main]) {
                 html += `<div class="menu-item" onclick="selectCategory('${main}', '${sub}')">${sub}</div>`;
             }
@@ -134,19 +151,18 @@
             const recContainer = document.getElementById('recommend-list');
             let recHtml = '';
             rawData[0][3].forEach(recCode => {
-                recHtml += `<div class="rec-item" onclick="openModal('${recCode}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg"></div>`;
+                recHtml += `<div class="rec-item" onclick="openModal('${recCode}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${recCode}.jpg"><div class="rec-code">NO.${recCode}</div></div>`;
             });
             recContainer.innerHTML = recHtml;
             document.getElementById('modal').style.display = 'block';
             document.body.style.overflow = 'hidden';
-            // 상세페이지 열릴 때 버튼이 너무 가리지 않게 살짝 투명하게 하거나 위치 조정 가능
         }
 
         function closeModal() { document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         const mainList = document.getElementById('product-list');
         rawData.forEach(item => {
-            mainList.innerHTML += `<div class="product-card" onclick="openModal('${item[0]}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${item[0]}.jpg"></div>`;
+            mainList.innerHTML += `<div class="product-card" onclick="openModal('${item[0]}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${item[0]}.jpg"><p style="text-align:center; font-weight:bold; font-size:14px; margin-top:8px;">NO.${item[0]}</p></div>`;
         });
     </script>
 </body>
