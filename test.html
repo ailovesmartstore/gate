@@ -5,150 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KIDS RIVER - 모바일 카탈로그</title>
     <style>
-        /* 기본 스타일 설정 */
-        body { 
-            margin: 0; 
-            font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; 
-            background: #fff; 
-            color: #222; 
-            line-height: 1.5;
-            -webkit-tap-highlight-color: transparent; 
-        }
-        
-        header { 
-            padding: 20px 15px; 
-            border-bottom: 1px solid #f0f0f0; 
-            text-align: center;
-        }
-        .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; color: #000; }
-
-        /* 슬라이드 섹션 제목 */
-        .section-title { 
-            padding: 25px 15px 12px; 
-            font-size: 19px; 
-            font-weight: bold; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: flex-end; 
-        }
-        .section-title span { font-size: 13px; color: #999; font-weight: normal; margin-bottom: 2px; }
-
-        /* 가로 슬라이드 컨테이너 */
-        .slide-container {
-            display: flex;
-            overflow-x: auto; 
-            scroll-snap-type: x mandatory; 
-            padding: 0 15px 10px;
-            gap: 14px;
-            -webkit-overflow-scrolling: touch; 
-        }
-        .slide-container::-webkit-scrollbar { display: none; } /* 스크롤바 숨김 */
-
-        /* 상품 카드 (모바일에서 글씨가 잘 보이도록 너비 조정) */
-        .product-card {
-            flex: 0 0 170px; /* 카드 너비 170px로 확대 */
-            scroll-snap-align: start;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .img-box {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1/1.2; /* 세로가 약간 긴 세련된 비율 */
-            border-radius: 10px;
-            overflow: hidden;
-            background: #f8f8f8;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; border: 0; }
-
-        /* 상품 번호 배지 */
-        .badge { 
-            position: absolute; 
-            top: 10px; 
-            left: 10px; 
-            background: rgba(0,0,0,0.7); 
-            color: #fff; 
-            font-size: 12px; 
-            font-weight: bold; 
-            padding: 3px 8px; 
-            border-radius: 5px; 
-            z-index: 2;
-        }
-
-        /* 텍스트 정보 (가독성 위해 크기 키움) */
+        body { margin: 0; font-family: sans-serif; background: #fff; color: #222; -webkit-tap-highlight-color: transparent; }
+        header { padding: 20px 15px; border-bottom: 1px solid #f0f0f0; text-align: center; }
+        .logo { font-size: 24px; font-weight: 900; }
+        .section-title { padding: 25px 15px 12px; font-size: 19px; font-weight: bold; }
+        .slide-container { display: flex; overflow-x: auto; padding: 0 15px 10px; gap: 14px; -webkit-overflow-scrolling: touch; }
+        .slide-container::-webkit-scrollbar { display: none; }
+        .product-card { flex: 0 0 170px; text-decoration: none; color: inherit; display: block; }
+        .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 10px; overflow: hidden; background: #f8f8f8; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 12px; font-weight: bold; padding: 3px 8px; border-radius: 5px; }
         .info-box { padding: 12px 2px 5px; }
-        .color-info { 
-            font-size: 15px; /* 컬러명 크게 */
-            font-weight: 700; 
-            color: #333; 
-            display: block; 
-            margin-bottom: 5px;
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-        }
-        .size-info { 
-            font-size: 14px; /* 사이즈 크게 */
-            color: #d32f2f; /* 시인성 좋은 레드 계열 */
-            font-weight: bold; 
-        }
-
-        /* 하단 여백 및 안내 */
-        footer { padding: 50px 15px; text-align: center; color: #bbb; font-size: 12px; }
+        .color-info { font-size: 15px; font-weight: 700; color: #333; display: block; margin-bottom: 5px; }
+        .size-info { font-size: 14px; color: #d32f2f; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">KIDS RIVER</div>
-    </header>
+    <header><div class="logo">KIDS RIVER</div></header>
 
-    <!-- 카테고리 1: 신상품 -->
-    <div class="section-title">
-        신상 맛보기 <span>옆으로 밀어보세요 ›</span>
-    </div>
-    <div class="slide-container" id="category-new">
-        <!-- 스크립트로 상품이 채워집니다 -->
-    </div>
-
-    <!-- 카테고리 2: 베스트 아이템 -->
-    <div class="section-title">
-        인기 급상승 <span>전체보기</span>
-    </div>
-    <div class="slide-container" id="category-best">
-        <!-- 스크립트로 상품이 채워집니다 -->
-    </div>
-
-    <footer>
-        &copy; KIDS RIVER. All Rights Reserved.
-    </footer>
+    <div class="section-title">오늘의 신상</div>
+    <div class="slide-container" id="category-new"></div>
 
     <script>
-        // 사장님, 여기에 300개 제품 데이터를 넣으시면 됩니다.
-        // link 부분에 실제 상세페이지 주소를 넣어야 클릭 시 이동합니다!
+        // ★★★ 사장님, 바로 이 아래 'link' 부분을 보세요! ★★★
         const productData = [
-            { no: "01", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D566.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg", color: "그린, 머스타드, 베이지", size: "3호-13호" },
-            { no: "02", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D565.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg", color: "민트, 연보라", size: "3호-13호" },
-            { no: "03", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D564.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg", color: "베이지, 블루, 아이", size: "3호-13호" },
-            { no: "04", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D563.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg", color: "스카이청, 진청", size: "3호-13호" },
-            { no: "05", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D562.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg", color: "네이비, 카키", size: "3호-13호" },
-            { no: "06", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D561.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg", color: "중청", size: "3호-13호" }
+            { 
+                no: "01", 
+                img: "test.jpg",    // 보여지는 이미지
+                link: "test.jpg",   // 눌렀을 때 이동할 주소 (파일명을 직접 적음)
+                color: "테스트 상품", 
+                size: "3호-13호" 
+            },
+            { 
+                no: "02", 
+                img: "test.jpg", 
+                link: "test.jpg",   // 클릭 시 test.jpg가 크게 뜹니다
+                color: "연결 확인용", 
+                size: "전사이즈" 
+            }
         ];
 
-        // 상품 카드를 생성하는 함수
         function renderProducts(containerId, items) {
             const container = document.getElementById(containerId);
             let html = '';
-            
             items.forEach(item => {
+                // target="_self"로 바꾸어 현재 창에서 바로 열리게 했습니다.
                 html += `
-                    <a href="${item.link}" target="_blank" class="product-card">
+                    <a href="${item.link}" target="_self" class="product-card">
                         <div class="img-box">
                             <div class="badge">${item.no}</div>
-                            <img src="${item.img}" loading="lazy" alt="상품이미지">
+                            <img src="${item.img}" alt="상품">
                         </div>
                         <div class="info-box">
                             <span class="color-info">${item.color}</span>
@@ -157,13 +64,10 @@
                     </a>
                 `;
             });
-            
             container.innerHTML = html;
         }
 
-        // 실행: 각 섹션에 데이터 뿌리기
         renderProducts('category-new', productData);
-        renderProducts('category-best', [...productData].reverse()); // 베스트는 일단 역순으로 표시
     </script>
 </body>
 </html>
