@@ -1,67 +1,216 @@
+네, 사장님! 맞습니다. 깃허브 페이지(GitHub Pages)를 통해 웹사이트로 바로 띄우시려면 파일 이름은 반드시 index.html이어야 합니다. 그래야 주소를 치고 들어갔을 때 브라우저가 이 파일을 "첫 페이지"로 인식해서 자동으로 열어주거든요.
+
+기존에 테스트하시던 test.html 파일명을 index.html로 바꾸거나, 아래의 최종 통합 버전 내용을 index.html에 그대로 덮어씌우시면 됩니다.
+
+🛠️ index.html 최종 통합본 (카테고리 & 테스트 섹션 포함)
+이 코드는 사장님이 말씀하신 재고 보유 상품(상하복, 티셔츠, 바지) 분류와 테스트 섹션, 그리고 상품명/컬러/사이즈 일괄 복사 기능이 모두 들어간 완성형입니다.
+
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KIDS RIVER Archive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KIDS RIVER OFFICIAL</title>
     <style>
-        body { margin:0; font-family: 'Apple SD Gothic Neo', sans-serif; text-align:center; background:#f8f9fa; color:#333; line-height: 1.5; }
-        .header { padding: 45px 20px 25px; background: #fff; border-bottom: 1px solid #eee; }
-        .header img { width: 100%; max-width: 200px; height: auto; }
-        .header p { color: #888; font-size: 14px; margin-top: 10px; font-weight: 500; }
-
-        .gate-container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 650px; margin: 0 auto; }
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #fff; color: #111; -webkit-tap-highlight-color: transparent; }
         
-        .category-box { background: #fff; border: 1px solid #eaeaea; padding: 25px 12px; border-radius: 20px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .icon-main { font-size: 38px; margin-bottom: 12px; }
-        .title-main { font-size: 17px; font-weight: bold; color: #222; margin-bottom: 15px; }
-        .sub-links { display: flex; flex-direction: column; width: 100%; gap: 6px; border-top: 1px solid #f1f3f5; padding-top: 15px; }
-        .sub-links a { text-decoration: none; color: #666; font-size: 13px; font-weight: 500; padding: 12px 5px; border-radius: 10px; background: #fcfcfc; border: 1px solid #f1f3f5; transition: 0.2s; }
-        .sub-links a.all-view { background: #f1f8ff; color: #007bff; border-color: #e1f0ff; font-weight: 700; }
+        /* 헤더 */
+        .header { padding: 20px; text-align: center; border-bottom: 1px solid #eee; font-size: 20px; font-weight: 900; letter-spacing: -1px; }
+        
+        /* 카테고리 내비게이션 */
+        .nav-tabs { display: flex; gap: 10px; padding: 15px 20px; overflow-x: auto; position: sticky; top: 0; background: #fff; z-index: 100; border-bottom: 1px solid #f5f5f5; scrollbar-width: none; }
+        .nav-tabs::-webkit-scrollbar { display: none; }
+        .tab { white-space: nowrap; padding: 8px 18px; border-radius: 20px; background: #f0f0f0; font-size: 13px; font-weight: bold; cursor: pointer; border: 1px solid transparent; }
+        .tab.active { background: #111; color: #fff; border-color: #111; }
 
-        .full { grid-column: span 2; background: #fffceb; border-color: #ffec99; padding: 35px 15px; }
-        /* 테스트 섹션 디자인 */
-        .test-box { grid-column: span 2; border: 2px solid #339af0; background: #e7f5ff; }
+        /* 상품 리스트 그리드 */
+        .section-title { padding: 20px 20px 10px; font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: space-between; }
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 120px; }
+        .p-card { background: #fff; border-radius: 12px; overflow: hidden; cursor: pointer; }
+        .p-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #f9f9f9; border-radius: 12px; border: 1px solid #eee; }
+        .p-info { padding: 8px 2px; }
+        .p-name { font-size: 13px; color: #444; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .p-price { font-size: 14px; font-weight: bold; color: #111; }
+
+        /* 상세 모달 (상세페이지) */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; overflow-y: auto; }
+        #modal-img { width: 100%; display: block; max-width: 800px; margin: 0 auto; }
+        .back-btn { position: fixed; top: 20px; left: 20px; width: 44px; height: 44px; background: rgba(255,255,255,0.9); border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10001; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; border: 1px solid #eee; }
+
+        /* 하단 구매바 */
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; z-index: 20000; display: none; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -5px 20px rgba(0,0,0,0.05); }
+        .opt-container { padding: 15px 20px; }
+        .fixed-name { font-size: 14px; font-weight: bold; margin-bottom: 12px; color: #007AFF; display: flex; align-items: center; }
+        .fixed-name::before { content: 'SELECTED :'; font-size: 10px; color: #aaa; margin-right: 8px; }
+        .sel-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        .sel-row select { flex: 1; padding: 14px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; background: #fff; outline: none; -webkit-appearance: none; }
+        .buy-btn { width: 100%; padding: 18px; background: #111; color: #fff; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; }
+
+        /* 장바구니 팝업 */
+        #cart-pop { position: fixed; bottom: 100px; right: 20px; width: 280px; background: #fff; border: 2px solid #111; border-radius: 15px; z-index: 30000; display: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2); padding: 18px; }
+        .cart-item { padding: 12px 0; border-bottom: 1px solid #f2f2f2; }
+        .cart-item:last-child { border-bottom: none; }
+        .copy-box { margin-top: 10px; display: flex; gap: 6px; }
+        .c-btn { flex: 1; padding: 10px; font-size: 12px; text-align: center; border-radius: 6px; cursor: pointer; text-decoration: none; font-weight: bold; }
+        .c-btn.black { background: #111; color: #fff; }
+        .c-btn.green { background: #00c73c; color: #fff; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <img src="logo.png" alt="KIDS RIVER">
-        <p>20,000+ 아이옷 통합 카탈로그</p>
+    <div class="header">KIDS RIVER</div>
+
+    <div class="nav-tabs" id="tab-menu">
+        <div class="tab active" onclick="filterCategory('전체')">전체</div>
+        <div class="tab" onclick="filterCategory('당일배송')">🚚당일배송</div>
+        <div class="tab" onclick="filterCategory('상하복')">상하복</div>
+        <div class="tab" onclick="filterCategory('티셔츠')">티셔츠</div>
+        <div class="tab" onclick="filterCategory('팬츠')">팬츠</div>
+        <div class="tab" onclick="filterCategory('테스트')">테스트섹션</div>
     </div>
 
-    <div class="gate-container">
-        <!-- 재고보유 -->
-        <div class="category-box full">
-            <div class="icon-main">📦</div>
-            <div class="title-main">재고 보유 상품</div>
-            <div class="sub-links">
-                <a href="stock.html" class="all-view">입고 완료 상품 확인</a>
-            </div>
-        </div>
+    <div class="section-title" id="sec-title">모든 상품</div>
+    <div class="product-grid" id="main-grid"></div>
 
-        <!-- [연결 수정됨] 테스트 섹션 -->
-        <div class="category-box test-box">
-            <div class="icon-main">🛠️</div>
-            <div class="title-main">테스트 섹션</div>
-            <p style="font-size: 11px; color: #666; margin-bottom: 10px;">이미지 위 정보 표시 스타일 확인</p>
-            <div class="sub-links">
-                <!-- href 부분을 "test.html"로 정확히 맞췄습니다 -->
-                <a href="test.html" style="background: #339af0; color: #fff; border: none; font-weight: bold;">지금 확인하기</a>
-            </div>
-        </div>
-
-        <!-- 기타 카테고리 -->
-        <div class="category-box">
-            <div class="icon-main">👕</div><div class="title-main">상하복</div>
-            <div class="sub-links"><a href="set.html" class="all-view">전체 보기</a></div>
-        </div>
-        <div class="category-box">
-            <div class="icon-main">👗</div><div class="title-main">원피스</div>
-            <div class="sub-links"><a href="onepiece.html" class="all-view">전체 보기</a></div>
+    <!-- 상세 모달 -->
+    <div id="modal">
+        <div class="back-btn" onclick="closeModal()">✕</div>
+        <img id="modal-img" src="">
+        <div style="padding: 50px 20px; text-align: center; background: #fafafa; color: #999; font-size: 13px;">
+            상세 정보 및 사이즈 가이드 영역<br><br>
+            <div style="width:40px; height:2px; background:#ddd; margin: 10px auto;"></div>
+            KIDS RIVER
         </div>
     </div>
 
+    <!-- 하단 고정 구매바 -->
+    <div class="bottom-bar" id="bottom-bar">
+        <div class="opt-container">
+            <div class="fixed-name" id="target-name"></div>
+            <div class="sel-row">
+                <select id="c-select"><option value="">컬러 선택</option></select>
+                <select id="s-select"><option value="">사이즈 선택</option></select>
+            </div>
+            <button class="buy-btn" onclick="addCart()">장바구니 담기</button>
+        </div>
+    </div>
+
+    <!-- 장바구니 -->
+    <div id="cart-pop">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+            <strong style="font-size:16px;">🛒 장바구니</strong>
+            <span onclick="this.parentElement.parentElement.style.display='none'" style="cursor:pointer; color:#ccc; font-size:20px;">✕</span>
+        </div>
+        <div id="cart-content" style="max-height: 300px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        // [데이터] 상품명, 컬러, 사이즈, 이미지번호, 링크, 가격, 카테고리
+        const products = [
+            ["[상하] 566번 스타티", "그린,크림", "5,7,9,11,13", "566", "https://smartstore.naver.com/kidsriver", "19,800", "상하복"],
+            ["[티] 565번 단가라", "블루,옐로우,네이비", "5,7,9,11,13", "565", "https://smartstore.naver.com/kidsriver", "12,500", "티셔츠"],
+            ["[당일] 564번 팬츠", "블랙,그레이", "5,7,9,11,13", "564", "https://smartstore.naver.com/kidsriver", "15,000", "당일배송"],
+            ["[테스트] 샘플티셔츠", "화이트,블랙", "FREE", "566", "https://smartstore.naver.com/kidsriver", "10,000", "테스트"]
+        ];
+
+        let cart = [];
+        let activeProduct = null;
+
+        // 리스트 렌더링 함수
+        function renderGrid(data) {
+            const grid = document.getElementById('main-grid');
+            grid.innerHTML = data.map(p => `
+                <div class="p-card" onclick="openDetail('${p[3]}')">
+                    <img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${p[3]}.jpg">
+                    <div class="p-info">
+                        <div class="p-name">${p[0]}</div>
+                        <div class="p-price">${p[5]}원</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 카테고리 필터링
+        function filterCategory(cat) {
+            // 탭 활성화 UI
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('sec-title').innerText = cat === '전체' ? '모든 상품' : cat;
+
+            if(cat === '전체') {
+                renderGrid(products);
+            } else {
+                const filtered = products.filter(p => p[6] === cat);
+                renderGrid(filtered);
+            }
+        }
+
+        // 상세페이지 열기
+        function openDetail(code) {
+            activeProduct = products.find(p => p[3] === code);
+            document.getElementById('modal-img').src = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
+            document.getElementById('target-name').innerText = activeProduct[0];
+            
+            const cs = document.getElementById('c-select');
+            const ss = document.getElementById('s-select');
+            cs.innerHTML = '<option value="">컬러 선택</option>';
+            ss.innerHTML = '<option value="">사이즈 선택</option>';
+            activeProduct[1].split(',').forEach(v => cs.innerHTML += `<option value="${v.trim()}">${v.trim()}</option>`);
+            activeProduct[2].split(',').forEach(v => ss.innerHTML += `<option value="${v.trim()}">${v.trim()}</option>`);
+
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('bottom-bar').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            document.getElementById('modal').scrollTo(0,0);
+        }
+
+        // 장바구니 담기
+        function addCart() {
+            const c = document.getElementById('c-select').value;
+            const s = document.getElementById('s-select').value;
+            if(!c || !s) return alert("컬러와 사이즈를 선택해주세요!");
+
+            const combined = `${activeProduct[0]}/${c}/${s}`;
+            cart.push({ text: combined, link: activeProduct[4] });
+            
+            showCart();
+        }
+
+        // 장바구니 표시
+        function showCart() {
+            const pop = document.getElementById('cart-pop');
+            const content = document.getElementById('cart-content');
+            pop.style.display = 'block';
+            content.innerHTML = cart.map(i => `
+                <div class="cart-item">
+                    <div style="font-size:13px; font-weight:bold; line-height:1.4;">${i.text}</div>
+                    <div class="copy-box">
+                        <div class="c-btn black" onclick="copy('${i.text}')">복사</div>
+                        <a href="${i.link}" target="_blank" class="c-btn green">결제창</a>
+                    </div>
+                </div>
+            `).reverse().join(''); // 최신순
+        }
+
+        // 복사 기능
+        function copy(t) {
+            navigator.clipboard.writeText(t).then(() => {
+                alert("복사되었습니다!\n스토어 옵션창에 붙여넣기하세요.");
+            });
+        }
+
+        // 모달 닫기
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('bottom-bar').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 초기 실행
+        renderGrid(products);
+    </script>
 </body>
 </html>
