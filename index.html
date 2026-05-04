@@ -5,26 +5,30 @@
 <style>
   body { margin:0; font-family: 'Apple SD Gothic Neo', sans-serif; text-align:center; background:#f8f9fa; color:#333; }
   .header { padding: 40px 20px; background: #fff; border-bottom: 1px solid #eee; margin-bottom: 20px; }
-  .header h1 { margin: 0; font-size: 26px; letter-spacing: 1px; }
   .header p { color: #888; font-size: 14px; margin-top: 8px; }
 
-  /* 버튼들이 깔끔하게 바둑판처럼 정렬되는 마법 */
-  .gate-container { padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 600px; margin: 0 auto; }
+  .gate-container { padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 650px; margin: 0 auto; }
   
-  .gate-button {
+  /* 큰 분류 박스 */
+  .category-box {
     background: #fff; border: 1px solid #eaeaea; padding: 20px 10px;
-    text-decoration: none; color: #444; font-weight: bold; border-radius: 12px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: 0.2s;
+    border-radius: 15px; display: flex; flex-direction: column; align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
-  .gate-button:active { background: #f0f0f0; transform: scale(0.98); }
   
-  /* 아이콘 크기 조절 */
-  .icon { font-size: 28px; margin-bottom: 8px; }
-  /* 소분류 설명 글씨 */
-  .gate-button span { font-size: 11px; color: #999; font-weight: normal; margin-top: 6px; line-height: 1.4; padding: 0 5px; }
+  .icon-main { font-size: 30px; margin-bottom: 8px; }
+  .title-main { font-size: 17px; font-weight: bold; color: #222; margin-bottom: 12px; }
+  
+  /* 소분류 텍스트 링크 스타일 */
+  .sub-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; border-top: 1px dashed #eee; pt: 10px; margin-top: 5px; padding-top: 10px; }
+  .sub-links a {
+    text-decoration: none; color: #666; font-size: 12px; font-weight: 500;
+    padding: 2px 4px; transition: 0.2s;
+  }
+  .sub-links a:hover { color: #339af0; text-decoration: underline; }
+  .sub-links a:after { content: "|"; color: #eee; margin-left: 8px; }
+  .sub-links a:last-child:after { content: ""; }
 
-  /* 재고보유와 악세사리는 가로로 길게 강조 */
   .full { grid-column: span 2; background: #fff9db; border-color: #ffec99; }
   .acc { grid-column: span 2; background: #f3f0ff; border-color: #e5dbff; }
 </style>
@@ -32,54 +36,88 @@
 <body>
 
 <div class="header">
-  <!-- 이미지 주소는 사장님이 업로드한 파일명에 맞춰주세요 -->
-  <img src="logo.png" alt="KIDS RIVER 로고" style="width: 100%; max-width: 250px; height: auto;">
+  <img src="logo.png" alt="KIDS RIVER 로고" style="width: 100%; max-width: 200px; height: auto;">
   <p>20,000+ 아이옷 통합 카탈로그</p>
 </div>
 
 <div class="gate-container">
-  <!-- 1. 재고보유 (강조) -->
-  <a href="stock.html" class="gate-button full">
-    <div class="icon">📦</div> 재고 보유 상품 <span>입고 완료 상품 · 확인 후 빠르게 발송</span>
-  </a>
+  <!-- 1. 재고보유 -->
+  <div class="category-box full">
+    <div class="icon-main">📦</div>
+    <div class="title-main">재고 보유 상품</div>
+    <div class="sub-links">
+      <a href="stock.html">아빠가 직접 검수 후 보내드리는 선별 아이템</a>
+    </div>
+  </div>
 
-  <!-- 2. 주력 의류 -->
-  <a href="set.html" class="gate-button">
-    <div class="icon">👕</div> 상하복 <span>등원룩/세트상품</span>
-  </a>
-  <a href="onepiece.html" class="gate-button">
-    <div class="icon">👗</div> 원피스 <span>공주님 외출복</span>
-  </a>
+  <!-- 2. 상하복 & 원피스 -->
+  <div class="category-box">
+    <div class="icon-main">👕</div><div class="title-main">상하복</div>
+    <div class="sub-links">
+      <a href="set_daily.html">등원룩</a>
+      <a href="set_out.html">외출세트</a>
+    </div>
+  </div>
+  <div class="category-box">
+    <div class="icon-main">👗</div><div class="title-main">원피스</div>
+    <div class="sub-links">
+      <a href="onepiece_girl.html">공주님</a>
+      <a href="onepiece_home.html">홈드레스</a>
+    </div>
+  </div>
   
-  <a href="top.html" class="gate-button">
-    <div class="icon">👚</div> 상의 <span>티셔츠/맨투맨/후드/니트/셔츠</span>
-  </a>
-  <a href="bottom.html" class="gate-button">
-    <div class="icon">👖</div> 하의 <span>청바지/스커트/레깅스/기본바지</span>
-  </a>
+  <!-- 3. 상의 (클릭 가능 소분류) -->
+  <div class="category-box">
+    <div class="icon-main">👚</div><div class="title-main">상의</div>
+    <div class="sub-links">
+      <a href="top_basic.html">티셔츠/맨투맨/후드</a>
+      <a href="top_knit.html">조끼/니트/스웨터</a>
+      <a href="top_sh.html">셔츠/블라우스</a>
+    </div>
+  </div>
 
-  <a href="outer.html" class="gate-button">
-    <div class="icon">🧥</div> 아우터 <span>가디건/바람막이/재킷</span>
-  </a>
-  <a href="pajamas.html" class="gate-button">
-    <div class="icon">💤</div> 파자마 <span>편안한 잠옷/실내복</span>
-  </a>
+  <!-- 4. 하의 (클릭 가능 소분류) -->
+  <div class="category-box">
+    <div class="icon-main">👖</div><div class="title-main">하의</div>
+    <div class="sub-links">
+      <a href="bottom_jean.html">청바지</a>
+      <a href="bottom_sk.html">스커트</a>
+      <a href="bottom_lg.html">레깅스</a>
+      <a href="bottom_pt.html">기본바지</a>
+    </div>
+  </div>
 
-  <!-- 3. 타겟 분류 -->
-  <a href="bebe.html" class="gate-button">
-    <div class="icon">👶</div> 신생아-베베 <span>귀여운 베이비 라인</span>
-  </a>
-  <a href="mom.html" class="gate-button">
-    <div class="icon">👩</div> 맘사이즈 <span>엄마랑 커플룩</span>
-  </a>
+  <!-- 5. 아우터 & 파자마 -->
+  <div class="category-box">
+    <div class="icon-main">🧥</div><div class="title-main">아우터</div>
+    <div class="sub-links">
+      <a href="outer_gd.html">가디건</a>
+      <a href="outer_wind.html">바람막이</a>
+      <a href="outer_jk.html">재킷</a>
+    </div>
+  </div>
+  <div class="category-box">
+    <div class="icon-main">💤</div><div class="title-main">파자마</div>
+    <div class="sub-links">
+      <a href="pajamas.html">잠옷/실내복</a>
+    </div>
+  </div>
 
-  <!-- 4. 악세사리 (강조) -->
-  <a href="acc.html" class="gate-button acc">
-    <div class="icon">🎀</div> 악세사리 & 잡화 <span>신발/모자/양말/가방/헤어소품 등</span>
-  </a>
+  <!-- 6. 악세사리 (상세 클릭) -->
+  <div class="category-box acc">
+    <div class="icon-main">🎀</div><div class="title-main">악세사리 & 잡화</div>
+    <div class="sub-links">
+      <a href="acc_socks.html">양말</a>
+      <a href="acc_shoes.html">신발</a>
+      <a href="acc_hat.html">모자</a>
+      <a href="acc_bag.html">가방</a>
+      <a href="acc_hair.html">헤어소품</a>
+      <a href="acc_etc.html">장갑/목도리/목걸이</a>
+    </div>
+  </div>
 </div>
 
-<div style="margin: 40px 0; font-size: 12px; color: #ccc;">© KIDS RIVER Archive</div>
+<div style="margin: 40px 0; font-size: 11px; color: #ccc;">© KIDS RIVER Archive</div>
 
 </body>
 </html>
