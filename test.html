@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIDS RIVER - 스타일 1 테스트</title>
+    <style>
+        body { margin: 0; font-family: 'Apple SD Gothic Neo', sans-serif; background: #f1f3f5; padding: 15px; }
+        
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            max-width: 600px; 
+            margin: 0 auto; 
+        }
+
+        .product-card {
+            position: relative;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-card img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 상품 번호 배지 */
+        .badge-no {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #222;
+            color: #fff;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            z-index: 10;
+        }
+
+        /* 하단 정보 레이어 (텍스트 나열형) */
+        .info-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6); /* 검정 반투명으로 글자 강조 */
+            padding: 7px 5px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .color-text {
+            font-size: 10px;
+            color: #eee; /* 연한 회색/흰색 텍스트 */
+            display: block;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* 색상이 너무 길면 줄임표 */
+        }
+
+        .size-text {
+            font-size: 10px;
+            color: #fff;
+            font-weight: bold;
+            display: block;
+        }
+
+        .view-detail {
+            padding: 8px;
+            font-size: 12px;
+            color: #888;
+            background: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="padding: 20px 0; text-align: center;">
+        <strong style="font-size: 18px;">스타일 1: 텍스트 나열형</strong>
+        <p style="font-size: 12px; color: #666;">이미지 클릭 시 상세페이지로 연결됩니다.</p>
+    </div>
+
+    <div class="product-grid" id="test-grid"></div>
+
+    <script>
+        // 사장님 제공 데이터
+        const products = [
+            { no: "01", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D566.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D566.jpg", color: "그린, 머스타드, 베이지, 아이, 퍼플", size: "3, 5, 7, 9, 11, 13" },
+            { no: "02", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D565.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D565.jpg", color: "민트, 연보라", size: "3, 5, 7, 9, 11, 13" },
+            { no: "03", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D564.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D564.jpg", color: "베이지, 블루, 아이, 카키, 핑크", size: "3, 5, 7, 9, 11, 13" },
+            { no: "04", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D563.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D563.jpg", color: "스카이청, 진청", size: "3, 5, 7, 9, 11, 13" },
+            { no: "05", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D562.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D562.jpg", color: "네이비, 카키", size: "3, 5, 7, 9, 11, 13" },
+            { no: "06", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D561.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D561.jpg", color: "중청", size: "3, 5, 7, 9, 11, 13" },
+            { no: "07", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D560.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D560.jpg", color: "그린, 블랙, 스카이블루, 체리레드", size: "3, 5, 7, 9, 11, 13" },
+            { no: "08", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D559.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D559.jpg", color: "그린, 블랙, 스카이블루, 체리레드", size: "3, 5, 7, 9, 11, 13" },
+            { no: "09", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D558.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D558.jpg", color: "크림아이, 진그린", size: "3, 5, 7, 9, 11, 13" },
+            { no: "10", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D557.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D557.jpg", color: "베이지, 카키", size: "3, 5, 7, 9, 11, 13" },
+            { no: "11", img: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D556.jpg", link: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D556.jpg", color: "베이지, 카키", size: "3, 5, 7, 9, 11, 13" }
+        ];
+
+        // 숫자 사이즈 뒤에 '호' 붙이기
+        function formatSize(sizeStr) {
+            return sizeStr.split(', ').map(s => s.trim() + '호').join(' ');
+        }
+
+        const grid = document.getElementById('test-grid');
+
+        products.forEach(p => {
+            const cardHtml = `
+                <a href="${p.link}" target="_blank" class="product-card">
+                    <div class="badge-no">${p.no}</div>
+                    <img src="${p.img}" loading="lazy">
+                    <div class="info-overlay">
+                        <span class="color-text">${p.color}</span>
+                        <span class="size-text">${formatSize(p.size)}</span>
+                    </div>
+                    <div class="view-detail">상세보기</div>
+                </a>
+            `;
+            grid.innerHTML += cardHtml;
+        });
+    </script>
+</body>
+</html>
