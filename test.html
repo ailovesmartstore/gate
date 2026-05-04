@@ -16,34 +16,18 @@
             background: #fff; 
             color: #333; 
             -webkit-tap-highlight-color: transparent; 
-            letter-spacing: -0.03em;
+            letter-spacing: -0.04em;
         }
         
-        header { 
-            padding: 30px 15px; 
-            text-align: center; 
-        }
-        
-        .logo { 
-            font-size: 28px; 
-            font-weight: 900; 
-            letter-spacing: -1px; 
-            color: #1a1a1a;
-        }
-
-        .section-title { 
-            padding: 10px 20px 20px; 
-            font-size: 18px; 
-            font-weight: 700; 
-            text-align: center; /* 제목도 가운데 정렬 */
-            color: #444;
-        }
+        header { padding: 30px 15px; text-align: center; }
+        .logo { font-size: 28px; font-weight: 900; letter-spacing: -1.5px; color: #1a1a1a; }
+        .section-title { padding: 10px 20px 20px; font-size: 18px; font-weight: 700; text-align: center; color: #444; }
 
         .slide-container { 
             display: flex; 
             overflow-x: auto; 
-            padding: 0 20px 40px; 
-            gap: 20px; 
+            padding: 0 20px 50px; 
+            gap: 22px; 
             -webkit-overflow-scrolling: touch; 
         }
         .slide-container::-webkit-scrollbar { display: none; }
@@ -53,82 +37,70 @@
             text-decoration: none; 
             color: inherit; 
             display: block;
-            text-align: center; /* 모든 텍스트를 가운데로 */
+            text-align: center;
         }
 
         .img-box { 
             position: relative; 
             width: 100%; 
             aspect-ratio: 1/1.2; 
-            border-radius: 18px; 
+            border-radius: 20px; 
             overflow: hidden; 
             background: #f1f1f1; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.04); 
-            margin-bottom: 15px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.05); 
+            margin-bottom: 18px;
         }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-        .product-card:active img { transform: scale(1.05); } /* 터치 시 살짝 커지는 효과 */
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
         
         .badge { 
             position: absolute; 
             top: 12px; 
             left: 50%; 
-            transform: translateX(-50%); /* 번호 배지도 가운데로 */
-            background: rgba(255,255,255,0.9); 
-            color: #000; 
+            transform: translateX(-50%); 
+            background: rgba(255,255,255,0.95); 
+            color: #222; 
             font-size: 10px; 
-            font-weight: 700; 
-            padding: 4px 10px; 
+            font-weight: 800; 
+            padding: 5px 12px; 
             border-radius: 20px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .info-box { padding: 5px 0; }
-        
-        /* 컬러 리스트 가로형 가운데 정렬 */
+        /* 컬러 리스트 한 줄에 하나씩 정렬 */
         .color-list { 
             display: flex; 
-            justify-content: center; 
-            flex-wrap: wrap;
-            gap: 8px; 
-            margin-bottom: 12px; 
+            flex-direction: column; /* 세로 정렬 */
+            align-items: center;    /* 가운데로 모으기 */
+            gap: 6px; 
+            margin-bottom: 15px; 
         }
         .color-item { 
             display: flex; 
             align-items: center; 
-            gap: 4px; 
+            justify-content: center;
+            gap: 8px; 
+            width: 100%;
         }
         .chip { 
-            width: 10px; 
-            height: 10px; 
+            width: 11px; 
+            height: 11px; 
             border-radius: 50%; 
-            border: 1px solid rgba(0,0,0,0.1); 
+            border: 1px solid rgba(0,0,0,0.08); 
         }
-        .color-name { 
-            font-size: 12px; 
-            color: #888; 
-            font-weight: 400; 
-        }
+        .color-name { font-size: 13px; color: #777; font-weight: 500; }
         
-        /* 세련된 사이즈 정보 디자인 */
+        /* 사이즈 정보 디자인 */
+        .size-container { margin-top: 10px; }
+        .size-label { display: block; font-size: 9px; color: #aaa; margin-bottom: 5px; font-weight: 700; letter-spacing: 0.05em; }
         .size-info { 
             font-size: 11px; 
-            color: #555; 
-            font-weight: 600; 
-            background: #f5f5f5; 
-            padding: 6px 12px; 
-            border-radius: 4px;
+            color: #444; 
+            font-weight: 700; 
+            background: #f8f8f8; 
+            border: 1px solid #eee;
+            padding: 7px 14px; 
+            border-radius: 6px;
             display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .size-label {
-            display: block;
-            font-size: 9px;
-            color: #bbb;
-            margin-bottom: 3px;
-            font-weight: 700;
         }
     </style>
 </head>
@@ -185,10 +157,14 @@
             const container = document.getElementById('product-list');
             let html = '';
 
-            rawData.forEach((item, index) => {
+            rawData.forEach((item) => {
                 const code = item[0];
                 const colorNames = item[1].split(', ').map(c => c.trim());
-                const size = item[2];
+                
+                // 숫자에만 '호'를 붙이는 로직 (FREE, S 등은 제외)
+                const sizeStr = item[2].split(', ').map(s => {
+                    return isNaN(s) ? s : s + '호';
+                }).join(', ');
                 
                 const imgUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${code}.jpg`;
                 const pageUrl = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
@@ -208,13 +184,15 @@
                 html += `
                     <a href="${pageUrl}" class="product-card">
                         <div class="img-box">
-                            <div class="badge">ITEM ${code}</div>
+                            <div class="badge">NO.${code}</div>
                             <img src="${imgUrl}" loading="lazy">
                         </div>
                         <div class="info-box">
                             ${colorListHtml}
-                            <span class="size-label">AVAILABLE SIZE</span>
-                            <div class="size-info">${size}</div>
+                            <div class="size-container">
+                                <span class="size-label">SIZE GUIDE</span>
+                                <div class="size-info">${sizeStr}</div>
+                            </div>
                         </div>
                     </a>
                 `;
