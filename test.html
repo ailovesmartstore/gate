@@ -10,16 +10,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
+        /* 기본 스타일 */
         body { 
             margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; 
             background: #fff; color: #333; letter-spacing: -0.04em;
             display: flex; flex-direction: column; align-items: center;
         }
-        
         header { width: 100%; padding: 30px 0; text-align: center; }
         .logo { font-size: 28px; font-weight: 900; letter-spacing: -1.5px; color: #1a1a1a; }
         .section-title { width: 100%; padding: 10px 0 20px; font-size: 18px; font-weight: 700; text-align: center; color: #444; }
 
+        /* 가로 슬라이드 컨테이너 */
         .slide-container { 
             display: flex; overflow-x: auto; width: 100%; padding: 0 0 50px; gap: 15px; 
             -webkit-overflow-scrolling: touch; scroll-behavior: smooth;
@@ -27,29 +28,54 @@
         .slide-container::-webkit-scrollbar { display: none; }
         .slide-container::before, .slide-container::after { content: ''; flex: 0 0 20px; }
 
+        /* 상품 카드 */
         .product-card { flex: 0 0 200px; text-decoration: none; color: inherit; display: block; text-align: center; cursor: pointer; }
         .img-box { position: relative; width: 100%; aspect-ratio: 1/1.2; border-radius: 15px; overflow: hidden; background: #f1f1f1; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-bottom: 18px; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        
         .badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.95); color: #222; font-size: 10px; font-weight: 800; padding: 5px 12px; border-radius: 20px; }
 
+        /* 컬러 및 사이즈 정보 */
         .color-list { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 15px; }
         .color-item { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
         .chip { width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); }
         .color-name { font-size: 13px; color: #777; font-weight: 500; }
         .size-info { font-size: 11px; color: #444; font-weight: 700; background: #fdfdfd; border: 1px solid #eee; padding: 7px 14px; border-radius: 6px; display: inline-block; }
 
-        /* 상세페이지 팝업 */
+        /* 상세페이지 팝업 전체 창 */
         #modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #fff; z-index: 1000; overflow-y: auto;
         }
-        .modal-header {
-            position: sticky; top: 0; width: 100%; height: 60px; background: #fff;
-            display: flex; align-items: center; padding: 0 15px; box-sizing: border-box; border-bottom: 1px solid #eee; z-index: 1001;
+
+        /* [핵심] 화면 왼쪽 중앙에 고정된 뒤로가기 버튼 */
+        .floating-back-btn {
+            position: fixed;
+            top: 50%; /* 화면 높이의 정확히 절반 */
+            left: 15px; /* 왼쪽 벽에서 15px 뗌 */
+            transform: translateY(-50%); /* 정확한 수직 중앙 정렬 */
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.85); /* 살짝 투명한 흰색 */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* 눈에 잘 띄게 그림자 강화 */
+            cursor: pointer;
+            z-index: 9999; /* 어떤 이미지보다 위에 있도록 */
+            border: 1px solid #ddd;
         }
-        .back-btn { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 16px; font-weight: 600; color: #333; padding: 10px; }
-        .back-btn::before { content: ''; width: 10px; height: 10px; border-top: 2px solid #333; border-left: 2px solid #333; transform: rotate(-45deg); }
+
+        /* 버튼 안의 화살표 (< 모양) */
+        .floating-back-btn::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-top: 3px solid #333;
+            border-left: 3px solid #333;
+            transform: rotate(-45deg);
+            margin-left: 5px; /* 화살표 중심 맞추기 */
+        }
 
         #modal img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
         .modal-footer { padding: 40px 20px; text-align: center; background: #f9f9f9; }
@@ -62,37 +88,35 @@
     <div class="section-title">TODAY'S NEW ARRIVALS</div>
     <div class="slide-container" id="product-list"></div>
 
+    <!-- 상세페이지 팝업 -->
     <div id="modal">
-        <div class="modal-header">
-            <div class="back-btn" onclick="history.back()">뒤로가기</div>
-        </div>
+        <!-- 이제 상단 바 없이 이 버튼만 화면 중앙 왼쪽에 둥둥 떠있습니다 -->
+        <div class="floating-back-btn" onclick="history.back()"></div>
+        
         <img id="modal-img" src="">
+        
         <div class="modal-footer">
             <div class="close-footer-btn" onclick="history.back()">상품 목록으로 돌아가기</div>
         </div>
     </div>
 
     <script>
+        // 컬러 데이터 및 상품 데이터 (동일)
         const colorPalette = { "그린": "#4CAF50", "머스타드": "#FFC107", "베이지": "#F5F5DC", "아이": "#FFFFF0", "퍼플": "#A020F0", "민트": "#98FF98", "연보라": "#E6E6FA", "블루": "#2196F3", "카키": "#4B5320", "핑크": "#FFC0CB", "스카이청": "#87CEEB", "진청": "#00008B", "네이비": "#000080", "중청": "#5F9EA0", "블랙": "#000000", "스카이블루": "#87CEFA", "체리레드": "#D2042D", "크림아이": "#FFFDD0", "진그린": "#006400", "아이보리": "#FFFFF0", "인디핑크": "#B76E79", "인디연핑크": "#FADADD", "소라": "#82B5ED", "크림": "#FFFDD0", "스카이": "#87CEEB", "연베이지": "#F5F5DC" };
         const rawData = [ ["566", "그린, 머스타드, 베이지, 아이, 퍼플", "3, 5, 7, 9, 11, 13"], ["565", "민트, 연보라", "3, 5, 7, 9, 11, 13"], ["564", "베이지, 블루, 아이, 카키, 핑크", "3, 5, 7, 9, 11, 13"], ["563", "스카이청, 진청", "3, 5, 7, 9, 11, 13"], ["562", "네이비, 카키", "3, 5, 7, 9, 11, 13"], ["561", "중청", "3, 5, 7, 9, 11, 13"], ["560", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["559", "그린, 블랙, 스카이블루, 체리레드", "3, 5, 7, 9, 11, 13"], ["558", "크림아이, 진그린", "3, 5, 7, 9, 11, 13"], ["557", "베이지, 카키", "3, 5, 7, 9, 11, 13"], ["556", "베이지, 카키", "3, 5, 7, 9, 11, 13"], ["555", "베이지, 블루, 아이보리, 인디핑크, 카키", "3, 5, 7, 9, 11, 13"], ["554", "베이지, 블루, 아이보리, 인디핑크, 카키", "3, 5, 7, 9"], ["553", "베이지, 블루, 아이보리, 인디핑크, 카키", "3, 5, 7, 9"], ["552", "아이보리, 인디연핑크", "3, 5, 7, 9, 11, 13"], ["551", "민트, 블랙, 스카이블루, 연베이지, 퍼플", "3, 5, 7, 9, 11"], ["550", "핑크, 소라", "FREE"], ["549", "핑크, 소라", "S원사이즈"], ["548", "핑크, 소라", "S, M"], ["547", "크림", "FREE"], ["546", "크림", "FREE"], ["545", "크림", "S원사이즈"], ["544", "크림", "S, M"], ["543", "블랙", "FREE"], ["542", "블랙", "FREE"], ["541", "블랙", "FREE"], ["540", "블랙", "S원사이즈"], ["539", "블랙", "S, M"], ["538", "스카이", "FREE"] ];
 
-        // 상품 클릭 시 팝업 열기
         function openModal(url) {
             const modal = document.getElementById('modal');
             document.getElementById('modal-img').src = url;
-            
-            // 1. 브라우저 기록에 가상의 상태 추가 (뒤로가기 방지용)
             history.pushState({modalOpen: true}, '');
-            
             modal.style.display = 'block';
             modal.scrollTo(0, 0); 
             document.body.style.overflow = 'hidden';
         }
 
-        // 브라우저 뒤로가기 버튼 감지
+        // 브라우저 뒤로가기 대응
         window.onpopstate = function(event) {
             const modal = document.getElementById('modal');
-            // 만약 팝업이 열려있다면 닫기만 수행
             if (modal.style.display === 'block') {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
