@@ -1,32 +1,84 @@
-<div class="gate-container">
-  <!-- 1. 메인 전략 상품 -->
-  <a href="stock.html" class="gate-button" style="grid-column: span 2; background: #fff9db;">📦 재고 보유 상품 (빠른 배송)</a>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { margin:0; font-family: 'Apple SD Gothic Neo', sans-serif; text-align:center; background:#f8f9fa; color:#333; }
+  .header { padding: 40px 20px; background: #fff; border-bottom: 1px solid #eee; margin-bottom: 20px; }
+  .header h1 { margin: 0; font-size: 26px; letter-spacing: 1px; }
+  .header p { color: #888; font-size: 14px; margin-top: 8px; }
 
-  <!-- 2. 주력 의류 분류 -->
-  <a href="set.html" class="gate-button">👕 상하복</a>
-  <a href="onepiece.html" class="gate-button">👗 원피스</a>
+  /* 버튼들이 깔끔하게 바둑판처럼 정렬되는 마법 */
+  .gate-container { padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 600px; margin: 0 auto; }
+  
+  .gate-button {
+    background: #fff; border: 1px solid #eaeaea; padding: 20px 10px;
+    text-decoration: none; color: #444; font-weight: bold; border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: 0.2s;
+  }
+  .gate-button:active { background: #f0f0f0; transform: scale(0.98); }
+  
+  /* 아이콘 크기 조절 */
+  .icon { font-size: 28px; margin-bottom: 8px; }
+  /* 소분류 설명 글씨 */
+  .gate-button span { font-size: 11px; color: #999; font-weight: normal; margin-top: 6px; line-height: 1.4; padding: 0 5px; }
+
+  /* 재고보유와 악세사리는 가로로 길게 강조 */
+  .full { grid-column: span 2; background: #fff9db; border-color: #ffec99; }
+  .acc { grid-column: span 2; background: #f3f0ff; border-color: #e5dbff; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>KIDS RIVER 🌊</h1>
+  <p>20,000+ 아이옷 통합 카탈로그</p>
+</div>
+
+<div class="gate-container">
+  <!-- 1. 재고보유 (강조) -->
+  <a href="stock.html" class="gate-button full">
+    <div class="icon">📦</div> 재고 보유 상품 <span>빠른 배송이 가능한 바로 발송 아이템</span>
+  </a>
+
+  <!-- 2. 주력 의류 -->
+  <a href="set.html" class="gate-button">
+    <div class="icon">👕</div> 상하복 <span>등원룩/세트상품</span>
+  </a>
+  <a href="onepiece.html" class="gate-button">
+    <div class="icon">👗</div> 원피스 <span>공주님 외출복</span>
+  </a>
   
   <a href="top.html" class="gate-button">
-    👚 상의
-    <span>티셔츠/맨투맨/후드/니트/셔츠</span>
+    <div class="icon">👚</div> 상의 <span>티셔츠/맨투맨/후드/니트/셔츠</span>
   </a>
-  
   <a href="bottom.html" class="gate-button">
-    👖 하의
-    <span>청바지/스커트/레깅스/기본바지</span>
+    <div class="icon">👖</div> 하의 <span>청바지/스커트/레깅스/기본바지</span>
   </a>
 
-  <!-- 3. 시즌 및 특수 분류 -->
-  <a href="outer.html" class="gate-button">🧥 아우터 <span>가디건 포함</span></a>
-  <a href="pajamas.html" class="gate-button">💤 파자마(잠옷)</a>
-  
-  <!-- 4. 타겟 분류 -->
-  <a href="bebe.html" class="gate-button">👶 신생아-베베</a>
-  <a href="mom.html" class="gate-button">👩 맘사이즈</a>
+  <a href="outer.html" class="gate-button">
+    <div class="icon">🧥</div> 아우터 <span>가디건/바람막이/재킷</span>
+  </a>
+  <a href="pajamas.html" class="gate-button">
+    <div class="icon">💤</div> 파자마 <span>편안한 잠옷/실내복</span>
+  </a>
 
-  <!-- 5. 악세사리 (전체 한 곳에 모음) -->
-  <a href="acc.html" class="gate-button" style="grid-column: span 2; background: #f8f9fa;">
-    🎀 악세사리 & 잡화
-    <span>신발/모자/양말/가방/헤어소품 등</span>
+  <!-- 3. 타겟 분류 -->
+  <a href="bebe.html" class="gate-button">
+    <div class="icon">👶</div> 신생아-베베 <span>귀여운 베이비 라인</span>
+  </a>
+  <a href="mom.html" class="gate-button">
+    <div class="icon">👩</div> 맘사이즈 <span>엄마랑 커플룩</span>
+  </a>
+
+  <!-- 4. 악세사리 (강조) -->
+  <a href="acc.html" class="gate-button acc">
+    <div class="icon">🎀</div> 악세사리 & 잡화 <span>신발/모자/양말/가방/헤어소품 등</span>
   </a>
 </div>
+
+<div style="margin: 40px 0; font-size: 12px; color: #ccc;">© KIDS RIVER Archive</div>
+
+</body>
+</html>
