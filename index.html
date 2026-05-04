@@ -5,45 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KIDS RIVER Archive</title>
     <style>
-        body { margin:0; font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; text-align:center; background:#f8f9fa; color:#333; line-height: 1.5; }
-        
-        /* 상단 로고 영역 */
+        body { margin:0; font-family: 'Apple SD Gothic Neo', sans-serif; text-align:center; background:#f8f9fa; color:#333; line-height: 1.5; }
         .header { padding: 45px 20px 25px; background: #fff; border-bottom: 1px solid #eee; }
         .header img { width: 100%; max-width: 200px; height: auto; }
         .header p { color: #888; font-size: 14px; margin-top: 10px; font-weight: 500; }
 
-        /* 전체 컨테이너 */
         .gate-container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 650px; margin: 0 auto; }
         
-        /* [수정] 가로 슬라이드 섹션 */
-        .trending-section { 
-            grid-column: span 2; background: #fff; padding: 20px 0; 
-            border-radius: 20px; border: 1px solid #eee; margin-top: 10px; 
-            overflow: hidden; /* 영역 밖 상품 숨김 */
-        }
-        .trending-title { font-size: 15px; font-weight: bold; color: #339af0; margin-bottom: 15px; }
-        
-        /* [핵심] 가로 스크롤 구현 */
-        .trending-slider { 
-            display: flex; 
-            overflow-x: auto; /* 가로 스크롤 허용 */
-            scroll-snap-type: x mandatory; /* 스냅 기능 (착 달라붙게) */
-            -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
-            gap: 12px; 
-            padding: 0 20px 10px 20px; /* 좌우 여백 */
-        }
-        /* 스크롤바 숨기기 (깔끔하게) */
-        .trending-slider::-webkit-scrollbar { display: none; }
-
-        .trending-item { 
-            flex: 0 0 140px; /* 아이템 너비 고정 */
-            scroll-snap-align: center; /* 스크롤 시 중앙에 딱 붙음 */
-            text-decoration: none; display: flex; flex-direction: column; align-items: center; 
-        }
-        .trending-item img { width: 140px; height: 140px; object-fit: cover; border-radius: 12px; background: #f1f3f5; border: 1px solid #f1f1f1; }
-        .trending-item span { font-size: 12px; color: #666; margin-top: 8px; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* 카테고리 박스 스타일 */
         .category-box { background: #fff; border: 1px solid #eaeaea; padding: 25px 12px; border-radius: 20px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .icon-main { font-size: 38px; margin-bottom: 12px; }
         .title-main { font-size: 17px; font-weight: bold; color: #222; margin-bottom: 15px; }
@@ -52,8 +20,8 @@
         .sub-links a.all-view { background: #f1f8ff; color: #007bff; border-color: #e1f0ff; font-weight: 700; }
 
         .full { grid-column: span 2; background: #fffceb; border-color: #ffec99; padding: 35px 15px; }
-        .acc { grid-column: span 2; background: #f8f5ff; border-color: #e5dbff; }
-        .footer { margin: 50px 0; font-size: 12px; color: #bbb; }
+        /* 테스트 섹션 디자인 */
+        .test-box { grid-column: span 2; border: 2px solid #339af0; background: #e7f5ff; }
     </style>
 </head>
 <body>
@@ -64,91 +32,36 @@
     </div>
 
     <div class="gate-container">
-        <!-- 1. 재고보유 -->
+        <!-- 재고보유 -->
         <div class="category-box full">
             <div class="icon-main">📦</div>
             <div class="title-main">재고 보유 상품</div>
             <div class="sub-links">
-                <a href="stock.html" class="all-view">입고 완료 상품 · 확인 후 빠르게 발송</a>
+                <a href="stock.html" class="all-view">입고 완료 상품 확인</a>
             </div>
         </div>
 
-        <!-- 2. 가로 슬라이드 인기 상품 -->
-        <div class="trending-section">
-            <div class="trending-title">🔥 실시간 인기 급상승 (옆으로 밀어보세요)</div>
-            <div id="random-slider" class="trending-slider">
-                <!-- 스크립트가 무작위 상품을 채웁니다 -->
+        <!-- [연결 수정됨] 테스트 섹션 -->
+        <div class="category-box test-box">
+            <div class="icon-main">🛠️</div>
+            <div class="title-main">테스트 섹션</div>
+            <p style="font-size: 11px; color: #666; margin-bottom: 10px;">이미지 위 정보 표시 스타일 확인</p>
+            <div class="sub-links">
+                <!-- href 부분을 "test.html"로 정확히 맞췄습니다 -->
+                <a href="test.html" style="background: #339af0; color: #fff; border: none; font-weight: bold;">지금 확인하기</a>
             </div>
         </div>
 
-        <!-- 3. 카테고리 리스트 -->
+        <!-- 기타 카테고리 -->
         <div class="category-box">
             <div class="icon-main">👕</div><div class="title-main">상하복</div>
-            <div class="sub-links"><a href="set.html" class="all-view">전체 상품 보기</a></div>
+            <div class="sub-links"><a href="set.html" class="all-view">전체 보기</a></div>
         </div>
         <div class="category-box">
             <div class="icon-main">👗</div><div class="title-main">원피스</div>
-            <div class="sub-links"><a href="onepiece.html" class="all-view">전체 상품 보기</a></div>
+            <div class="sub-links"><a href="onepiece.html" class="all-view">전체 보기</a></div>
         </div>
-        <div class="category-box">
-            <div class="icon-main">👚</div><div class="title-main">상의</div>
-            <div class="sub-links">
-                <a href="top.html" class="all-view">전체 상품 보기</a>
-                <a href="top_basic.html">티셔츠/맨투맨/후드</a>
-            </div>
-        </div>
-        <div class="category-box">
-            <div class="icon-main">👖</div><div class="title-main">하의</div>
-            <div class="sub-links">
-                <a href="bottom.html" class="all-view">전체 상품 보기</a>
-                <a href="bottom_jean.html">청바지</a>
-            </div>
-        </div>
-        <div class="category-box acc">
-            <div class="icon-main">🎀</div><div class="title-main">악세사리 & 잡화</div>
-            <div class="sub-links"><a href="acc.html" class="all-view">전체 상품 보기</a></div>
-        </div>
-        <div class="category-box" style="border-color: #339af0;">
-    <div class="icon-main">🔍</div>
-    <div class="title-main">테스트 섹션</div>
-    <div class="sub-links">
-        <a href="test_v1.html" class="all-view">방법 1 스타일 확인</a>
-    </div>
-</div>
     </div>
 
-    <div class="footer">© KIDS RIVER Archive</div>
-
-    <script>
-        // 무작위로 보여줄 상품 풀 (나중에 파이썬으로 엑셀 데이터를 여기 넣습니다)
-        const productData = [
-            { name: "리본 원피스", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "데님 팬츠", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "레어 티셔츠", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "니트 가디건", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "조거 세트", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "스니커즈", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "헤어 밴드", img: "https://via.placeholder.com/150", link: "#" },
-            { name: "베어 바디수트", img: "https://via.placeholder.com/150", link: "#" }
-        ];
-
-        function refreshSlider() {
-            const slider = document.getElementById('random-slider');
-            // 8개 정도 랜덤으로 뽑아서 슬라이드 구성
-            const shuffled = productData.sort(() => 0.5 - Math.random()).slice(0, 8);
-            
-            slider.innerHTML = ''; 
-            shuffled.forEach(item => {
-                slider.innerHTML += `
-                    <a href="${item.link}" class="trending-item">
-                        <img src="${item.img}" alt="${item.name}">
-                        <span>${item.name}</span>
-                    </a>
-                `;
-            });
-        }
-
-        window.onload = refreshSlider;
-    </script>
 </body>
 </html>
