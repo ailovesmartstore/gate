@@ -10,166 +10,147 @@
 
         /* [메인 리스트] */
         .slide-container { display: flex; overflow-x: auto; gap: 15px; padding: 20px; scrollbar-width: none; }
-        .product-card { flex: 0 0 150px; background: #fff; border-radius: 15px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; }
+        .product-card { flex: 0 0 150px; background: #fff; border-radius: 15px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .product-card img { width: 100%; border-radius: 10px; }
 
-        /* [플로팅 메뉴] */
+        /* [플로팅 버튼] */
         .fab-container { position: fixed; bottom: 160px; right: 20px; z-index: 999999; }
-        .fab-main { width: 60px; height: 60px; background: var(--primary-color); border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; font-size: 12px; font-weight: bold; position: relative; }
-        .cart-badge { position: absolute; top: -5px; right: -5px; background: var(--accent-color); color: #fff; font-size: 10px; padding: 3px 7px; border-radius: 10px; }
+        .fab-main { width: 65px; height: 65px; background: var(--primary-color); border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; font-size: 13px; font-weight: bold; }
+        .badge { position: absolute; top: -5px; right: -5px; background: var(--accent-color); color: #fff; font-size: 11px; padding: 4px 8px; border-radius: 12px; border: 2px solid #fff; }
 
-        /* [카테고리 & 오버레이] */
-        .category-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 999998; }
-        .category-menu { display: none; position: fixed; bottom: 230px; right: 20px; background: #fff; border-radius: 20px; width: 260px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 999999; overflow: hidden; }
-        .menu-header { background: #f8f8f8; padding: 15px; font-weight: bold; border-bottom: 1px solid #eee; text-align: center; }
-        .menu-item { padding: 15px; border-bottom: 1px solid #f9f9f9; font-size: 14px; cursor: pointer; text-align: center; }
+        /* [메뉴 & 오버레이] */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 999998; }
+        .menu-window { display: none; position: fixed; bottom: 235px; right: 20px; background: #fff; border-radius: 20px; width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 999999; overflow: hidden; }
+        .menu-item { padding: 18px; border-bottom: 1px solid #f2f2f2; font-size: 14px; text-align: center; cursor: pointer; }
 
-        /* [모달 상세페이지] */
+        /* [상세페이지 모달] */
         #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; overflow-y: auto; }
-        #modal-img { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
+        #modal-img { width: 100%; max-width: 800px; display: block; margin: 0 auto; }
 
-        /* [선택형 옵션 UI] */
-        .option-section { padding: 20px; background: #fff; border-top: 1px solid #eee; }
-        .opt-group { margin-bottom: 15px; }
-        .opt-label { font-size: 12px; font-weight: bold; color: #888; margin-bottom: 8px; }
-        .opt-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-        .chip { padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; }
-        .chip.selected { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+        /* [옵션 칩 디자인] */
+        .opt-box { padding: 20px; border-top: 1px solid #eee; }
+        .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 20px; }
+        .chip { padding: 10px 18px; border: 1px solid #ddd; border-radius: 25px; font-size: 13px; cursor: pointer; }
+        .chip.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+        .add-btn { width: 100%; padding: 18px; background: var(--primary-color); color: #fff; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; }
 
-        .btn-add-cart { width: 100%; padding: 16px; background: var(--primary-color); color: #fff; border: none; border-radius: 12px; font-weight: bold; margin-top: 10px; cursor: pointer; }
-
-        /* [추천 바] */
-        .recommend-section { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; padding: 10px 0 40px; z-index: 40000; }
-        .recommend-list { display: flex; overflow-x: auto; padding: 0 20px; gap: 10px; }
-        .rec-item img { width: 90px; border-radius: 12px; border: 1px solid #eee; }
+        /* [하단 추천바] */
+        .rec-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; padding: 10px 0 40px; z-index: 40000; }
+        .rec-scroll { display: flex; overflow-x: auto; padding: 0 20px; gap: 10px; }
+        .rec-item img { width: 90px; border-radius: 12px; }
     </style>
 </head>
 <body>
 
-    <div class="slide-container" id="product-list"></div>
+    <div class="slide-container" id="main-list"></div>
 
-    <div class="category-overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="fab-container">
-        <div class="category-menu" id="category-menu">
-            <div class="menu-header">MY SHOPPING</div>
+        <div class="menu-window" id="menu-window">
             <div id="menu-content"></div>
         </div>
         <div class="fab-main" onclick="toggleMenu()">
-            <div class="cart-badge" id="cart-badge">0</div>
+            <div class="badge" id="cart-count">0</div>
             MENU
         </div>
     </div>
 
     <div id="modal">
         <img id="modal-img" src="">
-        
-        <div class="option-section">
-            <div class="opt-group">
-                <div class="opt-label">색상 선택</div>
-                <div class="opt-chips" id="color-chips"></div>
-            </div>
-            <div class="opt-group">
-                <div class="opt-label">사이즈 선택</div>
-                <div class="opt-chips" id="size-chips"></div>
-            </div>
-            <button class="btn-add-cart" onclick="addToOrder()">주문 리스트에 담기</button>
+        <div class="opt-box">
+            <p style="font-size:12px; color:#888; font-weight:bold;">색상 선택</p>
+            <div class="chip-grid" id="color-area"></div>
+            <p style="font-size:12px; color:#888; font-weight:bold;">사이즈 선택</p>
+            <div class="chip-grid" id="size-area"></div>
+            <button class="add-btn" onclick="pushToCart()">장바구니 담기</button>
         </div>
-
-        <div class="recommend-section">
-            <div class="recommend-list" id="recommend-list"></div>
+        <div class="rec-bar">
+            <div class="rec-scroll" id="rec-area"></div>
         </div>
         <div style="padding: 20px 20px 250px; text-align: center;">
-            <div style="background:#eee; padding:15px; border-radius:30px; display:inline-block;" onclick="closeModal()">닫기</div>
+            <div style="background:#f0f0f0; padding:15px 40px; border-radius:30px; display:inline-block;" onclick="closeModal()">계속 쇼핑하기</div>
         </div>
     </div>
 
     <script>
-        let currentCode = "";
-        let selectedColor = "";
-        let selectedSize = "";
-        let orderList = JSON.parse(localStorage.getItem('kids_order_list')) || [];
+        let curItem = null;
+        let selColor = "";
+        let selSize = "";
+        let myCart = JSON.parse(localStorage.getItem('kids_river_cart')) || [];
 
-        // [데이터] 상품번호, 기본색상들, 사이즈들, 추천상품, 스토어링크
-        const products = [
-            { code: "566", colors: ["그린", "아이보리"], sizes: ["3호", "5호", "7호", "9호"], rec: ["565", "564"], link: "https://smartstore.naver.com/kidsriver/products/1" },
-            { code: "565", colors: ["민트", "핑크", "노랑"], sizes: ["5호", "7호", "9호", "11호"], rec: ["566", "564"], link: "https://smartstore.naver.com/kidsriver/products/1" }
+        // [데이터 설정] 사장님의 Python 자동화와 연동할 부분
+        const productData = [
+            { id: "566", colors: ["그린", "크림"], sizes: ["5호", "7호", "9호"], rec: ["565", "564"], link: "https://smartstore.naver.com/kidsriver/products/12345" },
+            { id: "565", colors: ["민트", "노랑", "아이"], sizes: ["3호", "5호", "7호"], rec: ["566", "564"], link: "https://smartstore.naver.com/kidsriver/products/12345" }
         ];
 
-        function updateBadge() { document.getElementById('cart-badge').innerText = orderList.length; }
-
-        function renderChips(containerId, data, type) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = data.map(item => `<div class="chip" onclick="selectChip(this, '${item}', '${type}')">${item}</div>`).join('');
-        }
-
-        function selectChip(el, value, type) {
-            el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-            if(type === 'color') selectedColor = value;
-            if(type === 'size') selectedSize = value;
-        }
-
-        function addToOrder() {
-            if(!selectedColor || !selectedSize) return alert("색상과 사이즈를 선택해 주세요!");
-            const orderStr = `${currentCode}(${selectedColor}/${selectedSize})`;
-            orderList.push(orderStr);
-            localStorage.setItem('kids_order_list', JSON.stringify(orderList));
-            updateBadge();
-            alert("리스트에 담겼습니다!");
-            closeModal();
-        }
+        function updateUI() { document.getElementById('cart-count').innerText = myCart.length; }
 
         function toggleMenu() {
-            const menu = document.getElementById('category-menu');
-            const overlay = document.getElementById('overlay');
-            if(menu.style.display === 'block') {
-                menu.style.display = 'none'; overlay.style.display = 'none';
-            } else {
-                showMenu();
-                menu.style.display = 'block'; overlay.style.display = 'block';
-            }
+            const m = document.getElementById('menu-window');
+            const o = document.getElementById('overlay');
+            if(m.style.display === 'block') { m.style.display = 'none'; o.style.display = 'none'; }
+            else { renderMenu(); m.style.display = 'block'; o.style.display = 'block'; }
         }
 
-        function showMenu() {
-            const content = document.getElementById('menu-content');
-            let html = `<div class="menu-item" style="font-weight:bold; color:var(--accent-color);" onclick="copyToClipboard()">📋 주문 정보 복사하기 (${orderList.length})</div>`;
-            html += `<div class="menu-item" onclick="window.open('${products[0].link}')">🛍️ 스마트스토어 결제하러 가기</div>`;
-            html += `<div class="menu-item" style="color:#999; font-size:11px;" onclick="if(confirm('비우시겠습니까?')){orderList=[];localStorage.clear();updateBadge();toggleMenu();}">장바구니 비우기</div>`;
-            content.innerHTML = html;
+        function renderMenu() {
+            const cont = document.getElementById('menu-content');
+            let h = `<div class="menu-item" style="color:var(--accent-color); font-weight:bold;" onclick="copyOrderText()">📋 주문 정보 복사 (${myCart.length}벌)</div>`;
+            h += `<div class="menu-item" onclick="window.open('${productData[0].link}')">🛍️ 스마트스토어 결제하러 가기</div>`;
+            h += `<div class="menu-item" style="color:#bbb; font-size:12px;" onclick="clearCart()">장바구니 비우기</div>`;
+            cont.innerHTML = h;
         }
 
-        function copyToClipboard() {
-            if(orderList.length === 0) return alert("담긴 상품이 없습니다.");
-            const text = orderList.join(", ");
+        function copyOrderText() {
+            if(myCart.length === 0) return alert("담긴 상품이 없습니다.");
+            // 사장님이 제안하신 [총 N벌 결제 필요] 포맷 적용
+            const text = `[총 ${myCart.length}벌 결제 필요] ${myCart.join(', ')}`;
             navigator.clipboard.writeText(text).then(() => {
-                alert("복사완료! 스토어 '직접입력'란에 붙여넣으세요.\n\n내용: " + text);
+                alert("복사되었습니다!\n\n수량을 [" + myCart.length + "]개로 변경하고 붙여넣어 주세요.\n\n내용: " + text);
+                toggleMenu();
             });
         }
 
-        function openModal(code) {
-            currentCode = code;
-            selectedColor = ""; selectedSize = "";
-            const p = products.find(item => item.code === code) || products[0];
-            
-            document.getElementById('modal-img').src = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${code}.jpg`;
-            renderChips('color-chips', p.colors, 'color');
-            renderChips('size-chips', p.sizes, 'size');
+        function clearCart() { if(confirm('장바구니를 비우시겠습니까?')) { myCart = []; localStorage.removeItem('kids_river_cart'); updateUI(); toggleMenu(); } }
 
-            const recList = document.getElementById('recommend-list');
-            recList.innerHTML = p.rec.map(c => `<div class="rec-item" onclick="openModal('${c}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${c}.jpg"></div>`).join('');
+        function openModal(id) {
+            const p = productData.find(x => x.id === id) || productData[0];
+            curItem = p; selColor = ""; selSize = "";
+            document.getElementById('modal-img').src = `https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D${id}.jpg`;
             
+            const renderChips = (target, list, type) => {
+                document.getElementById(target).innerHTML = list.map(v => `<div class="chip" onclick="clickChip(this, '${v}', '${type}')">${v}</div>`).join('');
+            };
+            renderChips('color-area', p.colors, 'c');
+            renderChips('size-area', p.sizes, 's');
+
+            document.getElementById('rec-area').innerHTML = p.rec.map(r => `<img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${r}.jpg" onclick="openModal('${r}')">`).join('');
             document.getElementById('modal').style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
 
+        function clickChip(el, val, type) {
+            el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            if(type === 'c') selColor = val; else selSize = val;
+        }
+
+        function pushToCart() {
+            if(!selColor || !selSize) return alert("색상과 사이즈를 선택해 주세요!");
+            myCart.push(`${curItem.id}(${selColor}/${selSize})`);
+            localStorage.setItem('kids_river_cart', JSON.stringify(myCart));
+            updateUI();
+            alert("장바구니에 담겼습니다!");
+            closeModal();
+        }
+
         function closeModal() { document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
-        const main = document.getElementById('product-list');
-        products.forEach(p => {
-            main.innerHTML += `<div class="product-card" onclick="openModal('${p.code}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${p.code}.jpg"><p style="text-align:center; font-weight:bold; margin-top:5px;">NO.${p.code}</p></div>`;
+        productData.forEach(p => {
+            document.getElementById('main-list').innerHTML += `<div class="product-card" onclick="openModal('${p.id}')"><img src="https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D${p.id}.jpg"><p style="text-align:center; font-size:13px; font-weight:bold; margin-top:8px;">NO.${p.id}</p></div>`;
         });
-        updateBadge();
+        updateUI();
     </script>
 </body>
 </html>
