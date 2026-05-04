@@ -3,79 +3,85 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body { margin:0; font-family: 'Apple SD Gothic Neo', sans-serif; text-align:center; background:#f8f9fa; color:#333; }
-  .header { padding: 40px 20px; background: #fff; border-bottom: 1px solid #eee; margin-bottom: 20px; }
-  .header p { color: #888; font-size: 14px; margin-top: 8px; }
+  body { margin:0; font-family: 'Apple SD Gothic Neo', sans-serif; text-align:center; background:#f8f9fa; color:#333; line-height: 1.5; }
+  .header { padding: 50px 20px 30px; background: #fff; border-bottom: 1px solid #eee; }
+  .header p { color: #888; font-size: 15px; margin-top: 10px; font-weight: 500; }
 
-  .gate-container { padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 650px; margin: 0 auto; }
+  /* 모바일에서 버튼이 더 커 보이도록 여백과 간격 조정 */
+  .gate-container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 650px; margin: 0 auto; }
   
   .category-box {
-    background: #fff; border: 1px solid #eaeaea; padding: 20px 10px;
-    border-radius: 15px; display: flex; flex-direction: column; align-items: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    background: #fff; border: 1px solid #eaeaea; padding: 25px 12px;
+    border-radius: 18px; display: flex; flex-direction: column; align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   }
   
-  .icon-main { font-size: 30px; margin-bottom: 8px; }
-  .title-main { font-size: 17px; font-weight: bold; color: #222; margin-bottom: 12px; }
+  .icon-main { font-size: 36px; margin-bottom: 12px; }
+  .title-main { font-size: 18px; font-weight: bold; color: #222; margin-bottom: 15px; }
   
-  .sub-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; border-top: 1px dashed #eee; margin-top: 5px; padding-top: 10px; }
+  /* 소분류 링크: 모바일 터치가 쉽도록 간격 확장 */
+  .sub-links { 
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; 
+    border-top: 1px dashed #eee; width: 100%; padding-top: 15px; 
+  }
   .sub-links a {
-    text-decoration: none; color: #666; font-size: 12px; font-weight: 500;
-    padding: 2px 4px; transition: 0.2s;
+    text-decoration: none; color: #555; font-size: 13px; font-weight: 500;
+    padding: 5px 2px; transition: 0.2s;
   }
-  .sub-links a:hover { color: #339af0; text-decoration: underline; }
-  .sub-links a:after { content: "|"; color: #eee; margin-left: 8px; }
+  /* 전체 상품 보기 강조 (파란색) */
+  .sub-links a.all-view { color: #007bff; font-weight: 700; }
+  
+  .sub-links a:after { content: "|"; color: #eee; margin-left: 10px; }
   .sub-links a:last-child:after { content: ""; }
 
-  .full { grid-column: span 2; background: #fff9db; border-color: #ffec99; }
-  .acc { grid-column: span 2; background: #f3f0ff; border-color: #e5dbff; }
+  /* 강조 섹션 */
+  .full { grid-column: span 2; background: #fffceb; border-color: #ffec99; padding: 30px 15px; }
+  .acc { grid-column: span 2; background: #f8f5ff; border-color: #e5dbff; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <img src="logo.png" alt="KIDS RIVER 로고" style="width: 100%; max-width: 200px; height: auto;">
+  <img src="logo.png" alt="KIDS RIVER 로고" style="width: 100%; max-width: 220px; height: auto;">
   <p>20,000+ 아이옷 통합 카탈로그</p>
 </div>
 
 <div class="gate-container">
-  <!-- 1. 재고보유 -->
+  <!-- 1. 재고보유 (사장님 확정 문구) -->
   <div class="category-box full">
     <div class="icon-main">📦</div>
     <div class="title-main">재고 보유 상품</div>
     <div class="sub-links">
-      <a href="stock.html">입고 완료 상품 · 확인 후 빠르게 발송</a>
+      <a href="stock.html" class="all-view">입고 완료 상품 · 확인 후 빠르게 발송</a>
     </div>
   </div>
 
-  <!-- 2. 상하복 & 원피스 (스마트스토어 기준 통합) -->
+  <!-- 2. 상하복 & 원피스 -->
   <div class="category-box">
     <div class="icon-main">👕</div><div class="title-main">상하복</div>
-    <div class="sub-links">
-      <a href="set.html">전체 상품 보기</a>
-    </div>
+    <div class="sub-links"><a href="set.html" class="all-view">전체 상품 보기</a></div>
   </div>
   <div class="category-box">
     <div class="icon-main">👗</div><div class="title-main">원피스</div>
-    <div class="sub-links">
-      <a href="onepiece.html">전체 상품 보기</a>
-    </div>
+    <div class="sub-links"><a href="onepiece.html" class="all-view">전체 상품 보기</a></div>
   </div>
   
-  <!-- 3. 상의 (유지) -->
+  <!-- 3. 상의 (전체 상품 보기 추가) -->
   <div class="category-box">
     <div class="icon-main">👚</div><div class="title-main">상의</div>
     <div class="sub-links">
+      <a href="top.html" class="all-view">전체 상품 보기</a>
       <a href="top_basic.html">티셔츠/맨투맨/후드</a>
       <a href="top_knit.html">조끼/니트/스웨터</a>
       <a href="top_sh.html">셔츠/블라우스</a>
     </div>
   </div>
 
-  <!-- 4. 하의 (유지) -->
+  <!-- 4. 하의 (전체 상품 보기 추가) -->
   <div class="category-box">
     <div class="icon-main">👖</div><div class="title-main">하의</div>
     <div class="sub-links">
+      <a href="bottom.html" class="all-view">전체 상품 보기</a>
       <a href="bottom_jean.html">청바지</a>
       <a href="bottom_sk.html">스커트</a>
       <a href="bottom_lg.html">레깅스</a>
@@ -83,35 +89,35 @@
     </div>
   </div>
 
-  <!-- 5. 아우터 (가디건 중심 심플 구성) & 파자마 -->
+  <!-- 5. 아우터 (전체 상품 보기 추가) -->
   <div class="category-box">
     <div class="icon-main">🧥</div><div class="title-main">아우터</div>
     <div class="sub-links">
+      <a href="outer.html" class="all-view">전체 상품 보기</a>
       <a href="outer_gd.html">가디건</a>
       <a href="outer_jk.html">자켓/점퍼</a>
     </div>
   </div>
   <div class="category-box">
     <div class="icon-main">💤</div><div class="title-main">파자마(잠옷)</div>
-    <div class="sub-links">
-      <a href="pajamas.html">잠옷/실내복</a>
-    </div>
+    <div class="sub-links"><a href="pajamas.html" class="all-view">전체 상품 보기</a></div>
   </div>
 
   <!-- 6. 타겟별 -->
   <div class="category-box">
     <div class="icon-main">👶</div><div class="title-main">신생아-베베</div>
-    <div class="sub-links"><a href="bebe.html">전체보기</a></div>
+    <div class="sub-links"><a href="bebe.html" class="all-view">전체 상품 보기</a></div>
   </div>
   <div class="category-box">
     <div class="icon-main">👩</div><div class="title-main">맘사이즈</div>
-    <div class="sub-links"><a href="mom.html">전체보기</a></div>
+    <div class="sub-links"><a href="mom.html" class="all-view">전체 상품 보기</a></div>
   </div>
 
   <!-- 7. 악세사리 -->
   <div class="category-box acc">
     <div class="icon-main">🎀</div><div class="title-main">악세사리 & 잡화</div>
     <div class="sub-links">
+      <a href="acc.html" class="all-view">전체 상품 보기</a>
       <a href="acc_socks.html">양말</a>
       <a href="acc_shoes.html">신발</a>
       <a href="acc_hat.html">모자</a>
@@ -122,7 +128,7 @@
   </div>
 </div>
 
-<div style="margin: 40px 0; font-size: 11px; color: #ccc;">© KIDS RIVER Archive</div>
+<div style="margin: 50px 0; font-size: 12px; color: #bbb;">© KIDS RIVER Archive</div>
 
 </body>
 </html>
