@@ -26,13 +26,12 @@
         /* 로고를 화면 가득 시원하게 배치 */
         header img { 
             width: 100%;
-            max-width: 500px; /* 로고 이미지 자체가 커보이도록 상한선 확대 */
+            max-width: 500px;
             height: auto; 
             display: block;
             margin: 0 auto;
         }
 
-        /* 문구는 로고의 보조적인 역할로 최소화 */
         .brand-intro { 
             margin-top: -15px;
             padding: 0 20px; 
@@ -54,14 +53,14 @@
             border-radius: 22px;
             overflow: hidden;
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            min-height: 110px;
+            min-height: 120px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             border: none;
         }
 
-        /* 이미지 위 텍스트 가독성을 위한 레이어 */
+        /* 이미지 위 가독성을 위한 그라데이션 */
         .card::before {
             content: '';
             position: absolute;
@@ -94,26 +93,26 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* [이미지 가이드] 각 카테고리에 맞는 아동복 이미지 추천 */
-        /* 아우터: 베이지색 트렌치 코트나 귀여운 야구 점퍼 스타일 이미지 */
-        .card.outer { background-image: url('outer_model.jpg'); }
+        /* [임의 설정된 아동복 이미지 주소] */
+        /* 아우터: 베이지 톤의 따뜻한 느낌 */
+        .card.outer { background-image: url('https://images.unsplash.com/photo-1544126592-807daa2b567b?auto=format&fit=crop&q=80&w=500'); }
         
-        /* 상의: 깔끔한 레터링 맨투맨이나 니트 조끼를 입은 아이 이미지 */
-        .card.tops { background-image: url('tops_model.jpg'); }
+        /* 상의: 깔끔한 니트/티셔츠 스타일 */
+        .card.tops { background-image: url('https://images.unsplash.com/photo-1519235106638-30cc49b4f42b?auto=format&fit=crop&q=80&w=500'); }
         
-        /* 하의: 활동적인 데님 팬츠나 베이지색 면바지 디테일 이미지 */
-        .card.bottoms { background-image: url('bottoms_model.jpg'); }
+        /* 하의: 활동적인 느낌의 키즈 팬츠 */
+        .card.bottoms { background-image: url('https://images.unsplash.com/photo-1622244099803-753184483adc?auto=format&fit=crop&q=80&w=500'); }
         
-        /* 악세사리: 귀여운 보닛 모자나 알록달록한 양말 뭉치 이미지 */
-        .card.acc { background-image: url('acc_model.jpg'); }
+        /* 악세사리: 소품 위주의 감성컷 */
+        .card.acc { background-image: url('https://images.unsplash.com/photo-1522771935876-2497116534a8?auto=format&fit=crop&q=80&w=500'); }
 
         .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         
-        /* 원피스: 살랑거리는 플라워 패턴 원피스 이미지 */
-        .card.dress { background-image: url('dress_model.jpg'); min-height: 90px; }
+        /* 원피스: 화사한 분위기 */
+        .card.dress { background-image: url('https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&q=80&w=500'); min-height: 100px; }
         
-        /* 상하복: 편안한 색감의 조거 세트나 니트 상하복 이미지 */
-        .card.setup { background-image: url('setup_model.jpg'); min-height: 90px; }
+        /* 상하복: 편안한 홈웨어/세트 느낌 */
+        .card.setup { background-image: url('https://images.unsplash.com/photo-1503919919749-646dd4100613?auto=format&fit=crop&q=80&w=500'); min-height: 100px; }
 
         .grid-card {
             padding: 25px 15px; text-align: center; text-decoration: none; color: #fff;
@@ -135,15 +134,15 @@
 </header>
 
 <div class="container">
-    <!-- 실시간 재고 (이 칸은 강조를 위해 그라데이션 유지) -->
+    <!-- 실시간 재고 (그라데이션 강조 유지) -->
     <div class="card" style="background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); min-height: 70px;">
         <a href="stock_list.html" class="card-top" style="padding: 25px 20px;">
-            <h2>실시간 재고보유 ✨</h2>
+            <h2>재고보유 ✨</h2>
             <span>전체보기 ></span>
         </a>
     </div>
 
-    <!-- 대분류 카드 리스트 -->
+    <!-- 대분류 카드 리스트 (이미지 적용됨) -->
     <div class="card outer">
         <a href="outer_all.html" class="card-top">
             <h2>아우터</h2>
