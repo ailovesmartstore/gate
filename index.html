@@ -8,6 +8,7 @@
         :root {
             --bg-color: #fcfcf9;
             --main-blue: #7ba8d2;
+            --bebe-pink: #f4dada;
             --card-shadow: rgba(0,0,0,0.08);
         }
 
@@ -19,7 +20,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* 헤더 로고 영역: 꽉 차게 수정 */
         header { 
             width: 100%;
             background: #fff;
@@ -30,10 +30,9 @@
             overflow: hidden;
         }
         header img { 
-            width: 100%; /* 너비 꽉 차게 */
+            width: 100%; 
             height: auto; 
             display: block;
-            transition: transform 0.3s ease;
         }
 
         .brand-intro { padding: 20px; text-align: center; }
@@ -41,12 +40,11 @@
         .brand-intro p { margin-top: 6px; font-size: 11px; color: #aaa; }
 
         .container {
-            max-width: 600px; /* 600px 가이드 반영 */
+            max-width: 600px; 
             margin: 0 auto; padding: 0 16px 100px;
             display: flex; flex-direction: column; gap: 16px;
         }
 
-        /* 카드 공통 스타일 */
         .card {
             position: relative;
             background-size: cover;
@@ -61,23 +59,21 @@
             min-height: 140px;
         }
 
-        /* 오버레이: 기본적으로 약간 어둡게 하여 글자 가독성 확보 */
         .card::after {
             content: '';
             position: absolute;
             top:0; left:0; right:0; bottom:0;
-            background: rgba(0,0,0,0.3); /* 기본 어두움 */
+            background: rgba(0,0,0,0.3); 
             z-index: 1;
             transition: background 0.3s ease;
         }
 
-        /* 마우스 호버 시 밝아지는 효과 복구 */
         .card:hover { 
             transform: translateY(-5px); 
             box-shadow: 0 12px 30px rgba(0,0,0,0.15); 
         }
         .card:hover::after {
-            background: rgba(0,0,0,0.1); /* 호버 시 밝아짐 */
+            background: rgba(0,0,0,0.1); 
         }
 
         .big-card-top {
@@ -105,7 +101,8 @@
         }
         .chip:hover { background: #fff; color: #333; transform: scale(1.05); }
 
-        /* 실시간 재고 전용 스타일 */
+        /* 베베 & 재고 섹션 */
+        .bg-bebe { background-color: var(--bebe-pink); background-image: url('bebe.jpg'); }
         .bg-stock { background: var(--main-blue); min-height: 90px; justify-content: center; }
         .bg-stock::after { background: rgba(0,0,0,0.05); }
         .bg-stock:hover::after { background: rgba(0,0,0,0); }
@@ -130,12 +127,11 @@
 
 <header>
     <div class="logo-container">
-        <!-- logo.png가 화면 너비에 꽉 차게 표시됩니다 -->
         <img src="logo.png" alt="KIDS RIVER">
     </div>
     <div class="brand-intro">
         <h1>아이옷 통합 카탈로그</h1>
-        <p>20,000여 가지 아동복 실시간 업데이트</p>
+        <p>키즈부터 베베까지, 실시간 업데이트</p>
     </div>
 </header>
 
@@ -145,6 +141,19 @@
         <div class="big-card-top" style="padding: 20px;">
             <h2 style="font-size: 1.2rem;">실시간 재고보유 ✨</h2>
             <span class="view-all">보러가기 ></span>
+        </div>
+    </div>
+
+    <!-- 베베 (신규 추가) -->
+    <div class="card bg-bebe" onclick="location.href='bebe_all.html'">
+        <div class="big-card-top">
+            <h2>베베 (BEBE)</h2>
+            <span class="view-all">전체보기 ></span>
+        </div>
+        <div class="sub-wrap" onclick="event.stopPropagation();">
+            <a href="bebe_suit.html" class="chip">바디슈트</a>
+            <a href="bebe_setup.html" class="chip">베베상하복</a>
+            <a href="bebe_outfit.html" class="chip">베베외출복</a>
         </div>
     </div>
 
@@ -188,7 +197,7 @@
         </div>
     </div>
 
-    <!-- 악세사리 -->
+    <!-- 악세사리 (수정 보완) -->
     <div class="card acc" onclick="location.href='acc_all.html'">
         <div class="big-card-top">
             <h2>악세사리</h2>
@@ -199,6 +208,8 @@
             <a href="acc_shoes.html" class="chip">신발</a>
             <a href="acc_hat.html" class="chip">모자</a>
             <a href="acc_bag.html" class="chip">가방</a>
+            <a href="acc_winter.html" class="chip">장갑&목도리</a>
+            <a href="acc_jewelry.html" class="chip">목걸이&헤어</a>
         </div>
     </div>
 
