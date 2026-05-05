@@ -19,16 +19,31 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        header { padding: 40px 0 20px; text-align: center; }
-        header img { width: 180px; height: auto; display: block; margin: 0 auto 15px; }
+        /* 헤더 로고 영역: 꽉 차게 수정 */
+        header { 
+            width: 100%;
+            background: #fff;
+            padding-bottom: 20px;
+        }
+        header .logo-container {
+            width: 100%;
+            overflow: hidden;
+        }
+        header img { 
+            width: 100%; /* 너비 꽉 차게 */
+            height: auto; 
+            display: block;
+            transition: transform 0.3s ease;
+        }
 
-        .brand-intro { padding: 0 20px; text-align: center; margin-bottom: 20px; }
-        .brand-intro h1 { font-size: 14px; font-weight: 800; color: #444; letter-spacing: 1px; margin: 0; }
-        .brand-intro p { margin-top: 6px; font-size: 10px; color: #aaa; }
+        .brand-intro { padding: 20px; text-align: center; }
+        .brand-intro h1 { font-size: 16px; font-weight: 800; color: #444; letter-spacing: 1px; margin: 0; }
+        .brand-intro p { margin-top: 6px; font-size: 11px; color: #aaa; }
 
         .container {
-            max-width: 500px; margin: 0 auto; padding: 0 16px 100px;
-            display: flex; flex-direction: column; gap: 14px;
+            max-width: 600px; /* 600px 가이드 반영 */
+            margin: 0 auto; padding: 0 16px 100px;
+            display: flex; flex-direction: column; gap: 16px;
         }
 
         /* 카드 공통 스타일 */
@@ -36,62 +51,71 @@
             position: relative;
             background-size: cover;
             background-position: center;
-            border-radius: 24px;
+            border-radius: 20px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             display: flex;
             flex-direction: column;
             box-shadow: 0 4px 12px var(--card-shadow);
             cursor: pointer;
-            min-height: 120px;
+            min-height: 140px;
         }
 
-        /* 이미지 부재 시 대비한 기본 그라데이션 */
+        /* 오버레이: 기본적으로 약간 어둡게 하여 글자 가독성 확보 */
         .card::after {
             content: '';
             position: absolute;
             top:0; left:0; right:0; bottom:0;
-            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 100%);
+            background: rgba(0,0,0,0.3); /* 기본 어두움 */
             z-index: 1;
+            transition: background 0.3s ease;
         }
 
-        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
+        /* 마우스 호버 시 밝아지는 효과 복구 */
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15); 
+        }
+        .card:hover::after {
+            background: rgba(0,0,0,0.1); /* 호버 시 밝아짐 */
+        }
 
         .big-card-top {
             position: relative; z-index: 2;
-            padding: 25px 20px 15px;
+            padding: 30px 20px 15px;
             display: flex; justify-content: space-between; align-items: center;
             color: #fff;
         }
-        .big-card-top h2 { font-size: 1.2rem; margin: 0; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .big-card-top .view-all { font-size: 10px; opacity: 0.9; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 10px; backdrop-filter: blur(5px); }
+        .big-card-top h2 { font-size: 1.3rem; margin: 0; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .big-card-top .view-all { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.25); padding: 5px 12px; border-radius: 20px; backdrop-filter: blur(5px); }
         
         .sub-wrap {
             position: relative; z-index: 3;
-            padding: 0 20px 25px; display: flex; flex-wrap: wrap; gap: 8px;
+            padding: 0 20px 30px; display: flex; flex-wrap: wrap; gap: 8px;
         }
         
         .chip {
-            text-decoration: none; font-size: 11px; color: #fff;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 8px 14px; border-radius: 12px;
+            text-decoration: none; font-size: 12px; color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px; border-radius: 12px;
             font-weight: 600; 
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
             transition: all 0.2s;
         }
-        .chip:hover { background: #fff; color: #333; }
+        .chip:hover { background: #fff; color: #333; transform: scale(1.05); }
 
         /* 실시간 재고 전용 스타일 */
-        .bg-stock { background: var(--main-blue); min-height: 80px; justify-content: center; }
-        .bg-stock::after { display: none; }
+        .bg-stock { background: var(--main-blue); min-height: 90px; justify-content: center; }
+        .bg-stock::after { background: rgba(0,0,0,0.05); }
+        .bg-stock:hover::after { background: rgba(0,0,0,0); }
 
         /* 하프 그리드 */
-        .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .half-card { height: 140px; justify-content: center; align-items: center; text-align: center; }
-        .half-card h2 { position: relative; z-index: 2; color: #fff; font-size: 1.1rem; font-weight: 800; }
+        .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .half-card { height: 160px; justify-content: center; align-items: center; text-align: center; }
+        .half-card h2 { position: relative; z-index: 2; color: #fff; font-size: 1.2rem; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
 
-        /* 배경 이미지 (경로 확인 필요) */
+        /* 배경 이미지 섹션 */
         .outer { background-color: #a5b1c2; background-image: url('outer.jpg'); }
         .tops { background-color: #d1d8e0; background-image: url('tee.jpg'); }
         .bottoms { background-color: #778ca3; background-image: url('pants.jpg'); }
@@ -99,14 +123,16 @@
         .dress { background-color: #a55eea; background-image: url('onepiece.jpg'); }
         .setup { background-color: #20bf6b; background-image: url('set.jpg'); }
 
-        footer { text-align: center; padding: 40px 20px; font-size: 10px; color: #ccc; letter-spacing: 2px; }
+        footer { text-align: center; padding: 60px 20px; font-size: 11px; color: #bbb; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
 <header>
-    <!-- 로고 이미지가 없다면 텍스트로 대체될 수 있도록 alt를 정확히 기입 -->
-    <img src="logo.png" alt="KIDS RIVER">
+    <div class="logo-container">
+        <!-- logo.png가 화면 너비에 꽉 차게 표시됩니다 -->
+        <img src="logo.png" alt="KIDS RIVER">
+    </div>
     <div class="brand-intro">
         <h1>아이옷 통합 카탈로그</h1>
         <p>20,000여 가지 아동복 실시간 업데이트</p>
@@ -117,8 +143,8 @@
     <!-- 실시간 재고 -->
     <div class="card bg-stock" onclick="location.href='stock_list.html'">
         <div class="big-card-top" style="padding: 20px;">
-            <h2 style="font-size: 1.1rem;">실시간 재고보유 ✨</h2>
-            <span class="view-all">전체보기 ></span>
+            <h2 style="font-size: 1.2rem;">실시간 재고보유 ✨</h2>
+            <span class="view-all">보러가기 ></span>
         </div>
     </div>
 
@@ -187,7 +213,7 @@
     </div>
 </div>
 
-<footer>© KIDS RIVER</footer>
+<footer>© KIDS RIVER ALL RIGHTS RESERVED</footer>
 
 </body>
 </html>
