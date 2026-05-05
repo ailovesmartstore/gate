@@ -23,23 +23,10 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        header { 
-            padding: 30px 0 10px; 
-            text-align: center;
-        }
-        header img { 
-            width: 100%;
-            max-width: 480px; 
-            height: auto; 
-            display: block;
-            margin: 0 auto;
-        }
+        header { padding: 30px 0 10px; text-align: center; }
+        header img { width: 100%; max-width: 480px; height: auto; display: block; margin: 0 auto; }
 
-        .brand-intro { 
-            margin-top: -10px;
-            padding: 0 20px; 
-            opacity: 0.4;
-        }
+        .brand-intro { margin-top: -10px; padding: 0 20px; opacity: 0.4; text-align: center; }
         .brand-intro h1 { font-size: 12px; font-weight: 700; color: #444; letter-spacing: 1px; }
         .brand-intro p { margin-top: 4px; font-size: 9px; color: #888; }
 
@@ -58,13 +45,14 @@
             display: flex;
             flex-direction: column;
             box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            cursor: pointer;
         }
 
         .card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 65%);
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 100%);
             z-index: 1;
         }
 
@@ -76,44 +64,52 @@
             text-decoration: none; color: #fff;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .big-card-top h2 { font-size: 1.15rem; margin: 0; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .big-card-top span { font-size: 10px; opacity: 0.9; font-weight: 600; }
+        .big-card-top h2 { font-size: 1.15rem; margin: 0; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .big-card-top span { font-size: 10px; opacity: 0.9; font-weight: 600; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 10px; }
         
         .sub-wrap {
             position: relative; z-index: 2;
             padding: 0 20px 25px; display: flex; flex-wrap: wrap; gap: 6px;
         }
+        
+        /* 소분류 텍스트 가독성 강화 */
         .chip {
-            text-decoration: none; font-size: 10px; color: #fff;
-            background: rgba(255,255,255,0.22);
-            padding: 6px 12px; border-radius: 12px;
-            font-weight: 600; backdrop-filter: blur(6px);
-            border: 1px solid rgba(255,255,255,0.15);
+            text-decoration: none; font-size: 11px; color: #fff;
+            background: rgba(0, 0, 0, 0.35); /* 배경을 조금 더 어둡게 */
+            padding: 7px 13px; border-radius: 12px;
+            font-weight: 700; 
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* 글자 그림자 추가 */
         }
 
         .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         
         .center-card {
-            height: 110px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;    
-            justify-content: center; 
-            position: relative;
-            z-index: 2;
-            color: #fff;
-            text-align: center;
+            height: 110px; text-decoration: none;
+            display: flex; align-items: center; justify-content: center; 
+            position: relative; z-index: 2; color: #fff; text-align: center;
         }
-        .center-card h2 { font-size: 1.05rem; margin: 0; font-weight: 800; text-shadow: 0 2px 5px rgba(0,0,0,0.4); }
+        .center-card h2 { font-size: 1.05rem; margin: 0; font-weight: 800; text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
 
-        /* 배경 이미지 설정 - 깃허브 파일명 매칭 */
+        /* 배경 이미지 설정 */
         .bg-stock { background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); }
         .card.outer { background-color: var(--color-outer); background-image: url('outer.jpg'); }
-        .card.tops { background-color: var(--color-tops); background-image: url('tee.jpg'); } /* tee.jpg 매칭 */
-        .card.bottoms { background-color: var(--color-bottoms); background-image: url('pants.jpg'); } /* pants.jpg 매칭 */
+        .card.tops { background-color: var(--color-tops); background-image: url('tee.jpg'); }
+        .card.bottoms { background-color: var(--color-bottoms); background-image: url('pants.jpg'); }
         .card.acc { background-color: var(--color-acc); background-image: url('acc.jpg'); }
-        .card.dress { background-color: var(--color-dress); background-image: url('onepiece.jpg'); } /* onepiece.jpg 매칭 */
-        .card.setup { background-color: var(--color-setup); background-image: url('set.jpg'); } /* set.jpg 매칭 */
+        .card.dress { background-color: var(--color-dress); background-image: url('onepiece.jpg'); }
+        .card.setup { background-color: var(--color-setup); background-image: url('set.jpg'); }
+
+        /* 이미지 크게 보기 모달 */
+        #imageModal {
+            display: none; position: fixed; z-index: 100;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center; align-items: center;
+        }
+        #modalImg { max-width: 95%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        #closeBtn { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; font-weight: bold; }
 
         footer { text-align: center; padding: 40px 20px; font-size: 10px; color: #ccc; letter-spacing: 2px; }
     </style>
@@ -130,76 +126,98 @@
 
 <div class="container">
     <div class="card bg-stock">
-        <a href="stock_list.html" class="center-card" style="justify-content: space-between; padding: 0 20px; height: 75px;">
+        <div class="center-card" style="justify-content: space-between; padding: 0 20px; height: 75px;">
             <h2 style="font-size: 1.1rem;">실시간 재고보유 ✨</h2>
-            <span style="font-size: 10px; opacity: 0.9;">전체보기 ></span>
-        </a>
+            <span>전체보기 ></span>
+        </div>
     </div>
 
-    <div class="card outer">
-        <a href="outer_all.html" class="big-card-top">
+    <!-- 각 카드에 onclick 이벤트를 추가하여 이미지 주소를 전달합니다 -->
+    <div class="card outer" onclick="openModal('outer.jpg')">
+        <div class="big-card-top">
             <h2>아우터</h2>
             <span>전체보기 ></span>
-        </a>
+        </div>
         <div class="sub-wrap">
-            <a href="outer_cardigan.html" class="chip">가디건</a>
+            <span class="chip">가디건</span>
         </div>
     </div>
 
-    <div class="card tops">
-        <a href="tops_all.html" class="big-card-top">
+    <div class="card tops" onclick="openModal('tee.jpg')">
+        <div class="big-card-top">
             <h2>상의</h2>
             <span>전체보기 ></span>
-        </a>
+        </div>
         <div class="sub-wrap">
-            <a href="tops_tshirts.html" class="chip">티&맨투맨&후드티</a>
-            <a href="tops_knit.html" class="chip">조끼&니트&스웨터</a>
-            <a href="tops_shirts.html" class="chip">셔츠&블라우스</a>
+            <span class="chip">티&맨투맨&후드티</span>
+            <span class="chip">조끼&니트&스웨터</span>
+            <span class="chip">셔츠&블라우스</span>
         </div>
     </div>
 
-    <div class="card bottoms">
-        <a href="bottoms_all.html" class="big-card-top">
+    <div class="card bottoms" onclick="openModal('pants.jpg')">
+        <div class="big-card-top">
             <h2>하의</h2>
             <span>전체보기 ></span>
-        </a>
+        </div>
         <div class="sub-wrap">
-            <a href="bottoms_jeans.html" class="chip">청바지</a>
-            <a href="bottoms_skirt.html" class="chip">스커트</a>
-            <a href="bottoms_leggings.html" class="chip">레깅스</a>
-            <a href="bottoms_pants.html" class="chip">기본바지</a>
+            <span class="chip">청바지</span>
+            <span class="chip">스커트</span>
+            <span class="chip">레깅스</span>
+            <span class="chip">기본바지</span>
         </div>
     </div>
 
-    <div class="card acc">
-        <a href="acc_all.html" class="big-card-top">
+    <div class="card acc" onclick="openModal('acc.jpg')">
+        <div class="big-card-top">
             <h2>악세사리</h2>
             <span>전체보기 ></span>
-        </a>
+        </div>
         <div class="sub-wrap">
-            <a href="acc_socks.html" class="chip">양말</a>
-            <a href="acc_winter.html" class="chip">장갑&목도리</a>
-            <a href="acc_bag.html" class="chip">가방</a>
-            <a href="acc_shoes.html" class="chip">신발</a>
-            <a href="acc_hat.html" class="chip">모자</a>
+            <span class="chip">양말</span>
+            <span class="chip">장갑&목도리</span>
+            <span class="chip">가방</span>
+            <span class="chip">신발</span>
+            <span class="chip">모자</span>
         </div>
     </div>
 
     <div class="grid-half">
-        <div class="card dress">
-            <a href="dress_all.html" class="center-card">
+        <div class="card dress" onclick="openModal('onepiece.jpg')">
+            <div class="center-card">
                 <h2>원피스</h2>
-            </a>
+            </div>
         </div>
-        <div class="card setup">
-            <a href="setup_all.html" class="center-card">
+        <div class="card setup" onclick="openModal('set.jpg')">
+            <div class="center-card">
                 <h2>상하복</h2>
-            </a>
+            </div>
         </div>
     </div>
 </div>
 
+<!-- 이미지 확대 모달 구조 -->
+<div id="imageModal" onclick="closeModal()">
+    <span id="closeBtn">&times;</span>
+    <img id="modalImg">
+</div>
+
 <footer>© KIDS RIVER</footer>
+
+<script>
+    // 이미지 모달 열기 함수
+    function openModal(imgSrc) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImg");
+        modal.style.display = "flex";
+        modalImg.src = imgSrc;
+    }
+
+    // 이미지 모달 닫기 함수
+    function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+</script>
 
 </body>
 </html>
