@@ -1,82 +1,157 @@
+보여주신 이미지의 깔끔하고 아기자기한 디자인 톤을 유지하면서, 요청하신 방대한 카테고리를 직관적으로 구성한 index.html 코드입니다.
+
+주요 카테고리는 큰 카드 형태로, 세부 소분류는 텍스트 링크 형태로 배치하여 사용자가 한눈에 메뉴를 파악할 수 있도록 설계했습니다.
+
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KIDS RIVER</title>
+    <title>KIDS RIVER - 키즈리버</title>
     <style>
-        body { margin: 0; padding: 0; font-family: -apple-system, sans-serif; background: #fff; text-align: center; }
-        
-        /* [1] 상단 대표 이미지: logo.png 사용 */
-        .logo-area { padding: 50px 20px 30px; }
-        .logo-area img { width: 150px; height: auto; }
-
-        /* [2] 메인 타이틀 */
-        .intro-text { margin-bottom: 40px; }
-        .intro-text h1 { font-size: 18px; font-weight: 800; color: #333; margin: 0; }
-        .intro-text p { font-size: 12px; color: #999; margin-top: 5px; }
-
-        /* [3] 사각형 틀 형식의 아기자기한 메뉴 (이미지 없음) */
-        .grid-menu { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            padding: 0 25px; 
+        :root {
+            --main-blue: #6ca0d1;
+            --bg-color: #f9f8f3;
+            --card-bg: #ffffff;
+            --text-dark: #333;
+            --text-gray: #999;
         }
-        
-        .menu-item { 
-            border: 1px solid #eee; 
-            border-radius: 12px; 
-            padding: 30px 10px; 
-            background: #fafafa;
-            text-decoration: none;
+
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Pretendard', -apple-system, sans-serif; 
+            background: var(--bg-color); 
+            text-align: center; 
+            color: var(--text-dark);
+        }
+
+        /* 상단 로고 영역 */
+        .logo-area { padding: 40px 20px 20px; }
+        .logo-area img { width: 180px; height: auto; border-radius: 10px; }
+
+        /* 타이틀 */
+        .intro-text { margin-bottom: 30px; }
+        .intro-text h1 { font-size: 24px; font-weight: 800; margin: 0; color: var(--text-dark); }
+        .intro-text p { font-size: 13px; color: var(--text-gray); margin-top: 8px; letter-spacing: 1px; }
+
+        /* 그리드 메뉴 컨테이너 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 0 20px 50px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 개별 카테고리 카드 */
+        .category-card {
+            background: var(--card-bg);
+            padding: 20px 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            border: 1px solid #f0f0f0;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s;
         }
 
-        /* 대분류 & 소분류 텍스트 스타일 */
-        .main-cat { font-size: 15px; font-weight: 700; color: #444; margin-bottom: 6px; }
-        .sub-cat { font-size: 10px; color: #aaa; letter-spacing: 1px; text-transform: uppercase; }
+        .category-card:active { transform: scale(0.98); }
 
-        /* 하단 카피라이트 */
-        .footer { margin-top: 60px; font-size: 10px; color: #ddd; padding-bottom: 30px; }
+        .category-card h2 { font-size: 17px; margin: 0 0 8px 0; color: var(--text-dark); }
+        .category-card .sub-list { 
+            font-size: 11px; 
+            color: var(--text-gray); 
+            line-height: 1.5; 
+            word-break: keep-all;
+        }
+
+        /* 재고보유 강조 스타일 */
+        .stock-special {
+            grid-column: span 2;
+            background: var(--main-blue);
+        }
+        .stock-special h2, .stock-special .sub-list { color: #fff; }
+
+        footer { font-size: 10px; color: #ccc; padding-bottom: 30px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div class="logo-area">
+        <!-- logo.png 파일이 있다고 가정합니다 -->
         <img src="logo.png" alt="KIDS RIVER">
     </div>
 
     <div class="intro-text">
-        <h1>20,000+ 아이옷 통합 카탈로그</h1>
+        <h1>아이옷 통합 카탈로그</h1>
         <p>SELECTIVE CHILDREN'S WEAR</p>
     </div>
 
-    <div class="grid-menu">
-        <!-- 사각형 틀 안에 대분류와 소분류만 깔끔하게 -->
-        <a href="#" class="menu-item">
-            <span class="main-cat">상하복</span>
-            <span class="sub-cat">Set-up</span>
+    <div class="grid-container">
+        
+        <!-- [1] 재고보유 (강조) -->
+        <a href="#" class="category-card stock-special">
+            <h2>재고보유</h2>
+            <div class="sub-list">IN STOCK</div>
         </a>
-        <a href="#" class="menu-item">
-            <span class="main-cat">티셔츠</span>
-            <span class="sub-cat">T-shirts</span>
+
+        <!-- [2] 아우터 -->
+        <a href="#" class="category-card">
+            <h2>아우터</h2>
+            <div class="sub-list">가디건</div>
         </a>
-        <a href="#" class="menu-item">
-            <span class="main-cat">팬츠</span>
-            <span class="sub-cat">Pants</span>
+
+        <!-- [3] 원피스 -->
+        <a href="#" class="category-card">
+            <h2>원피스</h2>
+            <div class="sub-list">ONE-PIECE</div>
         </a>
-        <a href="#" class="menu-item">
-            <span class="main-cat">재고보유</span>
-            <span class="sub-cat">In Stock</span>
+
+        <!-- [4] 상하복 -->
+        <a href="#" class="category-card">
+            <h2>상하복</h2>
+            <div class="sub-list">SET-UP</div>
         </a>
-        <!-- 필요하신 만큼 박스를 추가하세요 -->
+
+        <!-- [5] 상의 -->
+        <a href="#" class="category-card">
+            <h2>상의</h2>
+            <div class="sub-list">티&맨투맨&후드 / 조끼&니트<br>셔츠&블라우스</div>
+        </a>
+
+        <!-- [6] 하의 -->
+        <a href="#" class="category-card">
+            <h2>하의</h2>
+            <div class="sub-list">청바지 / 스커트 / 레깅스<br>기본바지</div>
+        </a>
+
+        <!-- [7] 파자마 -->
+        <a href="#" class="category-card">
+            <h2>파자마</h2>
+            <div class="sub-list">PAJAMAS</div>
+        </a>
+
+        <!-- [8] 신생아 -->
+        <a href="#" class="category-card">
+            <h2>신생아</h2>
+            <div class="sub-list">베베 (BEBE)</div>
+        </a>
+
+        <!-- [9] 악세사리 (하단 전체 차지) -->
+        <a href="#" class="category-card" style="grid-column: span 2;">
+            <h2>악세사리</h2>
+            <div class="sub-list">양말 / 장갑&목도리&스카프 / 가방 / 헤어 / 신발 / 모자</div>
+        </a>
+
     </div>
 
-    <div class="footer">© KIDS RIVER</div>
+    <footer>© KIDS RIVER</footer>
 
 </body>
 </html>
