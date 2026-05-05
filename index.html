@@ -21,57 +21,33 @@
             color: #333;
         }
 
+        /* 배너를 없애고 로고 영역을 극대화 */
         header { 
-            padding: 30px 20px 10px; 
+            padding: 60px 20px 40px; 
             text-align: center;
             background: #fff;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
         }
-        header img { width: 100px; height: auto; }
-        
-        /* 배너를 키우고 텍스트 박스를 제거한 레이아웃 */
-        .main-banner {
-            margin: 15px auto 25px;
-            max-width: 100%; /* 너비를 꽉 채우거나 조절 */
-            height: 320px; /* 높이를 키워 시원하게 노출 */
-            background: #eee url('image_388bc1.png') center/cover no-repeat;
-            display: flex;
-            align-items: flex-end; /* 텍스트를 하단에 배치해 이미지 중심을 살림 */
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            /* 모서리를 살짝 둥글게 하거나 배경에 따라 조정 가능 */
-        }
-        
-        /* 이미지 위 글자가 잘 보이도록 하단에만 은은한 그림자 추가 */
-        .main-banner::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 50%;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
-        }
+        /* 로고 크기를 대폭 키움 */
+        header img { width: 180px; height: auto; margin-bottom: 20px; }
 
-        .banner-text {
-            position: relative;
-            z-index: 1;
-            padding-bottom: 40px; /* 하단 여백 */
-            text-align: center;
-            color: #fff;
-        }
-        .banner-text p { margin: 0; font-size: 12px; font-weight: 500; letter-spacing: 2px; opacity: 0.9; }
-        .banner-text h3 { margin: 8px 0 0; font-size: 24px; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        /* 배너 대신 들어가는 감성 문구 */
+        .brand-intro { margin-top: 10px; }
+        .brand-intro p { margin: 0; font-size: 11px; font-weight: 500; color: #bbb; letter-spacing: 3px; }
+        .brand-intro h3 { margin: 10px 0 0; font-size: 20px; font-weight: 700; color: #444; }
 
         .container {
-            max-width: 500px; margin: 0 auto; padding: 0 20px 100px;
+            max-width: 500px; margin: 0 auto; padding: 30px 20px 100px;
             display: flex; flex-direction: column; gap: 24px;
         }
 
+        /* 카드 디자인 유지 */
         .card {
             background: #fff; border-radius: 30px; overflow: hidden;
             border: 1px solid rgba(0,0,0,0.03);
             box-shadow: 0 10px 25px rgba(0,0,0,0.04);
         }
-
         .card-top {
             display: flex; justify-content: space-between; align-items: center;
             padding: 24px 24px 18px; text-decoration: none; color: inherit;
@@ -107,15 +83,13 @@
 <body>
 
 <header>
+    <!-- 로고를 주인공으로 -->
     <img src="logo.png" alt="KIDS RIVER">
-</header>
-
-<div class="main-banner">
-    <div class="banner-text">
+    <div class="brand-intro">
         <p>2026 SPRING COLLECTION</p>
         <h3>새로운 계절, 우리 아이 첫 옷</h3>
     </div>
-</div>
+</header>
 
 <div class="container">
     <!-- 재고보유 -->
