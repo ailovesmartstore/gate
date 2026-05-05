@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이동복 관리 시스템 - Entry</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Pretendard', sans-serif;
+            overflow: hidden;
+        }
+        .container { display: flex; height: 100vh; }
+        
+        /* 공통 섹션 스타일 */
+        .door {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Door 1: 카테고리 중심 */
+        .door-1 { background-color: #f8f9fa; border-right: 1px solid #ddd; }
+        .door-1:hover { background-color: #e9ecef; flex: 1.2; }
+
+        /* Door 2: 스마트스토어 중심 */
+        .door-2 { background-color: #ffffff; }
+        .door-2:hover { background-color: #f1f3f5; flex: 1.2; }
+
+        .icon { font-size: 4rem; margin-bottom: 20px; }
+        h2 { font-size: 2rem; margin-bottom: 10px; color: #222; }
+        p { font-size: 1.1rem; color: #666; line-height: 1.5; }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: #495057;
+            color: white;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- (1) 카테고리 중심 DB -->
+    <a href="category_db.html" class="door door-1">
+        <div class="icon">🔍</div>
+        <h2>Item DB</h2>
+        <p>아우터, 상의, 하의 등<br>개별 아이템 단위로 정밀 검색</p>
+        <span class="badge">기존 시스템</span>
+    </a>
+
+    <!-- (2) 스마트스토어 연동형 DB -->
+    <a href="smartstore_db.html" class="door door-2">
+        <div class="icon">📦</div>
+        <h2>Market DB</h2>
+        <p>스마트스토어 상품번호(모음전) 기준<br>판매 페이지 맞춤형 리스트 관리</p>
+        <span class="badge">신규 시스템</span>
+    </a>
+</div>
+
+</body>
+</html>
