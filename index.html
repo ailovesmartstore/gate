@@ -1,8 +1,3 @@
-맞습니다. 굳이 로고를 흰 박스 안에 가둘 필요가 없죠. 배경과 로고가 자연스럽게 하나로 이어지도록 하고, 로고 자체를 화면 가득 채워 브랜드 이미지를 압도적으로 보여주는 게 훨씬 시각적으로 시원합니다.
-
-말씀하신 대로 로고 밑의 설명 문구는 아주 작고 은은하게 처리하여, 사용자의 시선이 로고와 아래 카탈로그 리스트에 집중되도록 수정했습니다.
-
-HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,11 +7,6 @@ HTML
     <style>
         :root {
             --point-blue: #7ba8d2;
-            --soft-pink: #fbe4e4;
-            --soft-yellow: #fef5d4;
-            --soft-green: #e2f0d9;
-            --soft-purple: #ece6f2;
-            /* 배경색을 로고 이미지의 톤과 맞추거나 아주 연한 미색으로 설정 */
             --bg-color: #fcfcf9; 
         }
 
@@ -28,81 +18,67 @@ HTML
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* [수정] 흰 배경 박스를 없애고 로고를 배경 위에 바로 얹음 */
         header { 
-            padding: 50px 0 30px; 
+            padding: 40px 0 20px; 
             text-align: center;
-            background: transparent; /* 흰 배경 제거 */
         }
 
-        /* [수정] 로고 크기 극대화 */
+        /* 로고를 화면 가득 시원하게 배치 */
         header img { 
-            width: 100%; /* 화면 너비에 맞게 꽉 채움 */
-            max-width: 450px; /* 너무 커지지 않게 상한선만 설정 */
+            width: 100%;
+            max-width: 500px; /* 로고 이미지 자체가 커보이도록 상한선 확대 */
             height: auto; 
             display: block;
             margin: 0 auto;
         }
 
-        /* [수정] 문구 최소화 및 크기 축소 */
+        /* 문구는 로고의 보조적인 역할로 최소화 */
         .brand-intro { 
-            margin-top: -10px; /* 로고와 밀착 */
+            margin-top: -15px;
             padding: 0 20px; 
-            opacity: 0.6; /* 시선을 방해하지 않게 흐리게 처리 */
+            opacity: 0.5;
         }
-        .brand-intro h1 { 
-            font-size: 14px; /* 훨씬 작게 조정 */
-            font-weight: 700; 
-            color: #555; 
-            letter-spacing: 1px;
-        }
-        .brand-intro p { 
-            margin-top: 4px;
-            font-size: 10px; /* 부가 정보이므로 최소화 */
-            font-weight: 400; 
-            color: #888;
-        }
+        .brand-intro h1 { font-size: 13px; font-weight: 700; color: #444; letter-spacing: 1px; }
+        .brand-intro p { margin-top: 4px; font-size: 10px; color: #888; }
 
         .container {
             max-width: 500px; margin: 0 auto; padding: 10px 16px 100px;
             display: flex; flex-direction: column; gap: 14px;
         }
 
-        /* [이미지 추가형] 카테고리 카드 스타일 */
         .card {
             position: relative;
-            background-color: #fff;
+            background-color: #eee;
             background-size: cover;
             background-position: center;
-            border-radius: 20px;
+            border-radius: 22px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-            min-height: 100px; /* 이미지 노출을 위한 최소 높이 */
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-height: 110px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             border: none;
         }
 
-        /* 이미지 위 텍스트 가독성을 위한 그라데이션 오버레이 */
+        /* 이미지 위 텍스트 가독성을 위한 레이어 */
         .card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 60%);
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%);
             z-index: 1;
         }
 
-        .card:active { transform: scale(0.97); }
+        .card:active { transform: scale(0.96); }
 
         .card-top {
             position: relative; z-index: 2;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 20px 10px;
-            text-decoration: none; color: #fff; /* 이미지가 들어가므로 흰색 글자 */
+            padding: 15px 20px 8px;
+            text-decoration: none; color: #fff;
         }
-        .card-top h2 { font-size: 1.05rem; margin: 0; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .card-top h2 { font-size: 1.1rem; margin: 0; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         .card-top span { font-size: 10px; font-weight: 600; opacity: 0.8; }
         
         .sub-wrap {
@@ -110,37 +86,47 @@ HTML
             padding: 0 20px 15px; display: flex; flex-wrap: wrap; gap: 6px;
         }
         .chip {
-            text-decoration: none; font-size: 10px; color: #fff;
-            background: rgba(255,255,255,0.2); /* 반투명 칩 */
-            padding: 6px 10px; border-radius: 10px;
+            text-decoration: none; font-size: 10.5px; color: #fff;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px; border-radius: 12px;
             font-weight: 600; 
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* 각 카드별 배경 이미지 설정 예시 */
-        .card.outer { background-image: url('outer_thumb.jpg'); }
-        .card.tops { background-image: url('tops_thumb.jpg'); }
-        .card.bottoms { background-image: url('bottoms_thumb.jpg'); }
-        .card.acc { background-image: url('acc_thumb.jpg'); }
+        /* [이미지 가이드] 각 카테고리에 맞는 아동복 이미지 추천 */
+        /* 아우터: 베이지색 트렌치 코트나 귀여운 야구 점퍼 스타일 이미지 */
+        .card.outer { background-image: url('outer_model.jpg'); }
+        
+        /* 상의: 깔끔한 레터링 맨투맨이나 니트 조끼를 입은 아이 이미지 */
+        .card.tops { background-image: url('tops_model.jpg'); }
+        
+        /* 하의: 활동적인 데님 팬츠나 베이지색 면바지 디테일 이미지 */
+        .card.bottoms { background-image: url('bottoms_model.jpg'); }
+        
+        /* 악세사리: 귀여운 보닛 모자나 알록달록한 양말 뭉치 이미지 */
+        .card.acc { background-image: url('acc_model.jpg'); }
 
-        /* 하단 그리드 (원피스 등) */
         .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        
+        /* 원피스: 살랑거리는 플라워 패턴 원피스 이미지 */
+        .card.dress { background-image: url('dress_model.jpg'); min-height: 90px; }
+        
+        /* 상하복: 편안한 색감의 조거 세트나 니트 상하복 이미지 */
+        .card.setup { background-image: url('setup_model.jpg'); min-height: 90px; }
+
         .grid-card {
-            min-height: 80px;
-            padding: 20px 15px; text-align: center; text-decoration: none; color: #fff;
+            padding: 25px 15px; text-align: center; text-decoration: none; color: #fff;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        .grid-card h2 { font-size: 1rem; margin: 0; font-weight: 800; z-index: 2; }
-        .grid-card span { font-size: 9px; font-weight: 600; z-index: 2; opacity: 0.7; }
+        .grid-card h2 { font-size: 1rem; margin: 0; font-weight: 800; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
-        footer { text-align: center; padding: 40px 20px; font-size: 10px; color: #ccc; }
+        footer { text-align: center; padding: 50px 20px; font-size: 10px; color: #ccc; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
 <header>
-    <!-- 로고를 배경과 분리되지 않게 극대화 -->
     <img src="logo.png" alt="KIDS RIVER">
     <div class="brand-intro">
         <h1>아이옷 통합 카탈로그</h1>
@@ -149,7 +135,7 @@ HTML
 </header>
 
 <div class="container">
-    <!-- 실시간 재고 (강조 컬러 유지) -->
+    <!-- 실시간 재고 (이 칸은 강조를 위해 그라데이션 유지) -->
     <div class="card" style="background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); min-height: 70px;">
         <a href="stock_list.html" class="card-top" style="padding: 25px 20px;">
             <h2>실시간 재고보유 ✨</h2>
@@ -157,8 +143,8 @@ HTML
         </a>
     </div>
 
-    <!-- 각 카드 배경 이미지는 style="background-image: url('...')" 로 넣어주시면 됩니다 -->
-    <div class="card outer" style="background-image: url('outer_bg.jpg');">
+    <!-- 대분류 카드 리스트 -->
+    <div class="card outer">
         <a href="outer_all.html" class="card-top">
             <h2>아우터</h2>
             <span>전체보기 ></span>
@@ -168,7 +154,7 @@ HTML
         </div>
     </div>
 
-    <div class="card tops" style="background-image: url('tops_bg.jpg');">
+    <div class="card tops">
         <a href="tops_all.html" class="card-top">
             <h2>상의</h2>
             <span>전체보기 ></span>
@@ -180,9 +166,10 @@ HTML
         </div>
     </div>
 
-    <div class="card bottoms" style="background-image: url('bottoms_bg.jpg');">
+    <div class="card bottoms">
         <a href="bottoms_all.html" class="card-top">
             <h2>하의</h2>
+            <span>전체보기 ></span>
         </a>
         <div class="sub-wrap">
             <a href="bottoms_jeans.html" class="chip">청바지</a>
@@ -192,9 +179,10 @@ HTML
         </div>
     </div>
 
-    <div class="card acc" style="background-image: url('acc_bg.jpg');">
+    <div class="card acc">
         <a href="acc_all.html" class="card-top">
             <h2>악세사리</h2>
+            <span>전체보기 ></span>
         </a>
         <div class="sub-wrap">
             <a href="acc_socks.html" class="chip">양말</a>
@@ -206,16 +194,14 @@ HTML
     </div>
 
     <div class="grid-half">
-        <div class="card" style="background-image: url('dress_bg.jpg');">
+        <div class="card dress">
             <a href="dress_all.html" class="grid-card">
                 <h2>원피스</h2>
-                <span>DRESS</span>
             </a>
         </div>
-        <div class="card" style="background-image: url('setup_bg.jpg');">
+        <div class="card setup">
             <a href="setup_all.html" class="grid-card">
                 <h2>상하복</h2>
-                <span>SET-UP</span>
             </a>
         </div>
     </div>
