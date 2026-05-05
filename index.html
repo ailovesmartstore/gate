@@ -89,6 +89,7 @@
         .sub-wrap {
             position: relative; z-index: 3;
             padding: 0 20px 30px; display: flex; flex-wrap: wrap; gap: 8px;
+            margin-top: -15px; /* 소분류가 있는 경우 위치 조정 */
         }
         
         .chip {
@@ -117,8 +118,8 @@
         .setup { background-color: #20bf6b; background-image: url('set.jpg'); }
 
         .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .half-card { height: 160px; justify-content: center; align-items: center; text-align: center; }
-        .half-card h2 { position: relative; z-index: 2; color: #fff; font-size: 1.2rem; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .half-card { min-height: 160px; }
+        .half-card .big-card-top { flex-direction: column; justify-content: center; gap: 10px; height: 100%; padding: 20px; text-align: center; }
 
         footer { text-align: center; padding: 60px 20px; font-size: 11px; color: #bbb; letter-spacing: 2px; }
     </style>
@@ -165,7 +166,7 @@
         </div>
     </div>
 
-    <!-- 아우터 -->
+    <!-- 아우터 (가디건 소분류 하나만 유지) -->
     <div class="card outer" onclick="location.href='outer_all.html'">
         <div class="big-card-top">
             <h2>아우터</h2>
@@ -173,8 +174,6 @@
         </div>
         <div class="sub-wrap" onclick="event.stopPropagation();">
             <a href="outer_cardigan.html" class="chip">가디건</a>
-            <a href="outer_jacket.html" class="chip">자켓/코트</a>
-            <a href="outer_padding.html" class="chip">패딩/점퍼</a>
         </div>
     </div>
 
@@ -221,13 +220,19 @@
         </div>
     </div>
 
-    <!-- 원피스 & 상하복 그리드 (소분류 없음) -->
+    <!-- 원피스 & 상하복 그리드 (전체보기 추가) -->
     <div class="grid-half">
         <div class="card dress half-card" onclick="location.href='dress_all.html'">
-            <h2>원피스</h2>
+            <div class="big-card-top">
+                <h2>원피스</h2>
+                <span class="view-all">전체보기 ></span>
+            </div>
         </div>
         <div class="card setup half-card" onclick="location.href='setup_all.html'">
-            <h2>상하복</h2>
+            <div class="big-card-top">
+                <h2>상하복</h2>
+                <span class="view-all">전체보기 ></span>
+            </div>
         </div>
     </div>
 </div>
