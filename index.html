@@ -1,3 +1,8 @@
+이전에 만든 애니메이션 로고(logo.html)를 메인 화면에서 완벽하게 불러오도록 수정한 index.html 전체 코드입니다.  
+
+이 코드를 복사해서 index.html이라는 이름으로 저장한 뒤, 기존에 만드신 logo.html 파일과 같은 폴더에 업로드하시면 됩니다.  
+
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,12 +28,28 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        header { padding: 30px 0 10px; text-align: center; }
-        header img { width: 100%; max-width: 480px; height: auto; display: block; margin: 0 auto; }
+        /* 헤더 영역: logo.html을 불러오는 iframe 설정 */
+        header { 
+            padding: 20px 0 10px; 
+            text-align: center; 
+        }
+        .logo-container {
+            width: 100%;
+            max-width: 500px; /* 로고가 너무 커지지 않도록 제한 */
+            margin: 0 auto;
+            height: 180px; /* logo.html의 높이에 맞춰 조절 */
+            overflow: hidden;
+        }
+        .logo-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
 
-        .brand-intro { margin-top: -10px; padding: 0 20px; opacity: 0.4; text-align: center; }
-        .brand-intro h1 { font-size: 12px; font-weight: 700; color: #444; letter-spacing: 1px; }
-        .brand-intro p { margin-top: 4px; font-size: 9px; color: #888; }
+        .brand-intro { margin-top: 0px; padding: 0 20px; opacity: 0.5; text-align: center; }
+        .brand-intro h1 { font-size: 13px; font-weight: 700; color: #444; letter-spacing: 1px; margin-bottom: 4px; }
+        .brand-intro p { margin: 0; font-size: 10px; color: #888; }
 
         .container {
             max-width: 500px; margin: 0 auto; padding: 10px 16px 80px;
@@ -49,12 +70,11 @@
             cursor: pointer;
         }
 
-        /* 호버 시 전체 이미지 강조 효과 */
         .card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 100%);
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 100%);
             z-index: 1;
             transition: opacity 0.4s ease;
         }
@@ -62,11 +82,6 @@
         .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            background-size: 105%; /* 호버 시 이미지 살짝 확대 */
-        }
-
-        .card:hover::before {
-            opacity: 0.4; /* 마우스 올리면 배경 어두운 톤을 걷어내 이미지를 선명하게 함 */
         }
 
         .big-card-top {
@@ -75,31 +90,28 @@
             text-decoration: none; color: #fff;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .big-card-top h2 { font-size: 1.15rem; margin: 0; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+        .big-card-top h2 { font-size: 1.15rem; margin: 0; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
         .big-card-top span { font-size: 10px; opacity: 0.9; font-weight: 600; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 12px; }
         
         .sub-wrap {
-            position: relative; z-index: 3; /* 소분류가 카드 클릭보다 우선되도록 함 */
+            position: relative; z-index: 3;
             padding: 0 20px 25px; display: flex; flex-wrap: wrap; gap: 8px;
         }
         
-        /* 소분류 칩 스타일 및 호버 효과 */
         .chip {
             text-decoration: none; font-size: 11px; color: #fff;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
             padding: 7px 14px; border-radius: 12px;
             font-weight: 700; 
             backdrop-filter: blur(4px);
             border: 1px solid rgba(255,255,255,0.2);
             transition: all 0.2s ease;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
         .chip:hover {
             background: #fff;
             color: #333;
             transform: scale(1.05);
-            text-shadow: none;
         }
 
         .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -109,9 +121,9 @@
             display: flex; align-items: center; justify-content: center; 
             position: relative; z-index: 2; color: #fff; text-align: center;
         }
-        .center-card h2 { font-size: 1.05rem; margin: 0; font-weight: 800; text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+        .center-card h2 { font-size: 1.05rem; margin: 0; font-weight: 800; text-shadow: 0 2px 6px rgba(0,0,0,0.5); }
 
-        /* 배경 이미지 설정 */
+        /* 배경 이미지 설정 (실제 이미지 파일 경로로 수정 필요) */
         .bg-stock { background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); }
         .card.outer { background-image: url('outer.jpg'); }
         .card.tops { background-image: url('tee.jpg'); }
@@ -126,7 +138,10 @@
 <body>
 
 <header>
-    <img src="logo.png" alt="KIDS RIVER">
+    <!-- logo.html 파일을 불러오는 프레임 영역 -->
+    <div class="logo-container">
+        <iframe src="logo.html" scrolling="no"></iframe>
+    </div>
     <div class="brand-intro">
         <h1>아이옷 통합 카탈로그</h1>
         <p>20,000여 가지 아동복 실시간 업데이트</p>
