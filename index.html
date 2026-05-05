@@ -3,164 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KIDS RIVER</title>
+    <title>KIDS RIVER - 키즈리버</title>
     <style>
         :root {
-            --point-blue: #7ba8d2;
-            --soft-pink: #fbe4e4;
-            --soft-yellow: #fef5d4;
-            --soft-green: #e2f0d9;
-            --soft-purple: #ece6f2;
-            --bg-color: #f9f9f7;
+            --main-blue: #6ca0d1;
+            --bg-color: #f9f8f3;
+            --card-bg: #ffffff;
+            --text-dark: #333;
+            --text-gray: #777;
+            --border-color: #eee;
         }
 
         body { 
             margin: 0; padding: 0; 
-            font-family: 'Pretendard', sans-serif; 
+            font-family: 'Pretendard', -apple-system, sans-serif; 
             background: var(--bg-color); 
-            color: #333;
+            text-align: center; color: var(--text-dark);
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* [1] 비주얼 강조 헤더 */
-        header { 
-            padding: 40px 20px; 
-            text-align: center;
-            background: #fff;
-            border-radius: 0 0 40px 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        /* 헤더 디자인을 조금 더 감성적으로 */
+        .logo-area { padding: 50px 20px 25px; }
+        .logo-area img { width: 140px; height: auto; }
+
+        .intro-text { margin-bottom: 35px; }
+        .intro-text h1 { font-size: 24px; font-weight: 800; margin: 0; color: #222; }
+        .intro-text p { font-size: 11px; color: #bbb; margin-top: 6px; letter-spacing: 2px; }
+
+        /* 그리드 컨테이너: 여백을 미세하게 조정 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            padding: 0 20px 60px;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        header img { width: 120px; margin-bottom: 15px; }
-        
-        /* 메인 비주얼 배너 (여기에 image_388bc1.png 같은 이미지를 활용하세요) */
-        .main-banner {
-            margin: 20px auto;
-            max-width: 440px;
-            height: 180px;
-            background: url('image_388bc1.png') center/cover;
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+
+        /* 카테고리 카드 박스: 입체감 부여 */
+        .category-box {
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: transform 0.2s;
         }
-        .main-banner::after {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.1);
-        }
-        .banner-text { position: relative; z-index: 1; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .category-box:active { transform: translateY(2px); }
 
-        .container {
-            max-width: 480px; margin: 0 auto; padding: 20px 18px 80px;
-            display: flex; flex-direction: column; gap: 20px;
+        /* [전체보기] 상단 영역 */
+        .view-all-btn {
+            padding: 22px 10px;
+            background: #fff;
+            text-decoration: none;
+            color: var(--text-dark);
+            border-bottom: 1px dashed var(--border-color);
+            transition: background 0.2s;
+        }
+        .view-all-btn h2 { font-size: 17px; margin: 0; font-weight: 700; }
+        .view-all-btn span { font-size: 10px; color: var(--main-blue); display: block; margin-top: 5px; font-weight: bold; }
+
+        /* 소분류 버튼 영역 */
+        .sub-menu-area {
+            padding: 15px 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 7px;
+            background: #fdfdfd;
+            flex-grow: 1;
         }
 
-        /* [2] 감성적인 카드 디자인 */
-        .card {
-            background: #fff; border-radius: 28px; overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-            transition: 0.3s;
+        /* 소분류 개별 버튼: 동글동글하게 */
+        .sub-item {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 11px;
+            padding: 6px 12px;
+            background: #fff;
+            border: 1px solid #efefef;
+            border-radius: 10px;
+            transition: all 0.2s;
+            font-weight: 500;
         }
-        .card:active { transform: scale(0.97); }
+        .sub-item:active { background: var(--main-blue); color: #fff; border-color: var(--main-blue); }
 
-        .card-top {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 25px 22px; text-decoration: none; color: inherit;
+        /* 단일 카테고리 (소분류 없는 경우 수직 중앙 정렬) */
+        .single-link { height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 40px 10px !important; border-bottom: none !important; }
+
+        /* 강조 (재고보유) */
+        .stock-box { 
+            border: none; 
+            background: linear-gradient(145deg, #6ca0d1, #8eb7e0);
+            box-shadow: 0 10px 25px rgba(108, 160, 209, 0.2);
         }
-        .card-top h2 { font-size: 1.15rem; margin: 0; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-        
-        /* 섹션별 포인트 컬러링 */
-        .card.outer { border-left: 8px solid var(--point-blue); }
-        .card.tops { border-left: 8px solid var(--soft-pink); }
-        .card.bottoms { border-left: 8px solid var(--soft-green); }
+        .stock-box .view-all-btn { background: transparent; border: none; }
+        .stock-box .view-all-btn h2 { color: #fff; }
+        .stock-box .view-all-btn span { color: rgba(255,255,255,0.85); }
 
-        .sub-wrap {
-            padding: 0 20px 25px; display: flex; flex-wrap: wrap; gap: 8px;
-        }
-        .chip {
-            text-decoration: none; font-size: 11px; color: #555;
-            background: #f4f4f4; padding: 8px 15px; border-radius: 12px;
-            font-weight: 600; border: 1px solid transparent;
-        }
-        .chip:active { background: #fff; border-color: var(--point-blue); color: var(--point-blue); }
-
-        /* 하단 2열 그리드 */
-        .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-        footer { text-align: center; padding: 40px; font-size: 10px; color: #ccc; }
+        footer { font-size: 10px; color: #ccc; padding-bottom: 50px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-<header>
-    <img src="logo.png" alt="KIDS RIVER">
-    <div class="main-banner">
-        <div class="banner-text">
-            <p style="margin:0; font-size: 12px; font-weight: 300;">2026 SPRING COLLECTION</p>
-            <h3 style="margin:5px 0 0; font-size: 20px;">새로운 계절, 우리 아이 첫 옷</h3>
-        </div>
-    </div>
-</header>
-
-<div class="container">
-    <!-- 재고보유: 특별한 강조 -->
-    <div class="card" style="background: var(--point-blue);">
-        <a href="stock_list.html" class="card-top" style="color: #fff;">
-            <h2>실시간 재고보유 ✨</h2>
-            <span style="font-size: 12px; opacity: 0.8;">VIEW ALL</span>
-        </a>
+    <div class="logo-area">
+        <img src="logo.png" alt="KIDS RIVER">
     </div>
 
-    <!-- 아우터 -->
-    <div class="card outer">
-        <a href="outer_all.html" class="card-top">
-            <h2>아우터</h2>
-            <span style="color: var(--point-blue); font-weight: 700; font-size: 12px;">전체보기</span>
-        </a>
-        <div class="sub-wrap">
-            <a href="#" class="chip">가디건</a>
-        </div>
+    <div class="intro-text">
+        <h1>아이옷 통합 카탈로그</h1>
+        <p>SELECTIVE CHILDREN'S WEAR</p>
     </div>
 
-    <!-- 상의 -->
-    <div class="card tops">
-        <a href="tops_all.html" class="card-top">
-            <h2>상의</h2>
-            <span style="color: #e08e8e; font-weight: 700; font-size: 12px;">전체보기</span>
-        </a>
-        <div class="sub-wrap">
-            <a href="#" class="chip">티&맨투맨&후드티</a>
-            <a href="#" class="chip">조끼&니트&스웨터</a>
-            <a href="#" class="chip">셔츠&블라우스</a>
+    <div class="grid-container">
+        
+        <!-- 재고보유 -->
+        <div class="category-box stock-box" style="grid-column: span 2;">
+            <a href="stock_list.html" class="view-all-btn">
+                <h2>재고보유 ✨</h2>
+                <span>지금 배송 가능한 상품 보기 &gt;</span>
+            </a>
         </div>
+
+        <!-- 아우터 -->
+        <div class="category-box">
+            <a href="outer_all.html" class="view-all-btn">
+                <h2>아우터</h2>
+                <span>전체보기 &gt;</span>
+            </a>
+            <div class="sub-menu-area">
+                <a href="outer_cardigan.html" class="sub-item">가디건</a>
+            </div>
+        </div>
+
+        <!-- 원피스 -->
+        <div class="category-box">
+            <a href="dress_all.html" class="view-all-btn single-link">
+                <h2>원피스</h2>
+                <span>전체보기 &gt;</span>
+            </a>
+        </div>
+
+        <!-- 상하복 -->
+        <div class="category-box">
+            <a href="setup_all.html" class="view-all-btn single-link">
+                <h2>상하복</h2>
+                <span>전체보기 &gt;</span>
+            </a>
+        </div>
+
+        <!-- 상의 -->
+        <div class="category-box">
+            <a href="tops_all.html" class="view-all-btn">
+                <h2>상의</h2>
+                <span>전체보기 &gt;</span>
+            </a>
+            <div class="sub-menu-area">
+                <a href="tops_tshirts.html" class="sub-item">티&맨투맨&후드티</a>
+                <a href="tops_knit.html" class="sub-item">조끼&니트&스웨터</a>
+                <a href="tops_shirts.html" class="sub-item">셔츠&블라우스</a>
+            </div>
+        </div>
+
+        <!-- 하의 -->
+        <div class="category-box">
+            <a href="bottoms_all.html" class="view-all-btn">
+                <h2>하의</h2>
+                <span>전체보기 &gt;</span>
+            </a>
+            <div class="sub-menu-area">
+                <a href="bottoms_jeans.html" class="sub-item">청바지</a>
+                <a href="bottoms_skirt.html" class="sub-item">스커트</a>
+                <a href="bottoms_leggings.html" class="sub-item">레깅스</a>
+                <a href="bottoms_pants.html" class="sub-item">기본바지</a>
+            </div>
+        </div>
+
+        <!-- 파자마 -->
+        <div class="category-box">
+            <a href="pajamas_all.html" class="view-all-btn single-link">
+                <h2>파자마</h2>
+                <span>전체보기 &gt;</span>
+            </a>
+        </div>
+
+        <!-- 신생아 -->
+        <div class="category-box">
+            <a href="baby_all.html" class="view-all-btn">
+                <h2>신생아</h2>
+                <span>전체보기 &gt;</span>
+            </a>
+            <div class="sub-menu-area">
+                <a href="baby_bebe.html" class="sub-item">베베</a>
+            </div>
+        </div>
+
+        <!-- 악세사리 -->
+        <div class="category-box" style="grid-column: span 2;">
+            <a href="acc_all.html" class="view-all-btn">
+                <h2>악세사리</h2>
+                <span>전체보기 &gt;</span>
+            </a>
+            <div class="sub-menu-area">
+                <a href="acc_socks.html" class="sub-item">양말</a>
+                <a href="acc_winter.html" class="sub-item">장갑/목도리/스카프</a>
+                <a href="acc_bag.html" class="sub-item">가방</a>
+                <a href="acc_hair.html" class="sub-item">헤어액세서리</a>
+                <a href="acc_shoes.html" class="sub-item">신발</a>
+                <a href="acc_hat.html" class="sub-item">모자</a>
+            </div>
+        </div>
+
     </div>
 
-    <!-- 하의 -->
-    <div class="card bottoms">
-        <a href="bottoms_all.html" class="card-top">
-            <h2>하의</h2>
-            <span style="color: #8db57a; font-weight: 700; font-size: 12px;">전체보기</span>
-        </a>
-        <div class="sub-wrap">
-            <a href="#" class="chip">청바지</a>
-            <a href="#" class="chip">스커트</a>
-            <a href="#" class="chip">레깅스</a>
-            <a href="#" class="chip">기본바지</a>
-        </div>
-    </div>
-
-    <!-- 그리드 배치 -->
-    <div class="grid-half">
-        <div class="card" style="background: var(--soft-yellow);">
-            <a href="#" class="card-top" style="padding: 35px 20px;"><h2>원피스</h2></a>
-        </div>
-        <div class="card" style="background: var(--soft-purple);">
-            <a href="#" class="card-top" style="padding: 35px 20px;"><h2>상하복</h2></a>
-        </div>
-    </div>
-</div>
-
-<footer>© KIDS RIVER</footer>
+    <footer>© KIDS RIVER</footer>
 
 </body>
 </html>
