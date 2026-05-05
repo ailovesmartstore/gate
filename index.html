@@ -83,13 +83,13 @@
             display: flex; justify-content: space-between; align-items: center;
             color: #fff;
         }
-        .big-card-top h2 { font-size: 1.3rem; margin: 0; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        .big-card-top .view-all { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.25); padding: 5px 12px; border-radius: 20px; backdrop-filter: blur(5px); }
+        .big-card-top h2 { font-size: 1.1rem; margin: 0; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .big-card-top .view-all { font-size: 10px; font-weight: 600; background: rgba(255,255,255,0.25); padding: 4px 10px; border-radius: 20px; backdrop-filter: blur(5px); }
         
         .sub-wrap {
             position: relative; z-index: 3;
             padding: 0 20px 30px; display: flex; flex-wrap: wrap; gap: 8px;
-            margin-top: -15px; /* 소분류가 있는 경우 위치 조정 */
+            margin-top: -15px;
         }
         
         .chip {
@@ -103,23 +103,37 @@
         }
         .chip:hover { background: #fff; color: #333; transform: scale(1.05); }
 
-        /* 카테고리별 배경 */
-        .bg-bebe { background-color: var(--bebe-pink); background-image: url('bebe.jpg'); }
-        .bg-pajama { background-color: var(--pajama-peach); background-image: url('pajama.jpg'); }
+        /* 배경 및 특수 섹션 */
         .bg-stock { background: var(--main-blue); min-height: 90px; justify-content: center; }
         .bg-stock::after { background: rgba(0,0,0,0.05); }
         .bg-stock:hover::after { background: rgba(0,0,0,0); }
 
+        .bg-bebe { background-color: var(--bebe-pink); background-image: url('bebe.jpg'); }
         .outer { background-color: #a5b1c2; background-image: url('outer.jpg'); }
         .tops { background-color: #d1d8e0; background-image: url('tee.jpg'); }
         .bottoms { background-color: #778ca3; background-image: url('pants.jpg'); }
         .acc { background-color: #4b6584; background-image: url('acc.jpg'); }
+        
+        /* 3열 그리드 섹션 */
+        .grid-triple { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; 
+        }
+        .small-card { min-height: 120px; }
+        .small-card .big-card-top { 
+            flex-direction: column; 
+            justify-content: center; 
+            gap: 8px; 
+            height: 100%; 
+            padding: 10px; 
+            text-align: center; 
+        }
+        .small-card h2 { font-size: 0.95rem; }
+
+        .bg-pajama { background-color: var(--pajama-peach); background-image: url('pajama.jpg'); }
         .dress { background-color: #a55eea; background-image: url('onepiece.jpg'); }
         .setup { background-color: #20bf6b; background-image: url('set.jpg'); }
-
-        .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .half-card { min-height: 160px; }
-        .half-card .big-card-top { flex-direction: column; justify-content: center; gap: 10px; height: 100%; padding: 20px; text-align: center; }
 
         footer { text-align: center; padding: 60px 20px; font-size: 11px; color: #bbb; letter-spacing: 2px; }
     </style>
@@ -148,7 +162,7 @@
     <!-- 베베 (BEBE) -->
     <div class="card bg-bebe" onclick="location.href='bebe_all.html'">
         <div class="big-card-top">
-            <h2>베베 (BEBE)</h2>
+            <h2 style="font-size: 1.3rem;">베베 (BEBE)</h2>
             <span class="view-all">전체보기 ></span>
         </div>
         <div class="sub-wrap" onclick="event.stopPropagation();">
@@ -158,18 +172,32 @@
         </div>
     </div>
 
-    <!-- 파자마 & 홈웨어 (소분류 제거) -->
-    <div class="card bg-pajama" onclick="location.href='pajama_all.html'">
-        <div class="big-card-top">
-            <h2>파자마 & 홈웨어</h2>
-            <span class="view-all">전체보기 ></span>
+    <!-- 3열 소형 카드 그리드 (파자마, 원피스, 상하복) -->
+    <div class="grid-triple">
+        <div class="card bg-pajama small-card" onclick="location.href='pajama_all.html'">
+            <div class="big-card-top">
+                <h2>파자마</h2>
+                <span class="view-all">전체보기</span>
+            </div>
+        </div>
+        <div class="card dress small-card" onclick="location.href='dress_all.html'">
+            <div class="big-card-top">
+                <h2>원피스</h2>
+                <span class="view-all">전체보기</span>
+            </div>
+        </div>
+        <div class="card setup small-card" onclick="location.href='setup_all.html'">
+            <div class="big-card-top">
+                <h2>상하복</h2>
+                <span class="view-all">전체보기</span>
+            </div>
         </div>
     </div>
 
-    <!-- 아우터 (가디건 소분류 하나만 유지) -->
+    <!-- 아우터 -->
     <div class="card outer" onclick="location.href='outer_all.html'">
         <div class="big-card-top">
-            <h2>아우터</h2>
+            <h2 style="font-size: 1.3rem;">아우터</h2>
             <span class="view-all">전체보기 ></span>
         </div>
         <div class="sub-wrap" onclick="event.stopPropagation();">
@@ -180,7 +208,7 @@
     <!-- 상의 -->
     <div class="card tops" onclick="location.href='tops_all.html'">
         <div class="big-card-top">
-            <h2>상의</h2>
+            <h2 style="font-size: 1.3rem;">상의</h2>
             <span class="view-all">전체보기 ></span>
         </div>
         <div class="sub-wrap" onclick="event.stopPropagation();">
@@ -193,7 +221,7 @@
     <!-- 하의 -->
     <div class="card bottoms" onclick="location.href='bottoms_all.html'">
         <div class="big-card-top">
-            <h2>하의</h2>
+            <h2 style="font-size: 1.3rem;">하의</h2>
             <span class="view-all">전체보기 ></span>
         </div>
         <div class="sub-wrap" onclick="event.stopPropagation();">
@@ -207,7 +235,7 @@
     <!-- 악세사리 -->
     <div class="card acc" onclick="location.href='acc_all.html'">
         <div class="big-card-top">
-            <h2>악세사리</h2>
+            <h2 style="font-size: 1.3rem;">악세사리</h2>
             <span class="view-all">전체보기 ></span>
         </div>
         <div class="sub-wrap" onclick="event.stopPropagation();">
@@ -217,22 +245,6 @@
             <a href="acc_hair.html" class="chip">헤어액세서리</a>
             <a href="acc_shoes.html" class="chip">신발</a>
             <a href="acc_hat.html" class="chip">모자</a>
-        </div>
-    </div>
-
-    <!-- 원피스 & 상하복 그리드 (전체보기 추가) -->
-    <div class="grid-half">
-        <div class="card dress half-card" onclick="location.href='dress_all.html'">
-            <div class="big-card-top">
-                <h2>원피스</h2>
-                <span class="view-all">전체보기 ></span>
-            </div>
-        </div>
-        <div class="card setup half-card" onclick="location.href='setup_all.html'">
-            <div class="big-card-top">
-                <h2>상하복</h2>
-                <span class="view-all">전체보기 ></span>
-            </div>
         </div>
     </div>
 </div>
