@@ -42,7 +42,10 @@
             justify-content: space-between;
             padding: 14px 20px;
         }
-        .logo-wrap img { height: 36px; display: block; object-fit: contain; }
+        /* 로고 크기 극대화 수정 */
+        .logo-wrap { flex: 1; display: flex; align-items: center; }
+        .logo-wrap img { width: 100%; max-width: 180px; height: auto; display: block; object-fit: contain; }
+        
         .logo-text { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 20px; color: var(--navy); }
         .logo-text span { color: var(--blue); }
         .header-sub { font-size: 10px; color: var(--text-muted); text-align: center; padding: 0 20px 12px; letter-spacing: 0.5px; }
@@ -59,22 +62,6 @@
             transition: transform 0.3s ease;
         }
         .hero:active { transform: scale(0.98); }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -30px; right: -30px;
-            width: 160px; height: 160px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.08);
-        }
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -50px; right: 30px;
-            width: 120px; height: 120px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
-        }
         .hero-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
         .hero-title { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 16px; }
         .hero-title em { font-style: normal; color: #ffe58a; }
@@ -115,11 +102,9 @@
 
         .chip-row { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 22px 20px; }
         .chip { text-decoration: none; font-size: 11px; font-weight: 700; color: #fff; background: rgba(255,255,255,0.18); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 50px; transition: all 0.2s; }
-        .chip:active { background: #fff; color: var(--text); transform: scale(0.96); }
 
         .grid-triple { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .small-card { min-height: 110px; background-size: cover; background-position: center; border-radius: 20px; position: relative; overflow: hidden; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
-        .small-card:active { transform: scale(0.95); }
         .small-card-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%); }
         .small-card-inner { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px 10px 12px; z-index: 2; text-align: center; }
         .small-card-name { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.4); display: block; }
@@ -151,19 +136,6 @@
         .nav-item.active { background: var(--blue-light); }
         .nav-icon { font-size: 20px; }
         .nav-label { font-size: 10px; font-weight: 700; color: var(--text-muted); }
-        .nav-item.active .nav-label { color: var(--blue); }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .hero { animation: fadeUp 0.5s ease both; }
-        .container > *:nth-child(1) { animation: fadeUp 0.5s 0.05s ease both; }
-        .container > *:nth-child(2) { animation: fadeUp 0.5s 0.10s ease both; }
-        .container > *:nth-child(3) { animation: fadeUp 0.5s 0.15s ease both; }
-        .container > *:nth-child(4) { animation: fadeUp 0.5s 0.20s ease both; }
-        .container > *:nth-child(5) { animation: fadeUp 0.5s 0.25s ease both; }
-        .container > *:nth-child(6) { animation: fadeUp 0.5s 0.30s ease both; }
 
         footer { text-align: center; padding: 20px; font-size: 10px; color: #ccc; letter-spacing: 2px; }
     </style>
@@ -176,7 +148,8 @@
             <img src="images/logo.png" alt="KIDS RIVER" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
             <div class="logo-text" style="display:none;">KIDS <span>RIVER</span></div>
         </div>
-        <div style="font-size:11px; color:var(--text-muted); font-weight:600;">키즈부터 베베까지</div>
+        <!-- 우측 문구 변경 -->
+        <div style="font-size:11px; color:var(--text-muted); font-weight:600;">아이옷의 모든 것</div>
     </div>
     <div class="header-sub">아이옷 통합 카탈로그 · 실시간 업데이트</div>
 </header>
@@ -191,6 +164,7 @@
 
 <div class="container">
 
+    <!-- 베베 소분류 수정: 바디슈트 하나만 유지 -->
     <div class="card big-card bg-bebe" onclick="location.href='bebe_all.html'">
         <div class="big-card-overlay"></div>
         <div class="big-card-inner">
@@ -199,8 +173,6 @@
         </div>
         <div class="chip-row" onclick="event.stopPropagation()">
             <a href="bebe_suit.html" class="chip">바디슈트</a>
-            <a href="bebe_setup.html" class="chip">베베상하복</a>
-            <a href="bebe_outfit.html" class="chip">베베외출복</a>
         </div>
     </div>
 
