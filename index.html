@@ -1,3 +1,8 @@
+로고의 존재감을 확실히 키우고, 카테고리 칸은 더 콤팩트하게 조정하여 전체적인 밸런스를 맞췄습니다. 브랜드의 전문성이 돋보이도록 문구도 조금 더 세련되게 다듬었습니다.
+
+기존의 '20,000여 가지'라는 압도적인 수치와 '실시간 업데이트'라는 강점을 살려, 고객에게 신뢰를 줄 수 있는 카피로 변경했습니다.
+
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,92 +24,92 @@
             font-family: 'Pretendard', -apple-system, sans-serif;
             background: var(--bg-color); 
             color: #333;
-            -webkit-tap-highlight-color: transparent; /* 모바일 클릭 시 파란 박스 제거 */
+            -webkit-tap-highlight-color: transparent;
         }
 
         header { 
-            padding: 80px 20px 50px; 
+            padding: 60px 0 40px; 
             text-align: center;
             background: #fff;
-            border-radius: 0 0 60px 60px;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.02);
         }
 
+        /* 로고를 화면에 꽉 차게 조절 */
         header img { 
-            width: 250px; 
-            max-width: 80%; 
+            width: 320px; /* 로고 크기 대폭 확대 */
+            max-width: 90%; 
             height: auto; 
-            margin-bottom: 25px; 
+            margin-bottom: 20px; 
         }
 
-        .brand-intro { margin-top: 15px; }
-        .brand-intro p { margin: 0; font-size: 12px; font-weight: 500; color: #bbb; letter-spacing: 4px; }
-        .brand-intro h3 { margin: 12px 0 0; font-size: 22px; font-weight: 800; color: #444; letter-spacing: -0.5px; }
+        /* 헤더 문구 최적화 */
+        .brand-intro { padding: 0 20px; }
+        .brand-intro h1 { 
+            margin: 0; 
+            font-size: 20px; 
+            font-weight: 800; 
+            color: #222; 
+            letter-spacing: -0.5px;
+        }
+        .brand-intro p { 
+            margin: 8px 0 0; 
+            font-size: 13px; 
+            font-weight: 500; 
+            color: #888; 
+            line-height: 1.5;
+        }
 
         .container {
-            max-width: 500px; margin: 0 auto; padding: 40px 20px 120px;
-            display: flex; flex-direction: column; gap: 26px;
+            max-width: 500px; margin: 0 auto; padding: 30px 16px 100px;
+            display: flex; flex-direction: column; gap: 16px; /* 칸 사이 간격 축소 */
         }
 
-        /* --- [클릭 효과 추가 영역] --- */
+        /* 대분류 칸 크기 축소 및 디자인 최적화 */
         .card {
-            background: #fff; border-radius: 32px; overflow: hidden;
+            background: #fff; border-radius: 24px; overflow: hidden;
             border: 1px solid rgba(0,0,0,0.02);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s; /* 부드러운 튀어오름 효과 */
-            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* 클릭(터치) 시 카드가 작아지면서 들어가는 효과 */
-        .card:active { 
-            transform: scale(0.96); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+        .card:active { transform: scale(0.97); }
 
         .card-top {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 26px 26px 20px; text-decoration: none; color: inherit;
+            padding: 18px 20px; /* 패딩 축소로 칸을 더 작게 만듦 */
+            text-decoration: none; color: inherit;
         }
-        .card-top h2 { font-size: 1.2rem; margin: 0; font-weight: 800; }
-        .card-top span { font-size: 11px; font-weight: 700; opacity: 0.7; transition: transform 0.3s; }
-
-        /* 카드 클릭 시 우측 화살표가 살짝 움직이는 디테일 */
-        .card:active .card-top span { transform: translateX(5px); }
+        .card-top h2 { font-size: 1.05rem; margin: 0; font-weight: 700; }
+        .card-top span { font-size: 10px; font-weight: 700; opacity: 0.5; }
         
-        .card.outer { border-left: 12px solid var(--point-blue); }
-        .card.tops { border-left: 12px solid var(--soft-pink); }
-        .card.bottoms { border-left: 12px solid var(--soft-green); }
-        .card.acc { border-left: 12px solid var(--soft-purple); }
+        .card.outer { border-left: 8px solid var(--point-blue); }
+        .card.tops { border-left: 8px solid var(--soft-pink); }
+        .card.bottoms { border-left: 8px solid var(--soft-green); }
+        .card.acc { border-left: 8px solid var(--soft-purple); }
 
+        /* 소분류 영역도 더 콤팩트하게 */
         .sub-wrap {
-            padding: 0 26px 26px; display: flex; flex-wrap: wrap; gap: 10px;
+            padding: 0 20px 18px; display: flex; flex-wrap: wrap; gap: 6px;
         }
-
-        /* 소분류 칩 클릭 효과 */
         .chip {
-            text-decoration: none; font-size: 12px; color: #666;
-            background: #f8f8f8; padding: 10px 18px; border-radius: 15px;
-            font-weight: 600; border: 1px solid #eee;
+            text-decoration: none; font-size: 11px; color: #777;
+            background: #f9f9f9; padding: 7px 12px; border-radius: 12px;
+            font-weight: 600; border: 1px solid #f0f0f0;
             transition: all 0.2s;
         }
+        .chip:active { background: var(--point-blue); color: #fff; }
 
-        /* 소분류 클릭 시 배경색이 바뀌는 피드백 */
-        .chip:active { 
-            background: var(--point-blue); 
-            color: #fff; 
-            border-color: var(--point-blue);
-            transform: translateY(-2px);
-        }
-
-        .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        /* 그리드 영역 축소 */
+        .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-card {
-            padding: 40px 20px; text-align: center; text-decoration: none; color: inherit;
-            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            padding: 25px 15px; text-align: center; text-decoration: none; color: inherit;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
         }
-        .grid-card h2 { font-size: 1.15rem; margin: 0; font-weight: 800; }
-        .grid-card span { font-size: 10px; font-weight: 600; color: rgba(0,0,0,0.3); }
+        .grid-card h2 { font-size: 1rem; margin: 0; font-weight: 700; }
+        .grid-card span { font-size: 9px; font-weight: 600; color: rgba(0,0,0,0.3); }
 
-        footer { text-align: center; padding: 80px 20px; font-size: 10px; color: #bbb; letter-spacing: 1px; }
+        footer { text-align: center; padding: 60px 20px; font-size: 10px; color: #ccc; }
     </style>
 </head>
 <body>
@@ -112,16 +117,17 @@
 <header>
     <img src="logo.png" alt="KIDS RIVER">
     <div class="brand-intro">
-        <p>2026 SPRING COLLECTION</p>
-        <h3>새로운 계절, 우리 아이 첫 옷</h3>
+        <h1>아이옷 통합 카탈로그</h1>
+        <p>매일 만나는 20,000여 가지 신상 아동복<br>실시간 업데이트로 가장 빠르게 확인하세요</p>
     </div>
 </header>
 
 <div class="container">
+    <!-- 대분류 내용 및 구조 유지 -->
     <div class="card" style="background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); border:none;">
-        <a href="stock_list.html" class="card-top" style="color: #fff; padding: 30px 26px;">
+        <a href="stock_list.html" class="card-top" style="color: #fff; padding: 22px 20px;">
             <h2>실시간 재고보유 ✨</h2>
-            <span style="opacity: 0.9;">전체상품 보기 ></span>
+            <span style="opacity: 0.9; color:#fff;">전체보기 ></span>
         </a>
     </div>
 
