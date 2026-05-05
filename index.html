@@ -18,109 +18,103 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* 로고 영역 - 흰 박스 없이 배경에 녹아들게 */
         header { 
-            padding: 40px 0 20px; 
+            padding: 30px 0 10px; 
             text-align: center;
         }
-
-        /* 로고를 화면 가득 시원하게 배치 */
         header img { 
             width: 100%;
-            max-width: 500px;
+            max-width: 480px; 
             height: auto; 
             display: block;
             margin: 0 auto;
         }
 
         .brand-intro { 
-            margin-top: -15px;
+            margin-top: -10px;
             padding: 0 20px; 
-            opacity: 0.5;
+            opacity: 0.4;
         }
-        .brand-intro h1 { font-size: 13px; font-weight: 700; color: #444; letter-spacing: 1px; }
-        .brand-intro p { margin-top: 4px; font-size: 10px; color: #888; }
+        .brand-intro h1 { font-size: 12px; font-weight: 700; color: #444; letter-spacing: 1px; }
+        .brand-intro p { margin-top: 4px; font-size: 9px; color: #888; }
 
         .container {
-            max-width: 500px; margin: 0 auto; padding: 10px 16px 100px;
-            display: flex; flex-direction: column; gap: 14px;
+            max-width: 500px; margin: 0 auto; padding: 10px 16px 80px;
+            display: flex; flex-direction: column; gap: 12px;
         }
 
+        /* 공통 카드 스타일 */
         .card {
             position: relative;
-            background-color: #eee;
+            background-color: #e9e9e9; /* 이미지 없을 때 기본 배경 */
             background-size: cover;
             background-position: center;
-            border-radius: 22px;
+            border-radius: 20px;
             overflow: hidden;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            min-height: 120px;
+            transition: transform 0.1s ease;
+            border: none;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            border: none;
         }
 
-        /* 이미지 위 가독성을 위한 그라데이션 */
         .card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%);
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 60%);
             z-index: 1;
         }
 
-        .card:active { transform: scale(0.96); }
+        .card:active { transform: scale(0.97); }
 
-        .card-top {
+        /* 대분류용 레이아웃 (텍스트 왼쪽 정렬) */
+        .big-card-top {
             position: relative; z-index: 2;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 20px 8px;
+            padding: 25px 20px 10px;
             text-decoration: none; color: #fff;
+            display: flex; justify-content: space-between; align-items: flex-end;
         }
-        .card-top h2 { font-size: 1.1rem; margin: 0; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .card-top span { font-size: 10px; font-weight: 600; opacity: 0.8; }
+        .big-card-top h2 { font-size: 1.1rem; margin: 0; font-weight: 800; }
+        .big-card-top span { font-size: 10px; opacity: 0.8; font-weight: 600; }
         
         .sub-wrap {
             position: relative; z-index: 2;
-            padding: 0 20px 15px; display: flex; flex-wrap: wrap; gap: 6px;
+            padding: 0 20px 20px; display: flex; flex-wrap: wrap; gap: 6px;
         }
         .chip {
-            text-decoration: none; font-size: 10.5px; color: #fff;
-            background: rgba(255,255,255,0.15);
-            padding: 6px 12px; border-radius: 12px;
-            font-weight: 600; 
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.2);
+            text-decoration: none; font-size: 10px; color: #fff;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px; border-radius: 10px;
+            font-weight: 600; backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* [임의 설정된 아동복 이미지 주소] */
-        /* 아우터: 베이지 톤의 따뜻한 느낌 */
-        .card.outer { background-image: url('https://images.unsplash.com/photo-1544126592-807daa2b567b?auto=format&fit=crop&q=80&w=500'); }
-        
-        /* 상의: 깔끔한 니트/티셔츠 스타일 */
-        .card.tops { background-image: url('https://images.unsplash.com/photo-1519235106638-30cc49b4f42b?auto=format&fit=crop&q=80&w=500'); }
-        
-        /* 하의: 활동적인 느낌의 키즈 팬츠 */
-        .card.bottoms { background-image: url('https://images.unsplash.com/photo-1622244099803-753184483adc?auto=format&fit=crop&q=80&w=500'); }
-        
-        /* 악세사리: 소품 위주의 감성컷 */
-        .card.acc { background-image: url('https://images.unsplash.com/photo-1522771935876-2497116534a8?auto=format&fit=crop&q=80&w=500'); }
-
+        /* 하단 2분할 그리드용 (글자 정중앙 정렬 수정) */
         .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         
-        /* 원피스: 화사한 분위기 */
-        .card.dress { background-image: url('https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&q=80&w=500'); min-height: 100px; }
-        
-        /* 상하복: 편안한 홈웨어/세트 느낌 */
-        .card.setup { background-image: url('https://images.unsplash.com/photo-1503919919749-646dd4100613?auto=format&fit=crop&q=80&w=500'); min-height: 100px; }
-
-        .grid-card {
-            padding: 25px 15px; text-align: center; text-decoration: none; color: #fff;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        .center-card {
+            min-height: 90px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;    /* 수직 중앙 */
+            justify-content: center; /* 수평 중앙 */
+            position: relative;
+            z-index: 2;
+            color: #fff;
         }
-        .grid-card h2 { font-size: 1rem; margin: 0; font-weight: 800; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .center-card h2 { font-size: 1rem; margin: 0; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
-        footer { text-align: center; padding: 50px 20px; font-size: 10px; color: #ccc; letter-spacing: 2px; }
+        /* 배경 이미지 및 컬러 임시 세팅 */
+        .bg-stock { background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); }
+        .card.outer { background-image: url('https://images.unsplash.com/photo-1544126592-807daa2b567b?auto=format&fit=crop&q=80&w=400'); }
+        .card.tops { background-image: url('https://images.unsplash.com/photo-1519235106638-30cc49b4f42b?auto=format&fit=crop&q=80&w=400'); }
+        .card.bottoms { background-image: url('https://images.unsplash.com/photo-1622244099803-753184483adc?auto=format&fit=crop&q=80&w=400'); }
+        .card.acc { background-image: url('https://images.unsplash.com/photo-1522771935876-2497116534a8?auto=format&fit=crop&q=80&w=400'); }
+        .card.dress { background-image: url('https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&q=80&w=400'); }
+        .card.setup { background-image: url('https://images.unsplash.com/photo-1503919919749-646dd4100613?auto=format&fit=crop&q=80&w=400'); }
+
+        footer { text-align: center; padding: 40px 20px; font-size: 10px; color: #ccc; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -134,17 +128,15 @@
 </header>
 
 <div class="container">
-    <!-- 실시간 재고 (그라데이션 강조 유지) -->
-    <div class="card" style="background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); min-height: 70px;">
-        <a href="stock_list.html" class="card-top" style="padding: 25px 20px;">
-            <h2>재고보유 ✨</h2>
-            <span>전체보기 ></span>
+    <div class="card bg-stock" style="min-height: 70px;">
+        <a href="stock_list.html" class="center-card" style="justify-content: space-between; padding: 0 20px;">
+            <h2 style="font-size: 1.1rem;">실시간 재고보유 ✨</h2>
+            <span style="font-size: 10px; opacity: 0.8;">전체보기 ></span>
         </a>
     </div>
 
-    <!-- 대분류 카드 리스트 (이미지 적용됨) -->
     <div class="card outer">
-        <a href="outer_all.html" class="card-top">
+        <a href="outer_all.html" class="big-card-top">
             <h2>아우터</h2>
             <span>전체보기 ></span>
         </a>
@@ -154,7 +146,7 @@
     </div>
 
     <div class="card tops">
-        <a href="tops_all.html" class="card-top">
+        <a href="tops_all.html" class="big-card-top">
             <h2>상의</h2>
             <span>전체보기 ></span>
         </a>
@@ -166,7 +158,7 @@
     </div>
 
     <div class="card bottoms">
-        <a href="bottoms_all.html" class="card-top">
+        <a href="bottoms_all.html" class="big-card-top">
             <h2>하의</h2>
             <span>전체보기 ></span>
         </a>
@@ -179,7 +171,7 @@
     </div>
 
     <div class="card acc">
-        <a href="acc_all.html" class="card-top">
+        <a href="acc_all.html" class="big-card-top">
             <h2>악세사리</h2>
             <span>전체보기 ></span>
         </a>
@@ -194,12 +186,12 @@
 
     <div class="grid-half">
         <div class="card dress">
-            <a href="dress_all.html" class="grid-card">
+            <a href="dress_all.html" class="center-card">
                 <h2>원피스</h2>
             </a>
         </div>
         <div class="card setup">
-            <a href="setup_all.html" class="grid-card">
+            <a href="setup_all.html" class="center-card">
                 <h2>상하복</h2>
             </a>
         </div>
