@@ -12,89 +12,87 @@
             --soft-green: #e2f0d9;
             --soft-purple: #ece6f2;
             --bg-color: #fcfcf9;
-            --glass-bg: rgba(255, 255, 255, 0.7);
         }
 
         body { 
             margin: 0; padding: 0; 
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            font-family: 'Pretendard', -apple-system, sans-serif;
             background: var(--bg-color); 
             color: #333;
-            line-height: 1.5;
         }
 
-        /* 헤더 디자인 강화 */
         header { 
-            padding: 50px 20px 30px; 
+            padding: 30px 20px 10px; 
             text-align: center;
             background: #fff;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        header img { width: 110px; height: auto; }
+        header img { width: 100px; height: auto; }
         
-        /* 메인 비주얼 배너 디테일 */
+        /* 배너를 키우고 텍스트 박스를 제거한 레이아웃 */
         .main-banner {
-            margin: 25px auto;
-            max-width: 440px;
-            height: 220px;
-            background: #ddd url('image_388bc1.png') center/cover no-repeat;
-            border-radius: 35px;
+            margin: 15px auto 25px;
+            max-width: 100%; /* 너비를 꽉 채우거나 조절 */
+            height: 320px; /* 높이를 키워 시원하게 노출 */
+            background: #eee url('image_388bc1.png') center/cover no-repeat;
             display: flex;
-            align-items: center;
+            align-items: flex-end; /* 텍스트를 하단에 배치해 이미지 중심을 살림 */
             justify-content: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
             position: relative;
+            overflow: hidden;
+            /* 모서리를 살짝 둥글게 하거나 배경에 따라 조정 가능 */
         }
-        .banner-overlay {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(4px);
-            padding: 20px 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.3);
+        
+        /* 이미지 위 글자가 잘 보이도록 하단에만 은은한 그림자 추가 */
+        .main-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+        }
+
+        .banner-text {
+            position: relative;
+            z-index: 1;
+            padding-bottom: 40px; /* 하단 여백 */
             text-align: center;
+            color: #fff;
         }
-        .banner-text p { margin: 0; font-size: 11px; font-weight: 600; color: #fff; letter-spacing: 2px; text-transform: uppercase; }
-        .banner-text h3 { margin: 8px 0 0; font-size: 22px; color: #fff; font-weight: 800; letter-spacing: -0.5px; }
+        .banner-text p { margin: 0; font-size: 12px; font-weight: 500; letter-spacing: 2px; opacity: 0.9; }
+        .banner-text h3 { margin: 8px 0 0; font-size: 24px; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
 
         .container {
-            max-width: 500px; margin: 0 auto; padding: 10px 20px 100px;
+            max-width: 500px; margin: 0 auto; padding: 0 20px 100px;
             display: flex; flex-direction: column; gap: 24px;
         }
 
-        /* 카드 레이아웃 세분화 */
         .card {
             background: #fff; border-radius: 30px; overflow: hidden;
             border: 1px solid rgba(0,0,0,0.03);
             box-shadow: 0 10px 25px rgba(0,0,0,0.04);
-            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .card:active { transform: scale(0.98); }
 
         .card-top {
             display: flex; justify-content: space-between; align-items: center;
             padding: 24px 24px 18px; text-decoration: none; color: inherit;
         }
-        .card-top h2 { font-size: 1.15rem; margin: 0; font-weight: 800; color: #222; }
+        .card-top h2 { font-size: 1.15rem; margin: 0; font-weight: 800; }
         .card-top span { font-size: 11px; font-weight: 700; opacity: 0.7; }
         
-        /* 섹션별 포인트 사이드바 */
         .card.outer { border-left: 10px solid var(--point-blue); }
         .card.tops { border-left: 10px solid var(--soft-pink); }
         .card.bottoms { border-left: 10px solid var(--soft-green); }
         .card.acc { border-left: 10px solid var(--soft-purple); }
 
         .sub-wrap {
-            padding: 0 24px 24px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start;
+            padding: 0 24px 24px; display: flex; flex-wrap: wrap; gap: 8px;
         }
         .chip {
             text-decoration: none; font-size: 11.5px; color: #666;
             background: #f8f8f8; padding: 9px 16px; border-radius: 14px;
             font-weight: 600; border: 1px solid #eee;
-            transition: 0.2s;
         }
-        .chip:active { background: #fff; border-color: var(--point-blue); color: var(--point-blue); }
 
-        /* 하단 2열 그리드 세련되게 조정 */
         .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
         .grid-card {
             padding: 35px 20px; text-align: center; text-decoration: none; color: inherit;
@@ -103,7 +101,7 @@
         .grid-card h2 { font-size: 1.1rem; margin: 0; font-weight: 800; }
         .grid-card span { font-size: 10px; font-weight: 600; color: rgba(0,0,0,0.3); }
 
-        footer { text-align: center; padding: 60px 20px; font-size: 10px; color: #bbb; letter-spacing: 1px; }
+        footer { text-align: center; padding: 60px 20px; font-size: 10px; color: #bbb; }
     </style>
 </head>
 <body>
@@ -112,19 +110,16 @@
     <img src="logo.png" alt="KIDS RIVER">
 </header>
 
-<div class="container">
-    <!-- 메인 배너 섹션 (컨테이너 내부로 이동하여 일관성 유지) -->
-    <div class="main-banner">
-        <div class="banner-overlay">
-            <div class="banner-text">
-                <p>2026 SPRING COLLECTION</p>
-                <h3>새로운 계절, 우리 아이 첫 옷</h3>
-            </div>
-        </div>
+<div class="main-banner">
+    <div class="banner-text">
+        <p>2026 SPRING COLLECTION</p>
+        <h3>새로운 계절, 우리 아이 첫 옷</h3>
     </div>
+</div>
 
-    <!-- 재고보유 (강렬한 강조형 레이아웃) -->
-    <div class="card" style="background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); border:none; box-shadow: 0 15px 30px rgba(123,168,210,0.3);">
+<div class="container">
+    <!-- 재고보유 -->
+    <div class="card" style="background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); border:none;">
         <a href="stock_list.html" class="card-top" style="color: #fff; padding: 28px 24px;">
             <h2>실시간 재고보유 ✨</h2>
             <span style="opacity: 0.9;">전체상품 보기 ></span>
