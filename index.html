@@ -36,15 +36,18 @@
             z-index: 100;
             box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
+        
+        /* 로고가 중앙에 오도록 정렬 */
         .header-inner {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 14px 20px;
+            justify-content: center;
+            padding: 16px 20px 8px;
         }
-        /* 로고 크기 극대화 수정: max-width 100%로 꽉 차게 설정 */
-        .logo-wrap { flex: 1; display: flex; align-items: center; }
-        .logo-wrap img { width: 100%; max-width: 100%; height: auto; display: block; object-fit: contain; }
+        
+        /* 로고 크기를 적당히 크게 조절 (기존 180px -> 220px) */
+        .logo-wrap { display: flex; align-items: center; justify-content: center; width: 100%; }
+        .logo-wrap img { width: 100%; max-width: 220px; height: auto; display: block; object-fit: contain; }
         
         .logo-text { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 20px; color: var(--navy); }
         .logo-text span { color: var(--blue); }
@@ -174,10 +177,13 @@
             <img src="images/logo.png" alt="KIDS RIVER" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
             <div class="logo-text" style="display:none;">KIDS <span>RIVER</span></div>
         </div>
-        <!-- 우측 문구 변경 -->
-        <div style="font-size:11px; color:var(--text-muted); font-weight:600;">아이옷의 모든 것</div>
     </div>
-    <div class="header-sub">아이옷 통합 카탈로그 · 실시간 업데이트</div>
+    
+    <div class="header-sub">
+        <!-- 하단으로 위치 이동 및 여백 조정 -->
+        <div style="font-size:12px; color:var(--navy); font-weight:700; margin-bottom:4px;">아이옷의 모든 것</div>
+        아이옷 통합 카탈로그 · 실시간 업데이트
+    </div>
 </header>
 
 <div class="hero" onclick="location.href='stock_list.html'">
