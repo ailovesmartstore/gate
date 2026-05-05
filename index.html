@@ -21,69 +21,73 @@
             color: #333;
         }
 
-        /* 배너를 없애고 로고 영역을 극대화 */
+        /* [수정] 로고 영역을 페이지의 주인공으로 극대화 */
         header { 
-            padding: 60px 20px 40px; 
+            padding: 80px 20px 50px; /* 상단 여백을 대폭 늘려 시선 집중 */
             text-align: center;
             background: #fff;
-            border-radius: 0 0 50px 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            border-radius: 0 0 60px 60px; /* 하단 곡선을 더 깊게 주어 부드러운 인상 */
+            box-shadow: 0 4px 30px rgba(0,0,0,0.03);
         }
-        /* 로고 크기를 대폭 키움 */
-        header img { width: 180px; height: auto; margin-bottom: 20px; }
 
-        /* 배너 대신 들어가는 감성 문구 */
-        .brand-intro { margin-top: 10px; }
-        .brand-intro p { margin: 0; font-size: 11px; font-weight: 500; color: #bbb; letter-spacing: 3px; }
-        .brand-intro h3 { margin: 10px 0 0; font-size: 20px; font-weight: 700; color: #444; }
+        /* [수정] 로고 크기를 대폭 확대 (기존보다 약 1.4배) */
+        header img { 
+            width: 250px; /* 로고를 화면 가로폭의 상당 부분 차지하게 설정 */
+            max-width: 80%; /* 모바일 기기별 대응 */
+            height: auto; 
+            margin-bottom: 25px; 
+        }
+
+        .brand-intro { margin-top: 15px; }
+        .brand-intro p { margin: 0; font-size: 12px; font-weight: 500; color: #bbb; letter-spacing: 4px; }
+        .brand-intro h3 { margin: 12px 0 0; font-size: 22px; font-weight: 800; color: #444; letter-spacing: -0.5px; }
 
         .container {
-            max-width: 500px; margin: 0 auto; padding: 30px 20px 100px;
-            display: flex; flex-direction: column; gap: 24px;
+            max-width: 500px; margin: 0 auto; padding: 40px 20px 120px;
+            display: flex; flex-direction: column; gap: 26px;
         }
 
-        /* 카드 디자인 유지 */
+        /* 카드 디자인 및 내용 유지 */
         .card {
-            background: #fff; border-radius: 30px; overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.03);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            background: #fff; border-radius: 32px; overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.02);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
         }
         .card-top {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 24px 24px 18px; text-decoration: none; color: inherit;
+            padding: 26px 26px 20px; text-decoration: none; color: inherit;
         }
-        .card-top h2 { font-size: 1.15rem; margin: 0; font-weight: 800; }
+        .card-top h2 { font-size: 1.2rem; margin: 0; font-weight: 800; }
         .card-top span { font-size: 11px; font-weight: 700; opacity: 0.7; }
         
-        .card.outer { border-left: 10px solid var(--point-blue); }
-        .card.tops { border-left: 10px solid var(--soft-pink); }
-        .card.bottoms { border-left: 10px solid var(--soft-green); }
-        .card.acc { border-left: 10px solid var(--soft-purple); }
+        .card.outer { border-left: 12px solid var(--point-blue); }
+        .card.tops { border-left: 12px solid var(--soft-pink); }
+        .card.bottoms { border-left: 12px solid var(--soft-green); }
+        .card.acc { border-left: 12px solid var(--soft-purple); }
 
         .sub-wrap {
-            padding: 0 24px 24px; display: flex; flex-wrap: wrap; gap: 8px;
+            padding: 0 26px 26px; display: flex; flex-wrap: wrap; gap: 10px;
         }
         .chip {
-            text-decoration: none; font-size: 11.5px; color: #666;
-            background: #f8f8f8; padding: 9px 16px; border-radius: 14px;
+            text-decoration: none; font-size: 12px; color: #666;
+            background: #f8f8f8; padding: 10px 18px; border-radius: 15px;
             font-weight: 600; border: 1px solid #eee;
         }
 
-        .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .grid-card {
-            padding: 35px 20px; text-align: center; text-decoration: none; color: inherit;
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            padding: 40px 20px; text-align: center; text-decoration: none; color: inherit;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
         }
-        .grid-card h2 { font-size: 1.1rem; margin: 0; font-weight: 800; }
+        .grid-card h2 { font-size: 1.15rem; margin: 0; font-weight: 800; }
         .grid-card span { font-size: 10px; font-weight: 600; color: rgba(0,0,0,0.3); }
 
-        footer { text-align: center; padding: 60px 20px; font-size: 10px; color: #bbb; }
+        footer { text-align: center; padding: 80px 20px; font-size: 10px; color: #bbb; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
 <header>
-    <!-- 로고를 주인공으로 -->
     <img src="logo.png" alt="KIDS RIVER">
     <div class="brand-intro">
         <p>2026 SPRING COLLECTION</p>
@@ -92,15 +96,15 @@
 </header>
 
 <div class="container">
-    <!-- 재고보유 -->
+    <!-- 재고보유 (내용 유지) -->
     <div class="card" style="background: linear-gradient(135deg, #7ba8d2 0%, #9bc1e5 100%); border:none;">
-        <a href="stock_list.html" class="card-top" style="color: #fff; padding: 28px 24px;">
-            <h2>실시간 재고보유 ✨</h2>
+        <a href="stock_list.html" class="card-top" style="color: #fff; padding: 30px 26px;">
+            <h2>재고보유 ✨</h2>
             <span style="opacity: 0.9;">전체상품 보기 ></span>
         </a>
     </div>
 
-    <!-- 아우터 -->
+    <!-- 아우터 (내용 유지) -->
     <div class="card outer">
         <a href="outer_all.html" class="card-top">
             <h2>아우터</h2>
@@ -111,7 +115,7 @@
         </div>
     </div>
 
-    <!-- 상의 -->
+    <!-- 상의 (내용 유지) -->
     <div class="card tops">
         <a href="tops_all.html" class="card-top">
             <h2>상의</h2>
@@ -124,7 +128,7 @@
         </div>
     </div>
 
-    <!-- 하의 -->
+    <!-- 하의 (내용 유지) -->
     <div class="card bottoms">
         <a href="bottoms_all.html" class="card-top">
             <h2>하의</h2>
@@ -138,7 +142,7 @@
         </div>
     </div>
 
-    <!-- 악세사리 -->
+    <!-- 악세사리 (내용 유지) -->
     <div class="card acc">
         <a href="acc_all.html" class="card-top">
             <h2>악세사리</h2>
@@ -154,7 +158,7 @@
         </div>
     </div>
 
-    <!-- 그리드 섹션 -->
+    <!-- 그리드 섹션 (내용 유지) -->
     <div class="grid-half">
         <div class="card" style="background: var(--soft-yellow);">
             <a href="dress_all.html" class="grid-card">
