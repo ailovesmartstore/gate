@@ -4,227 +4,261 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KIDS RIVER - 키즈리버</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #fcfcf9;
-            --main-blue: #7ba8d2;
-            --bebe-pink: #f4dada;
-            --pajama-peach: #ffedda;
-            --card-shadow: rgba(0,0,0,0.08);
+            --bg: #f5f3ef;
+            --white: #ffffff;
+            --blue: #5b8fc9;
+            --blue-light: #d6e8f7;
+            --navy: #3a5068;
+            --text: #2c2c2c;
+            --text-muted: #999;
+            --radius: 24px;
+            --shadow: 0 8px 32px rgba(0,0,0,0.10);
         }
 
-        body { 
-            margin: 0; padding: 0; 
-            font-family: 'Pretendard', -apple-system, sans-serif;
-            background: var(--bg-color); 
-            color: #333;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
             -webkit-tap-highlight-color: transparent;
         }
 
-        header { 
-            width: 100%;
-            background: #fff;
-            padding-bottom: 20px;
+        header {
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
-        header .logo-container {
-            width: 100%;
-            overflow: hidden;
-        }
-        header img { 
-            width: 100%; 
-            height: auto; 
-            display: block;
-        }
-
-        .brand-intro { padding: 20px; text-align: center; }
-        .brand-intro h1 { font-size: 16px; font-weight: 800; color: #444; letter-spacing: 1px; margin: 0; }
-        .brand-intro p { margin-top: 6px; font-size: 11px; color: #aaa; }
-
-        .container {
-            max-width: 600px; 
-            margin: 0 auto; padding: 0 16px 100px;
-            display: flex; flex-direction: column; gap: 16px;
-        }
-
-        .card {
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        .header-inner {
             display: flex;
-            flex-direction: column;
-            box-shadow: 0 4px 12px var(--card-shadow);
-            cursor: pointer;
-            min-height: 140px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
         }
+        .logo-wrap img { height: 36px; display: block; object-fit: contain; }
+        .logo-text { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 20px; color: var(--navy); }
+        .logo-text span { color: var(--blue); }
+        .header-sub { font-size: 10px; color: var(--text-muted); text-align: center; padding: 0 20px 12px; letter-spacing: 0.5px; }
 
-        .card::after {
+        .hero {
+            margin: 16px 16px 0;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        .hero:active { transform: scale(0.98); }
+        .hero::before {
             content: '';
             position: absolute;
-            top:0; left:0; right:0; bottom:0;
-            background: rgba(0,0,0,0.3); 
-            z-index: 1;
-            transition: background 0.3s ease;
+            top: -30px; right: -30px;
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50px; right: 30px;
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+        .hero-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .hero-title { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 16px; }
+        .hero-title em { font-style: normal; color: #ffe58a; }
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            background: #fff;
+            color: var(--navy);
+            font-size: 13px;
+            font-weight: 800;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        .card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15); 
-        }
-        .card:hover::after {
-            background: rgba(0,0,0,0.1); 
-        }
+        .section-title { font-size: 13px; font-weight: 700; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; padding: 24px 20px 12px; }
 
-        .big-card-top {
-            position: relative; z-index: 2;
-            padding: 30px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            color: #fff;
-        }
-        .big-card-top h2 { font-size: 1.1rem; margin: 0; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        .big-card-top .view-all { font-size: 10px; font-weight: 600; background: rgba(255,255,255,0.25); padding: 4px 10px; border-radius: 20px; backdrop-filter: blur(5px); }
-        
-        .sub-wrap {
-            position: relative; z-index: 3;
-            padding: 0 20px 30px; display: flex; flex-wrap: wrap; gap: 8px;
-            margin-top: -15px;
-        }
-        
-        .chip {
-            text-decoration: none; font-size: 12px; color: #fff;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px; border-radius: 12px;
-            font-weight: 600; 
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: all 0.2s;
-        }
-        .chip:hover { background: #fff; color: #333; transform: scale(1.05); }
+        .container { padding: 0 16px 100px; display: flex; flex-direction: column; gap: 12px; }
 
-        /* 배경 및 특수 섹션 */
-        .bg-stock { background: var(--main-blue); min-height: 90px; justify-content: center; }
-        .bg-stock::after { background: rgba(0,0,0,0.05); }
-        .bg-stock:hover::after { background: rgba(0,0,0,0); }
-
-        .bg-bebe { background-color: var(--bebe-pink); background-image: url('images/bebe.jpg'); }
-        .outer { background-color: #a5b1c2; background-image: url('images/outer.jpg'); }
-        .tops { background-color: #d1d8e0; background-image: url('images/tee.jpg'); }
-        .bottoms { background-color: #778ca3; background-image: url('images/pants.jpg'); }
-        .acc { background-color: #4b6584; background-image: url('images/acc.jpg'); }
-        
-        /* 3열 그리드 섹션 */
-        .grid-triple { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 10px; 
+        .card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            background: var(--white);
+            position: relative;
         }
-        .small-card { min-height: 120px; }
-        .small-card .big-card-top { 
-            flex-direction: column; 
-            justify-content: center; 
-            gap: 8px; 
-            height: 100%; 
-            padding: 10px; 
-            text-align: center; 
+        .card:active { transform: scale(0.97); }
+
+        .big-card { min-height: 150px; background-size: cover; background-position: center; display: flex; flex-direction: column; }
+        .big-card-overlay { position: absolute; inset: 0; background: linear-gradient(160deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.52) 100%); }
+        .big-card-inner { position: relative; z-index: 2; padding: 22px 22px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+        .big-card-title { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 900; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,0.25); line-height: 1.2; }
+        .big-card-title small { display: block; font-size: 12px; font-weight: 600; opacity: 0.8; margin-top: 2px; }
+        .view-btn { background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.35); color: #fff; font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 50px; white-space: nowrap; }
+
+        .chip-row { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 22px 20px; }
+        .chip { text-decoration: none; font-size: 11px; font-weight: 700; color: #fff; background: rgba(255,255,255,0.18); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 50px; transition: all 0.2s; }
+        .chip:active { background: #fff; color: var(--text); transform: scale(0.96); }
+
+        .grid-triple { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .small-card { min-height: 110px; background-size: cover; background-position: center; border-radius: 20px; position: relative; overflow: hidden; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+        .small-card:active { transform: scale(0.95); }
+        .small-card-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%); }
+        .small-card-inner { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px 10px 12px; z-index: 2; text-align: center; }
+        .small-card-name { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.4); display: block; }
+        .small-card-sub { font-size: 9px; color: rgba(255,255,255,0.75); margin-top: 2px; font-weight: 600; }
+
+        .bg-bebe    { background-color: #e8c8c8; background-image: url('images/bebe.jpg'); }
+        .bg-outer   { background-color: #a5b1c2; background-image: url('images/outer.jpg'); }
+        .bg-tops    { background-color: #b8c8d8; background-image: url('images/tee.jpg'); }
+        .bg-bottoms { background-color: #8899aa; background-image: url('images/pants.jpg'); }
+        .bg-acc     { background-color: #6677aa; background-image: url('images/acc.jpg'); }
+        .bg-pajama  { background-color: #f0d8c0; background-image: url('images/pajama.jpg'); }
+        .bg-dress   { background-color: #c8a8e8; background-image: url('images/onepiece.jpg'); }
+        .bg-setup   { background-color: #90cc98; background-image: url('images/set.jpg'); }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+            z-index: 200;
         }
-        .small-card h2 { font-size: 0.95rem; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 4px 16px; border-radius: 12px; transition: background 0.2s; text-decoration: none; }
+        .nav-item.active { background: var(--blue-light); }
+        .nav-icon { font-size: 20px; }
+        .nav-label { font-size: 10px; font-weight: 700; color: var(--text-muted); }
+        .nav-item.active .nav-label { color: var(--blue); }
 
-        .bg-pajama { background-color: var(--pajama-peach); background-image: url('images/pajama.jpg'); }
-        .dress { background-color: #a55eea; background-image: url('images/onepiece.jpg'); }
-        .setup { background-color: #20bf6b; background-image: url('images/set.jpg'); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero { animation: fadeUp 0.5s ease both; }
+        .container > *:nth-child(1) { animation: fadeUp 0.5s 0.05s ease both; }
+        .container > *:nth-child(2) { animation: fadeUp 0.5s 0.10s ease both; }
+        .container > *:nth-child(3) { animation: fadeUp 0.5s 0.15s ease both; }
+        .container > *:nth-child(4) { animation: fadeUp 0.5s 0.20s ease both; }
+        .container > *:nth-child(5) { animation: fadeUp 0.5s 0.25s ease both; }
+        .container > *:nth-child(6) { animation: fadeUp 0.5s 0.30s ease both; }
 
-        footer { text-align: center; padding: 60px 20px; font-size: 11px; color: #bbb; letter-spacing: 2px; }
+        footer { text-align: center; padding: 20px; font-size: 10px; color: #ccc; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-container">
-        <img src="images/logo.png" alt="KIDS RIVER">
+    <div class="header-inner">
+        <div class="logo-wrap">
+            <img src="images/logo.png" alt="KIDS RIVER" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+            <div class="logo-text" style="display:none;">KIDS <span>RIVER</span></div>
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); font-weight:600;">키즈부터 베베까지</div>
     </div>
-    <div class="brand-intro">
-        <h1>아이옷 통합 카탈로그</h1>
-        <p>키즈부터 베베까지, 실시간 업데이트</p>
-    </div>
+    <div class="header-sub">아이옷 통합 카탈로그 · 실시간 업데이트</div>
 </header>
 
-<div class="container">
-    <!-- 실시간 재고 -->
-    <div class="card bg-stock" onclick="location.href='stock_list.html'">
-        <div class="big-card-top" style="padding: 20px;">
-            <h2 style="font-size: 1.2rem;">재고보유 ✨</h2>
-            <span class="view-all">보러가기 ></span>
-        </div>
-    </div>
+<div class="hero" onclick="location.href='stock_list.html'">
+    <div class="hero-label">지금 바로 구매 가능</div>
+    <div class="hero-title">재고보유<br><em>상품 모아보기</em></div>
+    <a class="hero-btn" href="stock_list.html" onclick="event.stopPropagation()">바로 보러가기 →</a>
+</div>
 
-    <!-- 베베 (BEBE) -->
-    <div class="card bg-bebe" onclick="location.href='bebe_all.html'">
-        <div class="big-card-top">
-            <h2 style="font-size: 1.3rem;">베베 (BEBE)</h2>
-            <span class="view-all">전체보기 ></span>
+<div class="section-title">카테고리</div>
+
+<div class="container">
+
+    <div class="card big-card bg-bebe" onclick="location.href='bebe_all.html'">
+        <div class="big-card-overlay"></div>
+        <div class="big-card-inner">
+            <div class="big-card-title">베베 <small>BEBE · 0~24개월</small></div>
+            <span class="view-btn">전체보기</span>
         </div>
-        <div class="sub-wrap" onclick="event.stopPropagation();">
+        <div class="chip-row" onclick="event.stopPropagation()">
             <a href="bebe_suit.html" class="chip">바디슈트</a>
             <a href="bebe_setup.html" class="chip">베베상하복</a>
             <a href="bebe_outfit.html" class="chip">베베외출복</a>
         </div>
     </div>
 
-    <!-- 3열 소형 카드 그리드 (파자마, 원피스, 상하복) -->
     <div class="grid-triple">
-        <div class="card bg-pajama small-card" onclick="location.href='pajama_all.html'">
-            <div class="big-card-top">
-                <h2>파자마</h2>
-                <span class="view-all">전체보기</span>
+        <div class="small-card bg-pajama" onclick="location.href='pajama_all.html'">
+            <div class="small-card-overlay"></div>
+            <div class="small-card-inner">
+                <span class="small-card-name">파자마</span>
+                <div class="small-card-sub">전체보기</div>
             </div>
         </div>
-        <div class="card dress small-card" onclick="location.href='dress_all.html'">
-            <div class="big-card-top">
-                <h2>원피스</h2>
-                <span class="view-all">전체보기</span>
+        <div class="small-card bg-dress" onclick="location.href='dress_all.html'">
+            <div class="small-card-overlay"></div>
+            <div class="small-card-inner">
+                <span class="small-card-name">원피스</span>
+                <div class="small-card-sub">전체보기</div>
             </div>
         </div>
-        <div class="card setup small-card" onclick="location.href='setup_all.html'">
-            <div class="big-card-top">
-                <h2>상하복</h2>
-                <span class="view-all">전체보기</span>
+        <div class="small-card bg-setup" onclick="location.href='setup_all.html'">
+            <div class="small-card-overlay"></div>
+            <div class="small-card-inner">
+                <span class="small-card-name">상하복</span>
+                <div class="small-card-sub">전체보기</div>
             </div>
         </div>
     </div>
 
-    <!-- 아우터 -->
-    <div class="card outer" onclick="location.href='outer_all.html'">
-        <div class="big-card-top">
-            <h2 style="font-size: 1.3rem;">아우터</h2>
-            <span class="view-all">전체보기 ></span>
+    <div class="card big-card bg-outer" onclick="location.href='outer_all.html'">
+        <div class="big-card-overlay"></div>
+        <div class="big-card-inner">
+            <div class="big-card-title">아우터</div>
+            <span class="view-btn">전체보기</span>
         </div>
-        <div class="sub-wrap" onclick="event.stopPropagation();">
+        <div class="chip-row" onclick="event.stopPropagation()">
             <a href="outer_cardigan.html" class="chip">가디건</a>
         </div>
     </div>
 
-    <!-- 상의 -->
-    <div class="card tops" onclick="location.href='tops_all.html'">
-        <div class="big-card-top">
-            <h2 style="font-size: 1.3rem;">상의</h2>
-            <span class="view-all">전체보기 ></span>
+    <div class="card big-card bg-tops" onclick="location.href='tops_all.html'">
+        <div class="big-card-overlay"></div>
+        <div class="big-card-inner">
+            <div class="big-card-title">상의</div>
+            <span class="view-btn">전체보기</span>
         </div>
-        <div class="sub-wrap" onclick="event.stopPropagation();">
-            <a href="tops_tshirts.html" class="chip">티&맨투맨&후드</a>
-            <a href="tops_knit.html" class="chip">조끼&니트&스웨터</a>
-            <a href="tops_shirts.html" class="chip">셔츠&블라우스</a>
+        <div class="chip-row" onclick="event.stopPropagation()">
+            <a href="tops_tshirts.html" class="chip">티&amp;맨투맨&amp;후드</a>
+            <a href="tops_knit.html" class="chip">조끼&amp;니트&amp;스웨터</a>
+            <a href="tops_shirts.html" class="chip">셔츠&amp;블라우스</a>
         </div>
     </div>
 
-    <!-- 하의 -->
-    <div class="card bottoms" onclick="location.href='bottoms_all.html'">
-        <div class="big-card-top">
-            <h2 style="font-size: 1.3rem;">하의</h2>
-            <span class="view-all">전체보기 ></span>
+    <div class="card big-card bg-bottoms" onclick="location.href='bottoms_all.html'">
+        <div class="big-card-overlay"></div>
+        <div class="big-card-inner">
+            <div class="big-card-title">하의</div>
+            <span class="view-btn">전체보기</span>
         </div>
-        <div class="sub-wrap" onclick="event.stopPropagation();">
+        <div class="chip-row" onclick="event.stopPropagation()">
             <a href="bottoms_jeans.html" class="chip">청바지</a>
             <a href="bottoms_pants.html" class="chip">기본바지</a>
             <a href="bottoms_skirt.html" class="chip">스커트</a>
@@ -232,24 +266,44 @@
         </div>
     </div>
 
-    <!-- 악세사리 -->
-    <div class="card acc" onclick="location.href='acc_all.html'">
-        <div class="big-card-top">
-            <h2 style="font-size: 1.3rem;">악세사리</h2>
-            <span class="view-all">전체보기 ></span>
+    <div class="card big-card bg-acc" onclick="location.href='acc_all.html'">
+        <div class="big-card-overlay"></div>
+        <div class="big-card-inner">
+            <div class="big-card-title">악세사리</div>
+            <span class="view-btn">전체보기</span>
         </div>
-        <div class="sub-wrap" onclick="event.stopPropagation();">
+        <div class="chip-row" onclick="event.stopPropagation()">
             <a href="acc_socks.html" class="chip">양말</a>
-            <a href="acc_winter.html" class="chip">장갑&목도리&목걸이</a>
+            <a href="acc_winter.html" class="chip">장갑&amp;목도리</a>
             <a href="acc_bag.html" class="chip">가방</a>
-            <a href="acc_hair.html" class="chip">헤어액세서리</a>
+            <a href="acc_hair.html" class="chip">헤어</a>
             <a href="acc_shoes.html" class="chip">신발</a>
             <a href="acc_hat.html" class="chip">모자</a>
         </div>
     </div>
+
 </div>
 
 <footer>© KIDS RIVER ALL RIGHTS RESERVED</footer>
+
+<nav class="bottom-nav">
+    <a class="nav-item active" href="index.html">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">홈</span>
+    </a>
+    <a class="nav-item" href="stock_list.html">
+        <span class="nav-icon">✨</span>
+        <span class="nav-label">재고보유</span>
+    </a>
+    <a class="nav-item" href="bebe_all.html">
+        <span class="nav-icon">👶</span>
+        <span class="nav-label">베베</span>
+    </a>
+    <a class="nav-item" href="acc_all.html">
+        <span class="nav-icon">🎀</span>
+        <span class="nav-label">악세사리</span>
+    </a>
+</nav>
 
 </body>
 </html>
