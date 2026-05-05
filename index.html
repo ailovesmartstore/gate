@@ -1,3 +1,6 @@
+파자마(잠옷) 대분류를 추가하고, 이전 코드에서 다소 뒤섞여 있던 악세사리 링크와 텍스트를 정확하게 매칭하여 정리했습니다. 600x800px 규격과 마우스 호버 시 밝아지는 효과는 그대로 유지됩니다.
+
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,6 +12,7 @@
             --bg-color: #fcfcf9;
             --main-blue: #7ba8d2;
             --bebe-pink: #f4dada;
+            --pajama-peach: #ffedda;
             --card-shadow: rgba(0,0,0,0.08);
         }
 
@@ -59,6 +63,7 @@
             min-height: 140px;
         }
 
+        /* 호버 시 밝아지는 오버레이 설정 */
         .card::after {
             content: '';
             position: absolute;
@@ -101,8 +106,9 @@
         }
         .chip:hover { background: #fff; color: #333; transform: scale(1.05); }
 
-        /* 베베 & 재고 섹션 */
+        /* 특정 카테고리 배경색/이미지 */
         .bg-bebe { background-color: var(--bebe-pink); background-image: url('bebe.jpg'); }
+        .bg-pajama { background-color: var(--pajama-peach); background-image: url('pajama.jpg'); }
         .bg-stock { background: var(--main-blue); min-height: 90px; justify-content: center; }
         .bg-stock::after { background: rgba(0,0,0,0.05); }
         .bg-stock:hover::after { background: rgba(0,0,0,0); }
@@ -144,7 +150,7 @@
         </div>
     </div>
 
-    <!-- 베베 (신규 추가) -->
+    <!-- 베베 (BEBE) -->
     <div class="card bg-bebe" onclick="location.href='bebe_all.html'">
         <div class="big-card-top">
             <h2>베베 (BEBE)</h2>
@@ -157,6 +163,18 @@
         </div>
     </div>
 
+    <!-- 파자마 (신규 추가) -->
+    <div class="card bg-pajama" onclick="location.href='pajama_all.html'">
+        <div class="big-card-top">
+            <h2>파자마 & 홈웨어</h2>
+            <span class="view-all">전체보기 ></span>
+        </div>
+        <div class="sub-wrap" onclick="event.stopPropagation();">
+            <a href="pajama_set.html" class="chip">실내복/파자마</a>
+            <a href="pajama_inner.html" class="chip">속옷/나시</a>
+        </div>
+    </div>
+
     <!-- 아우터 -->
     <div class="card outer" onclick="location.href='outer_all.html'">
         <div class="big-card-top">
@@ -165,6 +183,8 @@
         </div>
         <div class="sub-wrap" onclick="event.stopPropagation();">
             <a href="outer_cardigan.html" class="chip">가디건</a>
+            <a href="outer_jacket.html" class="chip">자켓/코트</a>
+            <a href="outer_padding.html" class="chip">패딩/점퍼</a>
         </div>
     </div>
 
@@ -189,13 +209,13 @@
         </div>
         <div class="sub-wrap" onclick="event.stopPropagation();">
             <a href="bottoms_jeans.html" class="chip">청바지</a>
-            <a href="bottoms_pants.html" class="chip">스커트</a>
-            <a href="bottoms_skirt.html" class="chip">레깅스</a>
-            <a href="bottoms_leggings.html" class="chip">기본바</a>
+            <a href="bottoms_pants.html" class="chip">기본바지</a>
+            <a href="bottoms_skirt.html" class="chip">스커트</a>
+            <a href="bottoms_leggings.html" class="chip">레깅스</a>
         </div>
     </div>
 
-    <!-- 악세사리 (수정 보완) -->
+    <!-- 악세사리 -->
     <div class="card acc" onclick="location.href='acc_all.html'">
         <div class="big-card-top">
             <h2>악세사리</h2>
@@ -203,11 +223,11 @@
         </div>
         <div class="sub-wrap" onclick="event.stopPropagation();">
             <a href="acc_socks.html" class="chip">양말</a>
-            <a href="acc_shoes.html" class="chip">장갑&목도리&목걸이</a>
-            <a href="acc_hat.html" class="chip">가방</a>
-            <a href="acc_bag.html" class="chip">헤어액세서리</a>
-            <a href="acc_winter.html" class="chip">신발</a>
-            <a href="acc_jewelry.html" class="chip">모자</a>
+            <a href="acc_winter.html" class="chip">장갑&목도리&목걸이</a>
+            <a href="acc_bag.html" class="chip">가방</a>
+            <a href="acc_hair.html" class="chip">헤어액세서리</a>
+            <a href="acc_shoes.html" class="chip">신발</a>
+            <a href="acc_hat.html" class="chip">모자</a>
         </div>
     </div>
 
