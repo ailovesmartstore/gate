@@ -17,9 +17,7 @@
             --shadow: 0 10px 28px rgba(26, 39, 59, 0.08);
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -82,9 +80,7 @@
             font-weight: 800;
         }
 
-        .search-wrap {
-            position: relative;
-        }
+        .search-wrap { position: relative; }
 
         .search-icon {
             position: absolute;
@@ -266,10 +262,82 @@
             font-weight: 700;
         }
 
+        .detail-view {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: none;
+            background: #ffffff;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .detail-view.is-open { display: block; }
+
+        .detail-bar {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(14px);
+        }
+
+        .detail-back {
+            border: 0;
+            border-radius: 999px;
+            padding: 9px 13px;
+            background: #f0f3f7;
+            color: #202124;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .detail-title {
+            min-width: 0;
+            flex: 1;
+            color: #202124;
+            font-size: 13px;
+            font-weight: 850;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .detail-origin {
+            border-radius: 999px;
+            padding: 9px 11px;
+            background: var(--point-soft);
+            color: #2f659f;
+            font-size: 12px;
+            font-weight: 900;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .detail-full-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #f3f4f6;
+        }
+
+        .detail-loading {
+            padding: 60px 20px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
         @media (min-width: 640px) {
-            .header-filter {
-                padding: 18px 18px 14px;
-            }
+            .header-filter { padding: 18px 18px 14px; }
 
             .product-grid {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -301,222 +369,52 @@
     <div class="product-grid" id="productList"></div>
 </main>
 
+<section class="detail-view" id="detailView" aria-live="polite">
+    <div class="detail-bar">
+        <button type="button" class="detail-back" onclick="closeDetail()">목록</button>
+        <div class="detail-title" id="detailTitle">상세페이지</div>
+        <a class="detail-origin" id="detailOrigin" href="#" target="_blank" rel="noopener">원본</a>
+    </div>
+    <div id="detailImageWrap">
+        <div class="detail-loading">상세이미지를 불러오는 중입니다.</div>
+    </div>
+</section>
+
 <script>
     const rawData = [
-        {
-            no: "1",
-            name: "미카크롭나시티셔츠",
-            price: 8900,
-            colors: "아이보리, 블랙",
-            sizes: "S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/600600/4M29D30.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/page29/4M29D30.jpg"
-        },
-        {
-            no: "2",
-            name: "플레인티셔츠(나시)",
-            price: 9900,
-            colors: "아이보리, 블랙",
-            sizes: "S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/600600/4M29D28.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/page29/4M29D28.jpg"
-        },
-        {
-            no: "3",
-            name: "기본골지끈티셔츠(나시)",
-            price: 9900,
-            colors: "아이, 검정",
-            sizes: "5, 7, 9, 11, 13",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/27/600600/4M27D5.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/27/page27/4M27D5.jpg"
-        },
-        {
-            no: "4",
-            name: "레이어드티셔츠(나시)",
-            price: 9900,
-            colors: "아이, 검정",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D459.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D459.jpg"
-        },
-        {
-            no: "5",
-            name: "여름오버핏티셔츠",
-            price: 9900,
-            colors: "아이, 검정, 크림",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D460.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D460.jpg"
-        },
-        {
-            no: "6",
-            name: "하트컬러티셔츠",
-            price: 9900,
-            colors: "검정, 회색, 백색, 노랑, 민트, 핑크",
-            sizes: "S, M, L, XL, XXL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D454.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D454.jpg"
-        },
-        {
-            no: "7",
-            name: "코튼박스티셔츠",
-            price: 9900,
-            colors: "크림, 백멜란지, 딥차콜, 딸기우유, 연소라, 라일락, 레몬, 올리브, 라임, 살구",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D473.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D473.jpg"
-        },
-        {
-            no: "8",
-            name: "아이스크림티셔츠",
-            price: 9900,
-            colors: "아이, 핑크, 민트카키, 초코",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D427.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D427.jpg"
-        },
-        {
-            no: "9",
-            name: "에센셜날라리티셔츠",
-            price: 9900,
-            colors: "검정, 아이",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D447.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D447.jpg"
-        },
-        {
-            no: "10",
-            name: "절개스티치티셔츠",
-            price: 9900,
-            colors: "검정, 네이비, 크림, 아이",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D433.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D433.jpg"
-        },
-        {
-            no: "11",
-            name: "포켓데님티셔츠",
-            price: 9900,
-            colors: "아이, 크림",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D439.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D439.jpg"
-        },
-        {
-            no: "12",
-            name: "굿데이세미크롭티셔츠",
-            price: 9900,
-            colors: "엘로, 블루",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D504.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D504.jpg"
-        },
-        {
-            no: "13",
-            name: "스트라이프끈티셔츠(나시)",
-            price: 9900,
-            colors: "블랙, 옐로, 그린, 핑크, 연소라",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D461.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D461.jpg"
-        },
-        {
-            no: "14",
-            name: "슬림나그랑티셔츠",
-            price: 9900,
-            colors: "핑크, 아이보리, 라일락",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D491.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D491.jpg"
-        },
-        {
-            no: "15",
-            name: "뉴욕입체티셔츠",
-            price: 9900,
-            colors: "아이, 검정, 버건디, 인디블루",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D429.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D429.jpg"
-        },
-        {
-            no: "16",
-            name: "러브띵스티셔츠",
-            price: 9900,
-            colors: "아이, 그린, 베이비블루",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D431.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D431.jpg"
-        },
-        {
-            no: "17",
-            name: "마리랍바티셔츠",
-            price: 9900,
-            colors: "검정, 네이비, 스카이블루",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D426.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D426.jpg"
-        },
-        {
-            no: "18",
-            name: "요루슬라브날라리티셔츠",
-            price: 9900,
-            colors: "검정, 아이, 핑크",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D449.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D449.jpg"
-        },
-        {
-            no: "19",
-            name: "챔피언티셔츠",
-            price: 9900,
-            colors: "메란지, 네이비, 옐로우",
-            sizes: "XS, S, M, L, XL",
-            imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D428.jpg",
-            detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D428.jpg"
-        }
+        { no: "1", name: "미카크롭나시티셔츠", price: 8900, colors: "아이보리, 블랙", sizes: "S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/600600/4M29D30.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/page29/4M29D30.jpg" },
+        { no: "2", name: "플레인티셔츠(나시)", price: 9900, colors: "아이보리, 블랙", sizes: "S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/600600/4M29D28.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/page29/4M29D28.jpg" },
+        { no: "3", name: "기본골지끈티셔츠(나시)", price: 9900, colors: "아이, 검정", sizes: "5, 7, 9, 11, 13", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/27/600600/4M27D5.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/27/page27/4M27D5.jpg" },
+        { no: "4", name: "레이어드티셔츠(나시)", price: 9900, colors: "아이, 검정", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D459.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D459.jpg" },
+        { no: "5", name: "여름오버핏티셔츠", price: 9900, colors: "아이, 검정, 크림", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D460.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D460.jpg" },
+        { no: "6", name: "하트컬러티셔츠", price: 9900, colors: "검정, 회색, 백색, 노랑, 민트, 핑크", sizes: "S, M, L, XL, XXL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D454.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D454.jpg" },
+        { no: "7", name: "코튼박스티셔츠", price: 9900, colors: "크림, 백멜란지, 딥차콜, 딸기우유, 연소라, 라일락, 레몬, 올리브, 라임, 살구", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D473.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D473.jpg" },
+        { no: "8", name: "아이스크림티셔츠", price: 9900, colors: "아이, 핑크, 민트카키, 초코", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D427.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D427.jpg" },
+        { no: "9", name: "에센셜날라리티셔츠", price: 9900, colors: "검정, 아이", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D447.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D447.jpg" },
+        { no: "10", name: "절개스티치티셔츠", price: 9900, colors: "검정, 네이비, 크림, 아이", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D433.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D433.jpg" },
+        { no: "11", name: "포켓데님티셔츠", price: 9900, colors: "아이, 크림", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D439.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D439.jpg" },
+        { no: "12", name: "굿데이세미크롭티셔츠", price: 9900, colors: "엘로, 블루", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D504.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D504.jpg" },
+        { no: "13", name: "스트라이프끈티셔츠(나시)", price: 9900, colors: "블랙, 옐로, 그린, 핑크, 연소라", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D461.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D461.jpg" },
+        { no: "14", name: "슬림나그랑티셔츠", price: 9900, colors: "핑크, 아이보리, 라일락", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D491.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D491.jpg" },
+        { no: "15", name: "뉴욕입체티셔츠", price: 9900, colors: "아이, 검정, 버건디, 인디블루", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D429.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D429.jpg" },
+        { no: "16", name: "러브띵스티셔츠", price: 9900, colors: "아이, 그린, 베이비블루", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D431.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D431.jpg" },
+        { no: "17", name: "마리랍바티셔츠", price: 9900, colors: "검정, 네이비, 스카이블루", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D426.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D426.jpg" },
+        { no: "18", name: "요루슬라브날라리티셔츠", price: 9900, colors: "검정, 아이, 핑크", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D449.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D449.jpg" },
+        { no: "19", name: "챔피언티셔츠", price: 9900, colors: "메란지, 네이비, 옐로우", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D428.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D428.jpg" }
     ];
 
     const colorMap = {
-        "아이보리": "#fff9e8",
-        "아이": "#fff9e8",
-        "백색": "#ffffff",
-        "크림": "#fff3c7",
-        "블랙": "#111111",
-        "검정": "#111111",
-        "회색": "#969ba3",
-        "메란지": "#b7bbc1",
-        "백멜란지": "#d7d9dd",
-        "차콜": "#39424e",
-        "딥차콜": "#2f3740",
-        "노랑": "#ffe45c",
-        "옐로": "#ffe45c",
-        "엘로": "#ffe45c",
-        "옐로우": "#ffe45c",
-        "레몬": "#fff56b",
-        "민트": "#9fe6dc",
-        "민트카키": "#9abda2",
-        "핑크": "#f7b6cf",
-        "딸기우유": "#ffc3d5",
-        "연소라": "#abd7f2",
-        "소라": "#abd7f2",
-        "스카이블루": "#8fcdf0",
-        "블루": "#4b88dc",
-        "베이비블루": "#b8daf7",
-        "인디블루": "#54759d",
-        "네이비": "#192957",
-        "버건디": "#782033",
-        "그린": "#55ad65",
-        "라벤더": "#ded4ff",
-        "라일락": "#d9c7f2",
-        "올리브": "#839461",
-        "라임": "#b8df59",
-        "살구": "#ffc39c",
-        "초코": "#6b4736"
+        "아이보리": "#fff9e8", "아이": "#fff9e8", "백색": "#ffffff", "크림": "#fff3c7",
+        "블랙": "#111111", "검정": "#111111", "회색": "#969ba3", "메란지": "#b7bbc1", "백멜란지": "#d7d9dd",
+        "차콜": "#39424e", "딥차콜": "#2f3740", "노랑": "#ffe45c", "옐로": "#ffe45c", "엘로": "#ffe45c", "옐로우": "#ffe45c", "레몬": "#fff56b",
+        "민트": "#9fe6dc", "민트카키": "#9abda2", "핑크": "#f7b6cf", "딸기우유": "#ffc3d5", "연소라": "#abd7f2", "소라": "#abd7f2",
+        "스카이블루": "#8fcdf0", "블루": "#4b88dc", "베이비블루": "#b8daf7", "인디블루": "#54759d",
+        "네이비": "#192957", "버건디": "#782033", "그린": "#55ad65", "라벤더": "#ded4ff", "라일락": "#d9c7f2",
+        "올리브": "#839461", "라임": "#b8df59", "살구": "#ffc39c", "초코": "#6b4736"
     };
 
     function getColorHex(colorName) {
         const name = colorName.trim();
-
         if (colorMap[name]) return colorMap[name];
         if (name.includes("아이") || name.includes("화이트") || name.includes("백")) return "#ffffff";
         if (name.includes("블랙") || name.includes("검정")) return "#111111";
@@ -531,7 +429,6 @@
         if (name.includes("브라운") || name.includes("초코")) return "#6b4736";
         if (name.includes("베이지")) return "#d8c3a5";
         if (name.includes("그레이") || name.includes("회색") || name.includes("메란지")) return "#969ba3";
-
         return "#dddddd";
     }
 
@@ -541,10 +438,7 @@
         const resultCount = document.getElementById("resultCount");
 
         const filteredData = rawData.filter(item => {
-            if (/^\d+$/.test(keyword)) {
-                return item.no === keyword;
-            }
-
+            if (/^\d+$/.test(keyword)) return item.no === keyword;
             const searchText = `${item.name} ${item.colors}`.toLowerCase();
             return searchText.includes(keyword);
         });
@@ -558,14 +452,13 @@
 
         container.innerHTML = filteredData.map(item => {
             const colors = item.colors.split(",").map(color => color.trim());
-
             const chipsHtml = colors.map(colorName => {
                 const colorHex = getColorHex(colorName);
                 return `<span class="chip-dot" style="background:${colorHex}" title="${colorName}"></span>`;
             }).join("");
 
             return `
-                <a class="product-card" href="${item.detailUrl}" target="_blank" rel="noopener">
+                <a class="product-card" href="${item.detailUrl}" onclick="openDetail(event, '${item.no}')">
                     <div class="image-wrap">
                         <div class="p-no">NO.${item.no}</div>
                         <img src="${item.imageUrl}" alt="${item.name}" loading="lazy">
@@ -580,6 +473,28 @@
                 </a>
             `;
         }).join("");
+    }
+
+    function openDetail(event, no) {
+        event.preventDefault();
+
+        const item = rawData.find(product => product.no === no);
+        if (!item) return;
+
+        document.getElementById("detailTitle").textContent = `NO.${item.no} ${item.name}`;
+        document.getElementById("detailOrigin").href = item.detailUrl;
+        document.getElementById("detailImageWrap").innerHTML = `
+            <img class="detail-full-image" src="${item.detailUrl}" alt="${item.name} 상세페이지">
+        `;
+
+        document.getElementById("detailView").classList.add("is-open");
+        document.body.style.overflow = "hidden";
+        document.getElementById("detailView").scrollTop = 0;
+    }
+
+    function closeDetail() {
+        document.getElementById("detailView").classList.remove("is-open");
+        document.body.style.overflow = "";
     }
 
     renderList();
