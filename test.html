@@ -1,63 +1,411 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>KIDS RIVER - T-SHIRTS</title>
-<style>
-:root{--bg:#f5f6f8;--panel:#fff;--ink:#202124;--muted:#7b8088;--line:#e7e9ee;--point:#477bb7;--point-soft:#e8f1fb;--price:#e83f36;--shadow:0 10px 28px rgba(26,39,59,.08)}
-*{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe UI",sans-serif;background:linear-gradient(180deg,#fbfcfe 0%,var(--bg) 220px);color:var(--ink);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
-.app-shell{width:min(100%,760px);margin:0 auto;min-height:100vh}
-.header-filter{position:sticky;top:0;z-index:1000;padding:14px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}
-.brand-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px}
-.brand-title{margin:0;font-size:22px;line-height:1;font-weight:900}
-.brand-sub{display:block;margin-top:5px;color:var(--muted);font-size:12px;font-weight:700}
-.count-pill{padding:7px 10px;border-radius:999px;background:var(--point-soft);color:#2f659f;font-size:12px;font-weight:800}
-.search-wrap{position:relative}
-.search-icon{position:absolute;left:14px;top:50%;width:18px;height:18px;transform:translateY(-50%);color:#8c929b;pointer-events:none}
-.search-input{width:100%;height:48px;padding:0 14px 0 42px;border:1px solid var(--line);border-radius:14px;background:#f8f9fb;color:var(--ink);font-size:15px;font-weight:650;outline:none}
-.search-input:focus{border-color:rgba(71,123,183,.75);background:#fff;box-shadow:0 0 0 4px rgba(71,123,183,.12)}
-.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:14px 14px 86px}
-.product-card{overflow:hidden;display:flex;flex-direction:column;background:var(--panel);border:1px solid rgba(231,233,238,.9);border-radius:12px;box-shadow:0 5px 18px rgba(27,39,56,.06);color:inherit;text-decoration:none}
-.product-card:active{transform:scale(.985);box-shadow:var(--shadow)}
-.image-wrap{position:relative;background:#edf0f4}
-.p-no{position:absolute;left:8px;top:8px;z-index:2;min-width:48px;padding:5px 8px;border-radius:999px;background:rgba(32,33,36,.82);color:#fff;font-size:10px;font-weight:900;text-align:center}
-.product-card img{width:100%;aspect-ratio:1/1.08;object-fit:cover;display:block}
-.p-info{padding:10px;display:flex;flex:1;flex-direction:column;gap:7px}
-.p-name{min-height:37px;color:#17191d;font-size:14px;font-weight:850;line-height:1.32;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:keep-all}
-.p-size{max-width:100%;width:fit-content;padding:4px 8px;border-radius:8px;background:#f0f3f7;color:#4f5864;font-size:11px;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.p-chips{display:flex;gap:5px;min-height:16px;flex-wrap:wrap}
-.chip-dot{width:15px;height:15px;flex:0 0 15px;border-radius:50%;border:1px solid rgba(0,0,0,.08);box-shadow:inset 0 0 2px rgba(0,0,0,.16)}
-.p-color-txt{min-height:28px;color:var(--muted);font-size:11px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.p-price{margin-top:auto;color:var(--price);font-size:17px;font-weight:950}
-.no-result{grid-column:1/-1;margin-top:50px;padding:34px 18px;border:1px dashed #d8dce3;border-radius:12px;background:rgba(255,255,255,.7);color:#8c929b;text-align:center;font-size:14px;font-weight:700}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KIDS RIVER - T-SHIRTS</title>
 
-.detail-view{position:fixed;inset:0;z-index:2000;display:none;background:#fff;overflow-y:auto;overscroll-behavior:contain}
-.detail-view.is-open{display:block}
-.detail-bar{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
-.detail-title{min-width:0;flex:1;color:#202124;font-size:13px;font-weight:850;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
-.detail-jump{border:0;border-radius:999px;padding:9px 13px;background:#f0f3f7;color:#202124;font-size:13px;font-weight:900}
-.detail-back{position:fixed;left:10px;top:50%;z-index:7;width:48px;height:48px;border:0;border-radius:50%;background:rgba(32,33,36,.82);color:#fff;font-size:24px;font-weight:900;box-shadow:0 8px 24px rgba(16,24,36,.18);transform:translateY(-50%);backdrop-filter:blur(12px)}
-.detail-full-image{width:100%;height:auto;display:block;background:#f3f4f6}
-.detail-loading{padding:60px 20px;color:var(--muted);text-align:center;font-size:14px;font-weight:800}
-.page-map{position:fixed;right:8px;top:64px;bottom:18px;z-index:5;display:none;width:46px;padding:4px;border-radius:14px;background:rgba(255,255,255,.82);box-shadow:0 8px 26px rgba(18,30,48,.18);backdrop-filter:blur(14px);touch-action:none}
-.detail-view.is-open .page-map{display:block}
-.page-map-track{position:relative;width:100%;height:100%;overflow:hidden;border-radius:10px;background:#eef1f5}
-.page-map-track img{width:100%;height:100%;object-fit:fill;display:block;opacity:.62;user-select:none;pointer-events:none}
-.page-map-window{position:absolute;left:0;right:0;top:0;min-height:28px;border:2px solid var(--point);border-radius:8px;background:rgba(71,123,183,.18);box-shadow:0 0 0 999px rgba(255,255,255,.24);pointer-events:none}
-@media (min-width:640px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:18px}.page-map{right:calc(50% - 372px)}}
-</style>
+    <style>
+        :root {
+            --bg: #f5f6f8;
+            --panel: #ffffff;
+            --ink: #202124;
+            --muted: #7b8088;
+            --line: #e7e9ee;
+            --point: #477bb7;
+            --point-soft: #e8f1fb;
+            --price: #e83f36;
+            --shadow: 0 10px 28px rgba(26, 39, 59, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Segoe UI", sans-serif;
+            background: linear-gradient(180deg, #fbfcfe 0%, var(--bg) 220px);
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .app-shell {
+            width: min(100%, 760px);
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .header-filter {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(16px);
+        }
+
+        .brand-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .brand-title {
+            margin: 0;
+            font-size: 22px;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .brand-sub {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .count-pill {
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: var(--point-soft);
+            color: #2f659f;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .search-wrap {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            width: 18px;
+            height: 18px;
+            transform: translateY(-50%);
+            color: #8c929b;
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 48px;
+            padding: 0 14px 0 42px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: #f8f9fb;
+            color: var(--ink);
+            font-size: 15px;
+            font-weight: 650;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: rgba(71, 123, 183, 0.75);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(71, 123, 183, 0.12);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 13px;
+            padding: 14px 14px 86px;
+        }
+
+        .product-card {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: var(--panel);
+            border: 1px solid rgba(231, 233, 238, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(27, 39, 56, 0.06);
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .product-card:active {
+            transform: scale(0.985);
+            box-shadow: var(--shadow);
+        }
+
+        .image-wrap {
+            position: relative;
+            background: #edf0f4;
+        }
+
+        .p-no {
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            z-index: 2;
+            min-width: 48px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            background: rgba(32, 33, 36, 0.82);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .product-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1.08;
+            object-fit: cover;
+            display: block;
+        }
+
+        .p-info {
+            padding: 10px;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .p-name {
+            min-height: 37px;
+            color: #17191d;
+            font-size: 14px;
+            font-weight: 850;
+            line-height: 1.32;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: keep-all;
+        }
+
+        .p-size {
+            max-width: 100%;
+            width: fit-content;
+            padding: 4px 8px;
+            border-radius: 8px;
+            background: #f0f3f7;
+            color: #4f5864;
+            font-size: 11px;
+            font-weight: 750;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .p-chips {
+            display: flex;
+            gap: 5px;
+            min-height: 16px;
+            flex-wrap: wrap;
+        }
+
+        .chip-dot {
+            width: 15px;
+            height: 15px;
+            flex: 0 0 15px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.16);
+        }
+
+        .p-color-txt {
+            min-height: 28px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .p-price {
+            margin-top: auto;
+            color: var(--price);
+            font-size: 17px;
+            font-weight: 950;
+        }
+
+        .no-result {
+            grid-column: 1 / -1;
+            margin-top: 50px;
+            padding: 34px 18px;
+            border: 1px dashed #d8dce3;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            color: #8c929b;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .detail-view {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: none;
+            background: #fff;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .detail-view.is-open {
+            display: block;
+        }
+
+        .detail-bar {
+            position: sticky;
+            top: 0;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(14px);
+        }
+
+        .detail-title {
+            min-width: 0;
+            flex: 1;
+            color: #202124;
+            font-size: 13px;
+            font-weight: 850;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .detail-jump {
+            border: 0;
+            border-radius: 999px;
+            padding: 9px 13px;
+            background: #f0f3f7;
+            color: #202124;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .detail-back {
+            position: fixed;
+            left: 10px;
+            top: 50%;
+            z-index: 7;
+            width: 48px;
+            height: 48px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(32, 33, 36, 0.82);
+            color: #fff;
+            font-size: 24px;
+            font-weight: 900;
+            box-shadow: 0 8px 24px rgba(16, 24, 36, 0.18);
+            transform: translateY(-50%);
+            backdrop-filter: blur(12px);
+        }
+
+        .detail-full-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #f3f4f6;
+        }
+
+        .detail-loading {
+            padding: 60px 20px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .page-map {
+            position: fixed;
+            right: 8px;
+            top: 64px;
+            bottom: 18px;
+            z-index: 5;
+            display: none;
+            width: 46px;
+            padding: 4px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 8px 26px rgba(18, 30, 48, 0.18);
+            backdrop-filter: blur(14px);
+            touch-action: none;
+        }
+
+        .detail-view.is-open .page-map {
+            display: block;
+        }
+
+        .page-map-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #eef1f5;
+        }
+
+        .page-map-track img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            display: block;
+            opacity: 0.62;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .page-map-window {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            min-height: 28px;
+            border: 2px solid var(--point);
+            border-radius: 8px;
+            background: rgba(71, 123, 183, 0.18);
+            box-shadow: 0 0 0 999px rgba(255, 255, 255, 0.24);
+            pointer-events: none;
+        }
+
+        @media (min-width: 640px) {
+            .product-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 16px;
+                padding: 18px;
+            }
+
+            .page-map {
+                right: calc(50% - 372px);
+            }
+        }
+    </style>
 </head>
-<body>
 
+<body>
 <main class="app-shell">
     <div class="header-filter">
         <div class="brand-row">
-            <h1 class="brand-title">KIDS RIVER<span class="brand-sub">T-SHIRTS COLLECTION</span></h1>
+            <h1 class="brand-title">
+                KIDS RIVER
+                <span class="brand-sub">T-SHIRTS COLLECTION</span>
+            </h1>
             <div class="count-pill" id="resultCount">0개</div>
         </div>
- 2
+
         <div class="search-wrap">
             <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M10.8 18.1a7.3 7.3 0 1 1 0-14.6 7.3 7.3 0 0 1 0 14.6Zm5.2-2.1 4.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
@@ -90,188 +438,229 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe
 </section>
 
 <script>
-const rawData = [
-    { no:"1", name:"미카크롭나시티셔츠", price:8900, colors:"아이보리, 블랙", sizes:"S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/29/600600/4M29D30.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/29/page29/4M29D30.jpg" },
-    { no:"2", name:"플레인티셔츠(나시)", price:9900, colors:"아이보리, 블랙", sizes:"S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/29/600600/4M29D28.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/29/page29/4M29D28.jpg" },
-    { no:"3", name:"기본골지끈티셔츠(나시)", price:9900, colors:"아이, 검정", sizes:"5, 7, 9, 11, 13", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/27/600600/4M27D5.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/27/page27/4M27D5.jpg" },
-    { no:"4", name:"레이어드티셔츠(나시)", price:9900, colors:"아이, 검정", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D459.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D459.jpg" },
-    { no:"5", name:"여름오버핏티셔츠", price:9900, colors:"아이, 검정, 크림", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D460.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D460.jpg" },
-    { no:"6", name:"하트컬러티셔츠", price:9900, colors:"검정, 회색, 백색, 노랑, 민트, 핑크", sizes:"S, M, L, XL, XXL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D454.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D454.jpg" },
-    { no:"7", name:"코튼박스티셔츠", price:9900, colors:"크림, 백멜란지, 딥차콜, 딸기우유, 연소라, 라일락, 레몬, 올리브, 라임, 살구", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D473.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D473.jpg" },
-    { no:"8", name:"아이스크림티셔츠", price:9900, colors:"아이, 핑크, 민트카키, 초코", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D427.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D427.jpg" },
-    { no:"9", name:"에센셜날라리티셔츠", price:9900, colors:"검정, 아이", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D447.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D447.jpg" },
-    { no:"10", name:"절개스티치티셔츠", price:9900, colors:"검정, 네이비, 크림, 아이", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D433.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D433.jpg" },
-    { no:"11", name:"포켓데님티셔츠", price:9900, colors:"아이, 크림", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D439.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D439.jpg" },
-    { no:"12", name:"굿데이세미크롭티셔츠", price:9900, colors:"엘로, 블루", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D504.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D504.jpg" },
-    { no:"13", name:"스트라이프끈티셔츠(나시)", price:9900, colors:"블랙, 옐로, 그린, 핑크, 연소라", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D461.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D461.jpg" },
-    { no:"14", name:"슬림나그랑티셔츠", price:9900, colors:"핑크, 아이보리, 라일락", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D491.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D491.jpg" },
-    { no:"15", name:"뉴욕입체티셔츠", price:9900, colors:"아이, 검정, 버건디, 인디블루", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D429.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D429.jpg" },
-    { no:"16", name:"러브띵스티셔츠", price:9900, colors:"아이, 그린, 베이비블루", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D431.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D431.jpg" },
-    { no:"17", name:"마리랍바티셔츠", price:9900, colors:"검정, 네이비, 스카이블루", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D426.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D426.jpg" },
-    { no:"18", name:"요루슬라브날라리티셔츠", price:9900, colors:"검정, 아이, 핑크", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D449.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D449.jpg" },
-    { no:"19", name:"챔피언티셔츠", price:9900, colors:"메란지, 네이비, 옐로우", sizes:"XS, S, M, L, XL", imageUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D428.jpg", detailUrl:"https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D428.jpg" }
-];
+    const rawData = [
+        { no: "1", name: "미카크롭나시티셔츠", price: 8900, colors: "아이보리, 블랙", sizes: "S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/600600/4M29D30.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/page29/4M29D30.jpg" },
+        { no: "2", name: "플레인티셔츠(나시)", price: 9900, colors: "아이보리, 블랙", sizes: "S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/600600/4M29D28.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/29/page29/4M29D28.jpg" },
+        { no: "3", name: "기본골지끈티셔츠(나시)", price: 9900, colors: "아이, 검정", sizes: "5, 7, 9, 11, 13", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/27/600600/4M27D5.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/27/page27/4M27D5.jpg" },
+        { no: "4", name: "레이어드티셔츠(나시)", price: 9900, colors: "아이, 검정", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D459.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D459.jpg" },
+        { no: "5", name: "여름오버핏티셔츠", price: 9900, colors: "아이, 검정, 크림", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D460.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D460.jpg" },
+        { no: "6", name: "하트컬러티셔츠", price: 9900, colors: "검정, 회색, 백색, 노랑, 민트, 핑크", sizes: "S, M, L, XL, XXL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/14/600600/4M14D454.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/14/page14/4M14D454.jpg" },
+        { no: "7", name: "코튼박스티셔츠", price: 9900, colors: "크림, 백멜란지, 딥차콜, 딸기우유, 연소라, 라일락, 레몬, 올리브, 라임, 살구", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D473.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D473.jpg" },
+        { no: "8", name: "아이스크림티셔츠", price: 9900, colors: "아이, 핑크, 민트카키, 초코", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D427.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D427.jpg" },
+        { no: "9", name: "에센셜날라리티셔츠", price: 9900, colors: "검정, 아이", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D447.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D447.jpg" },
+        { no: "10", name: "절개스티치티셔츠", price: 9900, colors: "검정, 네이비, 크림, 아이", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D433.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D433.jpg" },
+        { no: "11", name: "포켓데님티셔츠", price: 9900, colors: "아이, 크림", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D439.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D439.jpg" },
+        { no: "12", name: "굿데이세미크롭티셔츠", price: 9900, colors: "엘로, 블루", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D504.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D504.jpg" },
+        { no: "13", name: "스트라이프끈티셔츠(나시)", price: 9900, colors: "블랙, 옐로, 그린, 핑크, 연소라", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D461.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D461.jpg" },
+        { no: "14", name: "슬림나그랑티셔츠", price: 9900, colors: "핑크, 아이보리, 라일락", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/600600/4M16D491.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/16/page16/4M16D491.jpg" },
+        { no: "15", name: "뉴욕입체티셔츠", price: 9900, colors: "아이, 검정, 버건디, 인디블루", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D429.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D429.jpg" },
+        { no: "16", name: "러브띵스티셔츠", price: 9900, colors: "아이, 그린, 베이비블루", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D431.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D431.jpg" },
+        { no: "17", name: "마리랍바티셔츠", price: 9900, colors: "검정, 네이비, 스카이블루", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D426.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D426.jpg" },
+        { no: "18", name: "요루슬라브날라리티셔츠", price: 9900, colors: "검정, 아이, 핑크", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D449.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D449.jpg" },
+        { no: "19", name: "챔피언티셔츠", price: 9900, colors: "메란지, 네이비, 옐로우", sizes: "XS, S, M, L, XL", imageUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/600600/4M22D428.jpg", detailUrl: "https://mododome.diskn.com/gilgil/2026/4M/22/page22/4M22D428.jpg" }
+    ];
 
-const colorMap = {
-    "아이보리":"#fff9e8","아이":"#fff9e8","백색":"#ffffff","크림":"#fff3c7",
-    "블랙":"#111111","검정":"#111111","회색":"#969ba3","메란지":"#b7bbc1","백멜란지":"#d7d9dd",
-    "차콜":"#39424e","딥차콜":"#2f3740","노랑":"#ffe45c","옐로":"#ffe45c","엘로":"#ffe45c","옐로우":"#ffe45c","레몬":"#fff56b",
-    "민트":"#9fe6dc","민트카키":"#9abda2","핑크":"#f7b6cf","딸기우유":"#ffc3d5","연소라":"#abd7f2","소라":"#abd7f2",
-    "스카이블루":"#8fcdf0","블루":"#4b88dc","베이비블루":"#b8daf7","인디블루":"#54759d",
-    "네이비":"#192957","버건디":"#782033","그린":"#55ad65","라벤더":"#ded4ff","라일락":"#d9c7f2",
-    "올리브":"#839461","라임":"#b8df59","살구":"#ffc39c","초코":"#6b4736"
-};
+    const colorMap = {
+        "아이보리": "#fff9e8",
+        "아이": "#fff9e8",
+        "백색": "#ffffff",
+        "크림": "#fff3c7",
+        "블랙": "#111111",
+        "검정": "#111111",
+        "회색": "#969ba3",
+        "메란지": "#b7bbc1",
+        "백멜란지": "#d7d9dd",
+        "차콜": "#39424e",
+        "딥차콜": "#2f3740",
+        "노랑": "#ffe45c",
+        "옐로": "#ffe45c",
+        "엘로": "#ffe45c",
+        "옐로우": "#ffe45c",
+        "레몬": "#fff56b",
+        "민트": "#9fe6dc",
+        "민트카키": "#9abda2",
+        "핑크": "#f7b6cf",
+        "딸기우유": "#ffc3d5",
+        "연소라": "#abd7f2",
+        "소라": "#abd7f2",
+        "스카이블루": "#8fcdf0",
+        "블루": "#4b88dc",
+        "베이비블루": "#b8daf7",
+        "인디블루": "#54759d",
+        "네이비": "#192957",
+        "버건디": "#782033",
+        "그린": "#55ad65",
+        "라벤더": "#ded4ff",
+        "라일락": "#d9c7f2",
+        "올리브": "#839461",
+        "라임": "#b8df59",
+        "살구": "#ffc39c",
+        "초코": "#6b4736"
+    };
 
-let isMapDragging = false;
+    let isMapDragging = false;
 
-function getColorHex(colorName) {
-    const name = colorName.trim();
-    if (colorMap[name]) return colorMap[name];
-    if (name.includes("아이") || name.includes("화이트") || name.includes("백")) return "#ffffff";
-    if (name.includes("블랙") || name.includes("검정")) return "#111111";
-    if (name.includes("크림")) return "#fff3c7";
-    if (name.includes("핑크")) return "#f7b6cf";
-    if (name.includes("민트")) return "#9fe6dc";
-    if (name.includes("소라") || name.includes("블루")) return "#8fcdf0";
-    if (name.includes("네이비")) return "#192957";
-    if (name.includes("그린")) return "#55ad65";
-    if (name.includes("카키")) return "#737b4c";
-    if (name.includes("옐로") || name.includes("노랑")) return "#ffe45c";
-    if (name.includes("브라운") || name.includes("초코")) return "#6b4736";
-    if (name.includes("베이지")) return "#d8c3a5";
-    if (name.includes("그레이") || name.includes("회색") || name.includes("메란지")) return "#969ba3";
-    return "#dddddd";
-}
+    function getColorHex(colorName) {
+        const name = colorName.trim();
 
-function renderList() {
-    const keyword = document.getElementById("mainSearch").value.trim().toLowerCase();
-    const container = document.getElementById("productList");
-    const resultCount = document.getElementById("resultCount");
+        if (colorMap[name]) return colorMap[name];
+        if (name.includes("아이") || name.includes("화이트") || name.includes("백")) return "#ffffff";
+        if (name.includes("블랙") || name.includes("검정")) return "#111111";
+        if (name.includes("크림")) return "#fff3c7";
+        if (name.includes("핑크")) return "#f7b6cf";
+        if (name.includes("민트")) return "#9fe6dc";
+        if (name.includes("소라") || name.includes("블루")) return "#8fcdf0";
+        if (name.includes("네이비")) return "#192957";
+        if (name.includes("그린")) return "#55ad65";
+        if (name.includes("카키")) return "#737b4c";
+        if (name.includes("옐로") || name.includes("노랑")) return "#ffe45c";
+        if (name.includes("브라운") || name.includes("초코")) return "#6b4736";
+        if (name.includes("베이지")) return "#d8c3a5";
+        if (name.includes("그레이") || name.includes("회색") || name.includes("메란지")) return "#969ba3";
 
-    const filteredData = rawData.filter(item => {
-        if (/^\d+$/.test(keyword)) return item.no === keyword;
-        return `${item.name} ${item.colors}`.toLowerCase().includes(keyword);
+        return "#dddddd";
+    }
+
+    function renderList() {
+        const keyword = document.getElementById("mainSearch").value.trim().toLowerCase();
+        const container = document.getElementById("productList");
+        const resultCount = document.getElementById("resultCount");
+
+        const filteredData = rawData.filter(item => {
+            if (/^\d+$/.test(keyword)) {
+                return item.no === keyword;
+            }
+
+            return `${item.name} ${item.colors}`.toLowerCase().includes(keyword);
+        });
+
+        resultCount.textContent = `${filteredData.length}개`;
+
+        if (!filteredData.length) {
+            container.innerHTML = `<div class="no-result">검색 결과가 없습니다.</div>`;
+            return;
+        }
+
+        container.innerHTML = filteredData.map(item => {
+            const colors = item.colors.split(",").map(color => color.trim());
+
+            const chipsHtml = colors.map(colorName => {
+                return `<span class="chip-dot" style="background:${getColorHex(colorName)}" title="${colorName}"></span>`;
+            }).join("");
+
+            return `
+                <a class="product-card" href="${item.detailUrl}" onclick="openDetail(event, '${item.no}')">
+                    <div class="image-wrap">
+                        <div class="p-no">NO.${item.no}</div>
+                        <img src="${item.imageUrl}" alt="${item.name}" loading="lazy">
+                    </div>
+                    <div class="p-info">
+                        <div class="p-name">${item.name}</div>
+                        <div class="p-size">${item.sizes}</div>
+                        <div class="p-chips">${chipsHtml}</div>
+                        <div class="p-color-txt">${item.colors}</div>
+                        <div class="p-price">${item.price.toLocaleString()}원</div>
+                    </div>
+                </a>
+            `;
+        }).join("");
+    }
+
+    function openDetail(event, no) {
+        event.preventDefault();
+
+        const item = rawData.find(product => product.no === no);
+        if (!item) return;
+
+        document.getElementById("detailTitle").textContent = `NO.${item.no} ${item.name}`;
+        document.getElementById("detailImageWrap").innerHTML = `
+            <img class="detail-full-image" src="${item.detailUrl}" alt="${item.name} 상세페이지" onload="updatePageMap()">
+        `;
+        document.getElementById("pageMapImage").src = item.detailUrl;
+
+        const detailView = document.getElementById("detailView");
+        detailView.classList.add("is-open");
+        detailView.scrollTop = 0;
+        document.body.style.overflow = "hidden";
+
+        requestAnimationFrame(updatePageMap);
+    }
+
+    function closeDetail() {
+        document.getElementById("detailView").classList.remove("is-open");
+        document.body.style.overflow = "";
+    }
+
+    function updatePageMap() {
+        const detailView = document.getElementById("detailView");
+        const mapTrack = document.getElementById("pageMapTrack");
+        const mapWindow = document.getElementById("pageMapWindow");
+
+        const maxScroll = detailView.scrollHeight - detailView.clientHeight;
+        const trackHeight = mapTrack.clientHeight;
+
+        if (maxScroll <= 0 || trackHeight <= 0) {
+            mapWindow.style.height = "100%";
+            mapWindow.style.transform = "translateY(0)";
+            return;
+        }
+
+        const visibleRatio = detailView.clientHeight / detailView.scrollHeight;
+        const windowHeight = Math.max(28, trackHeight * visibleRatio);
+        const progress = detailView.scrollTop / maxScroll;
+        const windowTop = (trackHeight - windowHeight) * progress;
+
+        mapWindow.style.height = `${windowHeight}px`;
+        mapWindow.style.transform = `translateY(${windowTop}px)`;
+    }
+
+    function scrollDetailTo(ratio) {
+        const detailView = document.getElementById("detailView");
+        const maxScroll = detailView.scrollHeight - detailView.clientHeight;
+        detailView.scrollTo({
+            top: maxScroll * ratio,
+            behavior: "smooth"
+        });
+    }
+
+    function jumpFromMap(clientY) {
+        const detailView = document.getElementById("detailView");
+        const mapTrack = document.getElementById("pageMapTrack");
+        const rect = mapTrack.getBoundingClientRect();
+
+        const y = Math.min(Math.max(clientY - rect.top, 0), rect.height);
+        const ratio = y / rect.height;
+        const maxScroll = detailView.scrollHeight - detailView.clientHeight;
+
+        detailView.scrollTop = maxScroll * ratio;
+        updatePageMap();
+    }
+
+    document.getElementById("pageMapTrack").addEventListener("pointerdown", event => {
+        isMapDragging = true;
+        document.getElementById("pageMapTrack").setPointerCapture(event.pointerId);
+        jumpFromMap(event.clientY);
     });
 
-    resultCount.textContent = `${filteredData.length}개`;
+    document.getElementById("pageMapTrack").addEventListener("pointermove", event => {
+        if (!isMapDragging) return;
+        jumpFromMap(event.clientY);
+    });
 
-    if (!filteredData.length) {
-        container.innerHTML = `<div class="no-result">검색 결과가 없습니다.</div>`;
-        return;
-    }
+    document.getElementById("pageMapTrack").addEventListener("pointerup", () => {
+        isMapDragging = false;
+    });
 
-    container.innerHTML = filteredData.map(item => {
-        const colors = item.colors.split(",").map(color => color.trim());
-        const chipsHtml = colors.map(colorName => {
-            return `<span class="chip-dot" style="background:${getColorHex(colorName)}" title="${colorName}"></span>`;
-        }).join("");
+    document.getElementById("pageMapTrack").addEventListener("wheel", event => {
+        event.preventDefault();
 
-        return `
-            <a class="product-card" href="${item.detailUrl}" onclick="openDetail(event, '${item.no}')">
-                <div class="image-wrap">
-                    <div class="p-no">NO.${item.no}</div>
-                    <img src="${item.imageUrl}" alt="${item.name}" loading="lazy">
-                </div>
-                <div class="p-info">
-                    <div class="p-name">${item.name}</div>
-                    <div class="p-size">${item.sizes}</div>
-                    <div class="p-chips">${chipsHtml}</div>
-                    <div class="p-color-txt">${item.colors}</div>
-                    <div class="p-price">${item.price.toLocaleString()}원</div>
-                </div>
-            </a>
-        `;
-    }).join("");
-}
+        const detailView = document.getElementById("detailView");
+        detailView.scrollTop += event.deltaY * 5;
+    }, { passive: false });
 
-function openDetail(event, no) {
-    event.preventDefault();
+    window.addEventListener("resize", updatePageMap);
 
-    const item = rawData.find(product => product.no === no);
-    if (!item) return;
-
-    document.getElementById("detailTitle").textContent = `NO.${item.no} ${item.name}`;
-    document.getElementById("detailImageWrap").innerHTML = `
-        <img class="detail-full-image" src="${item.detailUrl}" alt="${item.name} 상세페이지" onload="updatePageMap()">
-    `;
-    document.getElementById("pageMapImage").src = item.detailUrl;
-
-    const detailView = document.getElementById("detailView");
-    detailView.classList.add("is-open");
-    detailView.scrollTop = 0;
-    document.body.style.overflow = "hidden";
-
-    requestAnimationFrame(updatePageMap);
-}
-
-function closeDetail() {
-    document.getElementById("detailView").classList.remove("is-open");
-    document.body.style.overflow = "";
-}
-
-function updatePageMap() {
-    const detailView = document.getElementById("detailView");
-    const mapTrack = document.getElementById("pageMapTrack");
-    const mapWindow = document.getElementById("pageMapWindow");
-    const maxScroll = detailView.scrollHeight - detailView.clientHeight;
-    const trackHeight = mapTrack.clientHeight;
-
-    if (maxScroll <= 0 || trackHeight <= 0) {
-        mapWindow.style.height = "100%";
-        mapWindow.style.transform = "translateY(0)";
-        return;
-    }
-
-    const visibleRatio = detailView.clientHeight / detailView.scrollHeight;
-    const windowHeight = Math.max(28, trackHeight * visibleRatio);
-    const progress = detailView.scrollTop / maxScroll;
-    const windowTop = (trackHeight - windowHeight) * progress;
-
-    mapWindow.style.height = `${windowHeight}px`;
-    mapWindow.style.transform = `translateY(${windowTop}px)`;
-}
-
-function scrollDetailTo(ratio) {
-    const detailView = document.getElementById("detailView");
-    const maxScroll = detailView.scrollHeight - detailView.clientHeight;
-    detailView.scrollTo({ top: maxScroll * ratio, behavior: "smooth" });
-}
-
-function jumpFromMap(clientY) {
-    const detailView = document.getElementById("detailView");
-    const mapTrack = document.getElementById("pageMapTrack");
-    const rect = mapTrack.getBoundingClientRect();
-    const y = Math.min(Math.max(clientY - rect.top, 0), rect.height);
-    const ratio = y / rect.height;
-    const maxScroll = detailView.scrollHeight - detailView.clientHeight;
-    detailView.scrollTop = maxScroll * ratio;
-    updatePageMap();
-}
-
-document.getElementById("pageMapTrack").addEventListener("pointerdown", event => {
-    isMapDragging = true;
-    document.getElementById("pageMapTrack").setPointerCapture(event.pointerId);
-    jumpFromMap(event.clientY);
-});
-
-document.getElementById("pageMapTrack").addEventListener("pointermove", event => {
-    if (!isMapDragging) return;
-    jumpFromMap(event.clientY);
-});
-
-document.getElementById("pageMapTrack").addEventListener("pointerup", () => {
-    isMapDragging = false;
-});
-
-document.getElementById("pageMapTrack").addEventListener("wheel", event => {
-    event.preventDefault();
-    const detailView = document.getElementById("detailView");
-    detailView.scrollTop += event.deltaY * 5;
-}, { passive: false });
-
-window.addEventListener("resize", updatePageMap);
-
-renderList();
+    renderList();
 </script>
 </body>
 </html>
