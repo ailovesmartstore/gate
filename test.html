@@ -331,7 +331,11 @@
         const resultCount = document.getElementById("resultCount");
 
         const filteredData = rawData.filter(item => {
-            const searchText = `${item[0]} ${item[1]} ${item[3]} ${item[4]}`.toLowerCase();
+            if (/^\d+$/.test(keyword)) {
+                return item[0] === keyword;
+            }
+
+            const searchText = `${item[1]} ${item[3]}`.toLowerCase();
             return searchText.includes(keyword);
         });
 
