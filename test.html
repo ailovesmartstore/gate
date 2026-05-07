@@ -272,12 +272,14 @@
             overscroll-behavior: contain;
         }
 
-        .detail-view.is-open { display: block; }
+        .detail-view.is-open {
+            display: block;
+        }
 
         .detail-bar {
             position: sticky;
             top: 0;
-            z-index: 2;
+            z-index: 4;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -288,7 +290,8 @@
             backdrop-filter: blur(14px);
         }
 
-        .detail-back {
+        .detail-back,
+        .detail-jump {
             border: 0;
             border-radius: 999px;
             padding: 9px 13px;
@@ -296,6 +299,7 @@
             color: #202124;
             font-size: 13px;
             font-weight: 900;
+            cursor: pointer;
         }
 
         .detail-title {
@@ -308,17 +312,6 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             text-align: center;
-        }
-
-        .detail-origin {
-            border-radius: 999px;
-            padding: 9px 11px;
-            background: var(--point-soft);
-            color: #2f659f;
-            font-size: 12px;
-            font-weight: 900;
-            text-decoration: none;
-            white-space: nowrap;
         }
 
         .detail-full-image {
@@ -336,6 +329,83 @@
             font-weight: 800;
         }
 
+        .page-map {
+            position: fixed;
+            right: 8px;
+            top: 64px;
+            bottom: 18px;
+            z-index: 5;
+            display: none;
+            width: 46px;
+            padding: 4px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 8px 26px rgba(18, 30, 48, 0.18);
+            backdrop-filter: blur(14px);
+            touch-action: none;
+        }
+
+        .detail-view.is-open .page-map {
+            display: block;
+        }
+
+        .page-map-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #eef1f5;
+        }
+
+        .page-map-track img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            display: block;
+            opacity: 0.62;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .page-map-window {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            min-height: 28px;
+            border: 2px solid var(--point);
+            border-radius: 8px;
+            background: rgba(71, 123, 183, 0.18);
+            box-shadow: 0 0 0 999px rgba(255, 255, 255, 0.24);
+            pointer-events: none;
+        }
+
+        .quick-scroll {
+            position: fixed;
+            left: 50%;
+            bottom: 14px;
+            z-index: 6;
+            display: none;
+            gap: 8px;
+            transform: translateX(-50%);
+        }
+
+        .detail-view.is-open .quick-scroll {
+            display: flex;
+        }
+
+        .quick-scroll button {
+            border: 0;
+            border-radius: 999px;
+            padding: 10px 13px;
+            background: rgba(32, 33, 36, 0.82);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 900;
+            backdrop-filter: blur(12px);
+        }
+
         @media (min-width: 640px) {
             .header-filter { padding: 18px 18px 14px; }
 
@@ -343,6 +413,10 @@
                 grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 16px;
                 padding: 18px;
+            }
+
+            .page-map {
+                right: calc(50% - 372px);
             }
         }
     </style>
@@ -369,14 +443,27 @@
     <div class="product-grid" id="productList"></div>
 </main>
 
-<section class="detail-view" id="detailView" aria-live="polite">
+<section class="detail-view" id="detailView" aria-live="polite" onscroll="updatePageMap()">
     <div class="detail-bar">
-        <button type="button" class="detail-back" onclick="closeDetail()">목록</button>
+        <button type="button" class="detail-back" onclick="closeDetail()">← 목록</button>
         <div class="detail-title" id="detailTitle">상세페이지</div>
-        <a class="detail-origin" id="detailOrigin" href="#" target="_blank" rel="noopener">원본</a>
+        <button type="button" class="detail-jump" onclick="scrollDetailTo(1)">맨아래</button>
     </div>
+
     <div id="detailImageWrap">
         <div class="detail-loading">상세이미지를 불러오는 중입니다.</div>
+    </div>
+
+    <div class="page-map" id="pageMap">
+        <div class="page-map-track" id="pageMapTrack">
+            <img id="pageMapImage" src="" alt="">
+            <div class="page-map-window" id="pageMapWindow"></div>
+        </div>
+    </div>
+
+    <div class="quick-scroll">
+        <button type="button" onclick="scrollDetailBy(-0.85)">빠르게 위</button>
+        <button type="button" onclick="scrollDetailBy(0.85)">빠르게 아래</button>
     </div>
 </section>
 
@@ -412,6 +499,8 @@
         "네이비": "#192957", "버건디": "#782033", "그린": "#55ad65", "라벤더": "#ded4ff", "라일락": "#d9c7f2",
         "올리브": "#839461", "라임": "#b8df59", "살구": "#ffc39c", "초코": "#6b4736"
     };
+
+    let isMapDragging = false;
 
     function getColorHex(colorName) {
         const name = colorName.trim();
@@ -482,20 +571,90 @@
         if (!item) return;
 
         document.getElementById("detailTitle").textContent = `NO.${item.no} ${item.name}`;
-        document.getElementById("detailOrigin").href = item.detailUrl;
         document.getElementById("detailImageWrap").innerHTML = `
-            <img class="detail-full-image" src="${item.detailUrl}" alt="${item.name} 상세페이지">
+            <img class="detail-full-image" src="${item.detailUrl}" alt="${item.name} 상세페이지" onload="updatePageMap()">
         `;
+        document.getElementById("pageMapImage").src = item.detailUrl;
 
-        document.getElementById("detailView").classList.add("is-open");
+        const detailView = document.getElementById("detailView");
+        detailView.classList.add("is-open");
+        detailView.scrollTop = 0;
         document.body.style.overflow = "hidden";
-        document.getElementById("detailView").scrollTop = 0;
+
+        requestAnimationFrame(updatePageMap);
     }
 
     function closeDetail() {
         document.getElementById("detailView").classList.remove("is-open");
         document.body.style.overflow = "";
     }
+
+    function updatePageMap() {
+        const detailView = document.getElementById("detailView");
+        const mapTrack = document.getElementById("pageMapTrack");
+        const mapWindow = document.getElementById("pageMapWindow");
+        const maxScroll = detailView.scrollHeight - detailView.clientHeight;
+        const trackHeight = mapTrack.clientHeight;
+
+        if (maxScroll <= 0 || trackHeight <= 0) {
+            mapWindow.style.height = "100%";
+            mapWindow.style.transform = "translateY(0)";
+            return;
+        }
+
+        const visibleRatio = detailView.clientHeight / detailView.scrollHeight;
+        const windowHeight = Math.max(28, trackHeight * visibleRatio);
+        const progress = detailView.scrollTop / maxScroll;
+        const windowTop = (trackHeight - windowHeight) * progress;
+
+        mapWindow.style.height = `${windowHeight}px`;
+        mapWindow.style.transform = `translateY(${windowTop}px)`;
+    }
+
+    function scrollDetailTo(ratio) {
+        const detailView = document.getElementById("detailView");
+        const maxScroll = detailView.scrollHeight - detailView.clientHeight;
+        detailView.scrollTo({ top: maxScroll * ratio, behavior: "smooth" });
+    }
+
+    function scrollDetailBy(viewportRatio) {
+        const detailView = document.getElementById("detailView");
+        detailView.scrollBy({ top: detailView.clientHeight * viewportRatio, behavior: "smooth" });
+    }
+
+    function jumpFromMap(clientY) {
+        const detailView = document.getElementById("detailView");
+        const mapTrack = document.getElementById("pageMapTrack");
+        const rect = mapTrack.getBoundingClientRect();
+        const y = Math.min(Math.max(clientY - rect.top, 0), rect.height);
+        const ratio = y / rect.height;
+        const maxScroll = detailView.scrollHeight - detailView.clientHeight;
+        detailView.scrollTop = maxScroll * ratio;
+        updatePageMap();
+    }
+
+    document.getElementById("pageMapTrack").addEventListener("pointerdown", event => {
+        isMapDragging = true;
+        document.getElementById("pageMapTrack").setPointerCapture(event.pointerId);
+        jumpFromMap(event.clientY);
+    });
+
+    document.getElementById("pageMapTrack").addEventListener("pointermove", event => {
+        if (!isMapDragging) return;
+        jumpFromMap(event.clientY);
+    });
+
+    document.getElementById("pageMapTrack").addEventListener("pointerup", () => {
+        isMapDragging = false;
+    });
+
+    document.getElementById("pageMapTrack").addEventListener("wheel", event => {
+        event.preventDefault();
+        const detailView = document.getElementById("detailView");
+        detailView.scrollTop += event.deltaY * 5;
+    }, { passive: false });
+
+    window.addEventListener("resize", updatePageMap);
 
     renderList();
 </script>
