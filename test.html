@@ -661,6 +661,18 @@
     window.addEventListener("resize", updatePageMap);
 
     renderList();
+    // 1. 우클릭 방지
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// 2. 드래그 방지
+document.addEventListener('dragstart', e => e.preventDefault());
+
+// 3. 개발자 도구 단축키 방지 (F12, Ctrl+Shift+I 등)
+document.onkeydown = function(e) {
+    if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67))) {
+        return false;
+    }
+};
 </script>
 </body>
 </html>
